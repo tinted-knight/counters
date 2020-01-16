@@ -1,6 +1,8 @@
+import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/theme/dark_theme.dart';
 import 'package:flutter/material.dart';
 
+import 'model/CounterModel.dart';
 import 'views/main/Counters.dart';
 
 void main() => runApp(MyApp());
@@ -26,9 +28,27 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<CounterItem> items = [
-    CounterItem("Аквадетрим", 4000, true),
-    CounterItem("Приседания", 15, false),
-    CounterItem("Отжимания", 30, false),
+    CounterItem(
+      title: "Приседания",
+      value: 15,
+      isGoalReached: false,
+      unit: "kilograms",
+      colorIndex: ColorPalette.blue,
+    ),
+    CounterItem(
+      title: "Aquadetrim",
+      value: 4000,
+      isGoalReached: true,
+      unit: "ME",
+      colorIndex: ColorPalette.yellow,
+    ),
+    CounterItem(
+      title: "Отжимания",
+      value: 30,
+      isGoalReached: false,
+      unit: "раз",
+      colorIndex: ColorPalette.red,
+    ),
   ];
 
   @override

@@ -1,15 +1,8 @@
+import 'package:counter/model/CounterModel.dart';
+import 'package:counter/views/details/screeen_details.dart';
 import 'package:flutter/material.dart';
 
-import 'CounterTitle.dart';
-import 'CounterValue.dart';
-
-class CounterItem {
-  const CounterItem(this.title, this.value, this.isGoalReached);
-
-  final String title;
-  final int value;
-  final bool isGoalReached;
-}
+import 'counter_row/CounterRow.dart';
 
 class Counters extends StatelessWidget {
   const Counters({
@@ -24,26 +17,26 @@ class Counters extends StatelessWidget {
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (ctx, index) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return Column(
           children: <Widget>[
-            CounterIcon(),
-            CounterTitle(items[index].title),
-            CounterValue(items[index].value),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => ScreenDetails(items[index]),
+                ));
+              },
+              child: CounterRow(items[index]),
+            ),
+            _divider(),
           ],
         );
       },
     );
   }
-}
 
-class CounterIcon extends StatelessWidget {
-  const CounterIcon({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Icon(Icons.check);
-  }
+  _divider() => Container(
+        height: 1.0,
+        margin: EdgeInsets.only(left: 32.0, right: 32.0),
+        color: Colors.black12,
+      );
 }

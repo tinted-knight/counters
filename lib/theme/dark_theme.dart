@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
-const primary = Color(0xff212121);
-const accent = Colors.red;
+class ThemeColors {
+  ThemeColors._();
+
+  static const primary = Color(0xff212121);
+  static const accent = Color(0xffFF5722);
+}
 
 var themeDark = ThemeData(
-  primaryColor: primary,
-  accentColor: accent,
+  primaryColor: ThemeColors.primary,
+  accentColor: ThemeColors.accent,
 );
-

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class CounterTitle extends StatelessWidget {
   const CounterTitle(
-      this.title, {
-        Key key,
-      }) : super(key: key);
+    this.title, {
+    Key key,
+  }) : super(key: key);
 
   final String title;
 
@@ -14,12 +14,12 @@ class CounterTitle extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Text(
         title,
-        style: kCounterTitleStyle,
+        style: _kCounterTitleStyle,
       ),
     );
   }
 }
 
-final kCounterTitleStyle = TextStyle().copyWith(
+final _kCounterTitleStyle = TextStyle().copyWith(
   fontSize: 18.0,
 );
