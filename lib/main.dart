@@ -1,7 +1,7 @@
 import 'package:counter/theme/dark_theme.dart';
 import 'package:flutter/material.dart';
 
-import 'views/Counters.dart';
+import 'views/main/Counters.dart';
 
 void main() => runApp(MyApp());
 

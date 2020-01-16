@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'CounterTitle.dart';
+import 'CounterValue.dart';
+
 class CounterItem {
   const CounterItem(this.title, this.value, this.isGoalReached);
 
@@ -7,10 +10,6 @@ class CounterItem {
   final int value;
   final bool isGoalReached;
 }
-
-final kCounterTitleStyle = TextStyle().copyWith(
-  fontSize: 18.0,
-);
 
 class Counters extends StatelessWidget {
   const Counters({
@@ -28,14 +27,23 @@ class Counters extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              items[index].title,
-              style: kCounterTitleStyle,
-            ),
-            Text(items[index].value.toString()),
+            CounterIcon(),
+            CounterTitle(items[index].title),
+            CounterValue(items[index].value),
           ],
         );
       },
     );
+  }
+}
+
+class CounterIcon extends StatelessWidget {
+  const CounterIcon({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(Icons.check);
   }
 }
