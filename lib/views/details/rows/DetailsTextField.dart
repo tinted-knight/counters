@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 
+// styles
+final _textFieldStyle = TextStyle(
+  color: Color(0xff000000),
+);
+final _textFieldDecoration = BoxDecoration(
+  color: Color(0xffffffff),
+  borderRadius: BorderRadius.circular(8.0),
+);
+//
+
 class DetailsTextField extends StatelessWidget {
   const DetailsTextField(
     this.title, {
@@ -12,18 +22,11 @@ class DetailsTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = TextEditingController(text: title);
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.blueGrey[500],
-        borderRadius: BorderRadius.circular(8.0),
-      ),
+      decoration: _textFieldDecoration,
       child: TextField(
         controller: controller,
-        style: TextStyle(color: Colors.white),
+        style: _textFieldStyle,
         textAlign: TextAlign.center,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.fromLTRB(8.0, 4.0, 16.0, 4.0),
-        ),
       ),
     );
   }

@@ -7,9 +7,12 @@ class ColorPalette {
   static const _red = Color(0xffFF5722);
   static const _yellow = Color(0xffFFC107);
 
-  static const _bgBlue = Color(0xff0D47A1);
-  static const _bgRed = Color(0xffBF360C);
-  static const _bgYellow = Color(0xffF57F17);
+  static const _bgBlue = Color(0xff2C98F0);
+  static const _bgRed = Color(0xffFF5722);
+  static const _bgYellow = Color(0xffFFC107);
+//  static const _bgBlue = Color(0xff0D47A1);
+//  static const _bgRed = Color(0xffBF360C);
+//  static const _bgYellow = Color(0xffF57F17);
 
   static const blue = 0;
   static const red = 1;
