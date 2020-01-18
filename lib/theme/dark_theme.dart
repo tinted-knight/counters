@@ -7,11 +7,14 @@ class ThemeLight {
   static const accent = Color(0xffFF5722);
 }
 
-var themeDark = _buildThemeData(ThemeData());
+var themeLight = _buildThemeData(ThemeData());
 
 _buildThemeData(ThemeData baseTheme) => baseTheme.copyWith(
       primaryColor: ThemeLight.primary,
       accentColor: ThemeLight.accent,
+      floatingActionButtonTheme: FloatingActionButtonThemeData().copyWith(
+        backgroundColor: Colors.deepOrange,
+      ),
 //      textTheme: _buildTextTheme(baseTheme),
       inputDecorationTheme: _buildInputDecorationTheme(baseTheme),
     );

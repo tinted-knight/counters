@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../TextLabel.dart';
-import 'DetailsTextField.dart';
+import '../../common/TextLabel.dart';
+import '../../common/DetailsTextField.dart';
 
 class StepRow extends StatelessWidget {
   const StepRow({

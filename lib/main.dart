@@ -1,5 +1,6 @@
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/theme/dark_theme.dart';
+import 'package:counter/views/create/screen_create.dart';
 import 'package:flutter/material.dart';
 
 import 'model/CounterModel.dart';
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Counters',
-      theme: themeDark,
+      theme: themeLight,
       home: MyHomePage(title: 'Counter Prototype'),
     );
   }
@@ -65,7 +66,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Counters(items: items),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => Navigator.of(context).push(
+          MaterialPageRoute(builder: (ctx) => ScreenCreate()),
+        ),
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),

@@ -1,5 +1,5 @@
 import 'package:counter/model/CounterModel.dart';
-import 'package:counter/views/details/screeen_details.dart';
+import 'package:counter/views/details/screen_details.dart';
 import 'package:flutter/material.dart';
 
 import 'counter_row/CounterRow.dart';

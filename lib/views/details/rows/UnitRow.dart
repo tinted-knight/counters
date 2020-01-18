@@ -1,7 +1,7 @@
-import 'package:counter/views/details/rows/DetailsTextField.dart';
+import 'package:counter/views/common/DetailsTextField.dart';
 import 'package:flutter/material.dart';
 
-import '../TextLabel.dart';
+import '../../common/TextLabel.dart';
 
 class UnitRow extends StatelessWidget {
   const UnitRow({

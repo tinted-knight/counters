@@ -28,7 +28,6 @@ class ScreenDetails extends StatelessWidget {
           ),
         ],
       ),
-
       body: LayoutBuilder(
         builder: (ctx, viewport) => Stack(
           children: <Widget>[

@@ -39,7 +39,7 @@ class ExpandedRight extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
+    return Expanded(
       child: Container(
         padding: EdgeInsets.fromLTRB(0.0, 4.0, 16.0, 4.0),
         child: child,
