@@ -12,9 +12,8 @@ var themeLight = _buildThemeData(ThemeData());
 _buildThemeData(ThemeData baseTheme) => baseTheme.copyWith(
       primaryColor: ThemeLight.primary,
       accentColor: ThemeLight.accent,
-      floatingActionButtonTheme: FloatingActionButtonThemeData().copyWith(
-        backgroundColor: Colors.deepOrange,
-      ),
+      buttonTheme: _buildButtonTheme(baseTheme),
+      floatingActionButtonTheme: _buildFabTheme(baseTheme),
 //      textTheme: _buildTextTheme(baseTheme),
       inputDecorationTheme: _buildInputDecorationTheme(baseTheme),
     );
@@ -27,5 +26,17 @@ _buildInputDecorationTheme(ThemeData baseTheme) {
   return baseTheme.inputDecorationTheme.copyWith(
     border: InputBorder.none,
     contentPadding: EdgeInsets.fromLTRB(8.0, 4.0, 16.0, 4.0),
+  );
+}
+
+_buildButtonTheme(ThemeData baseTheme) {
+  return baseTheme.buttonTheme.copyWith(
+    buttonColor: ThemeLight.accent,
+  );
+}
+
+_buildFabTheme(ThemeData baseTheme) {
+  return baseTheme.floatingActionButtonTheme.copyWith(
+    backgroundColor: ThemeLight.accent,
   );
 }

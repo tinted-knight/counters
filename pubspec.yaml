@@ -28,6 +28,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  sqflite: ^1.2.0
+  path: ^1.6.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
