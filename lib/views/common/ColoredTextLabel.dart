@@ -8,18 +8,18 @@ const _kTextLabelBgForLight = Color(0x00ffffff);
 const _kTextColorForLight = Color(0xff212121);
 
 class ColoredTextLabel extends StatelessWidget {
-  const ColoredTextLabel(
-    this.title, {
+  const ColoredTextLabel({
+    this.title,
     this.textLabelBg,
     this.textColor,
     Key key,
   }) : super(key: key);
 
-  const ColoredTextLabel.forDark(String title) : this(title);
+  const ColoredTextLabel.forDark(String title) : this(title: title);
 
   const ColoredTextLabel.forLight(String title)
       : this(
-          title,
+          title: title,
           textLabelBg: _kTextLabelBgForLight,
           textColor: _kTextColorForLight,
         );

@@ -7,7 +7,8 @@ import 'counter_row/CounterRow.dart';
 
 class Counters extends StatelessWidget {
   const Counters({
-    Key key, this.itemTap,
+    Key key,
+    this.itemTap,
   }) : super(key: key);
 
   final Function(CounterItem item) itemTap;
@@ -25,6 +26,8 @@ class Counters extends StatelessWidget {
         }
         if (snapshot.data is StateValues) {
           final state = snapshot.data as StateValues;
+          state.values
+              .forEach((v) => print("${v.title}, v:${v.value}, g:${v.goal}"));
           return _renderValues(state.values);
         }
         if (snapshot.data is StateEmpty) {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:counter/model/storage/interface.dart';
 
 import '../model/CounterModel.dart';
@@ -10,16 +12,67 @@ class CreateCounterBloc extends BaseBlocWithStates<CreateCounterState> {
 
   final ILocalStorage storage;
 
-  void create({CounterItem counter}) async {
+  CounterItem _item = CounterItem(
+    title: "",
+    value: 0,
+    goal: 0,
+    step: 0,
+  );
+
+  void save() async {
+    pushState(CreateCounterState.inprogress);
+    print("Lets save new counter");
+    if (await storage.add(_item)) {
+      print("Counter saved!!!");
+      pushState(CreateCounterState.success);
+    } else {
+      print("Creating counter failed");
+      pushState(CreateCounterState.error);
+    }
+  }
+
+  void create({String title, String step, String goal, String unit}) async {
+    final newCounter = CounterItem(
+      title: title,
+      step: _parseInt(step),
+      goal: _parseInt(goal),
+      unit: unit,
+    );
     pushState(CreateCounterState.inprogress);
     print("Lets create new counter");
-    if (await storage.add(counter)) {
+    if (await storage.add(newCounter)) {
       print("Counter created!!!");
       pushState(CreateCounterState.success);
     } else {
       print("Creating counter failed");
       pushState(CreateCounterState.error);
     }
+  }
+
+  // TODO: error handling
+  _parseInt(String i) {
+    print("parsing $i");
+    return int.parse(i);
+  }
+}
+
+extension CopyWith on CounterItem {
+  CounterItem copyWith(
+      {String title,
+      int goal,
+      int value,
+      int step,
+      String unit,
+      int colorIndex}) {
+    print("copyWith");
+    return CounterItem(
+      title: title ?? this.title,
+      goal: goal ?? this.goal,
+      value: value ?? this.value,
+      step: step ?? this.step,
+      unit: unit ?? this.unit,
+      colorIndex: colorIndex ?? this.colorIndex,
+    );
   }
 }
 

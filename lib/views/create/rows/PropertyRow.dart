@@ -12,41 +12,52 @@ class PropertyRow extends StatelessWidget {
   const PropertyRow(
     this.label, {
     this.type,
+    this.onlyDigits = false,
+    @required this.controller,
     Key key,
   }) : super(key: key);
 
-  const PropertyRow.title(String label)
+  const PropertyRow.title(String label, TextEditingController controller)
       : this(
           label,
           type: ValueType.str,
+          controller: controller,
         );
 
-  const PropertyRow.step(String label)
+  const PropertyRow.step(String label, TextEditingController controller)
       : this(
           label,
           type: ValueType.int,
+          controller: controller,
+          onlyDigits: true,
         );
 
-  const PropertyRow.goal(String label)
+  const PropertyRow.goal(String label, TextEditingController controller)
       : this(
           label,
           type: ValueType.int,
+          controller: controller,
+          onlyDigits: true,
         );
 
-  const PropertyRow.unit(String label)
+  const PropertyRow.unit(String label, TextEditingController controller)
       : this(
           label,
           type: ValueType.str,
+          controller: controller,
         );
 
   const PropertyRow.color(String label)
       : this(
           label,
           type: ValueType.color,
+          controller: null,
         );
 
   final String label;
   final ValueType type;
+  final bool onlyDigits;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +70,10 @@ class PropertyRow extends StatelessWidget {
           ExpandedLeft(child: ColoredTextLabel.forLight(label)),
           ExpandedRight(
             child: type != ValueType.color
-                ? ColoredTextField.forLight("4000")
+                ? ColoredTextField.forLight(
+                    controller: controller,
+                    onlyDigits: onlyDigits,
+                  )
                 : ColoredTextField.justColor(ColorPalette.blue),
           ),
         ],

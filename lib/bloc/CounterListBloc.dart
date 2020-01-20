@@ -7,23 +7,25 @@ class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
     _loadCounters();
   }
 
-  void _loadCounters() {
+  void _loadCounters() async {
     pushState(CounterListStates._loading());
-    storage.getAll().then((counterList) {
-      if (counterList != null) {
-        print("Counterlist not null");
-        pushState(CounterListStates._values(counterList));
-      } else {
-        print("Counterlist is null");
-        pushState(CounterListStates._empty());
-      }
-    });
-//    final values = await storage.getAll();
-//    if (values != null) {
-//      pushState(CounterListStates._values(values));
-//    } else {
-//      pushState(CounterListStates._empty());
-//    }
+//    storage.getAll().then((counterList) {
+//      if (counterList != null && counterList.isNotEmpty) {
+//        print("Counterlist not null");
+//        pushState(CounterListStates._values(counterList));
+//      } else {
+//        print("Counterlist is null");
+//        pushState(CounterListStates._empty());
+//      }
+//    });
+    final values = await storage.getAll();
+    if (values != null && values.isNotEmpty) {
+      print("Counterlist not null");
+      pushState(CounterListStates._values(values));
+    } else {
+      print("Counterlist is null");
+      pushState(CounterListStates._empty());
+    }
   }
 
   final ILocalStorage storage;

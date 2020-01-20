@@ -26,11 +26,12 @@ class DbProvider {
       onCreate: (db, version) async {
         await db.execute("CREATE TABLE $tableCounters ("
             "id INTEGER PRIMARY KEY,"
-            " title TEXT, "
-            "value INTEGER, "
-            "goal INTEGER,"
-            " unit TEXT, "
-            "color_index INTEGER)");
+            " title TEXT,"
+            " value INTEGER,"
+            " goal INTEGER,"
+            " step INTEGER,"
+            " unit TEXT,"
+            " color_index INTEGER)");
       },
     );
   }

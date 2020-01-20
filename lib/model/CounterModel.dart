@@ -5,6 +5,7 @@ const _colId = "id";
 const _colTitle = "title";
 const _colValue = "value";
 const _colGoal = "goal";
+const _colStep = "step";
 const _colUnit = "unit";
 const _colColorIndex = "color_index";
 
@@ -12,7 +13,8 @@ class CounterItem {
   const CounterItem({
     this.id,
     @required this.title,
-    @required this.value,
+    this.value = 0,
+    @required this.step,
     @required this.goal,
     this.unit = "",
     this.colorIndex = ColorPalette.blue,
@@ -22,6 +24,7 @@ class CounterItem {
   final String title;
   final int value;
   final int goal;
+  final int step;
   final String unit;
   final int colorIndex;
 
@@ -32,6 +35,7 @@ class CounterItem {
         _colTitle: title,
         _colValue: value,
         _colGoal: goal,
+        _colStep: step,
         _colUnit: unit,
         _colColorIndex: colorIndex,
       };
@@ -42,6 +46,7 @@ class CounterItem {
           title: map[_colTitle],
           value: map[_colValue],
           goal: map[_colGoal],
+          step: map[_colStep],
           unit: map[_colUnit],
           colorIndex: map[_colColorIndex],
         );
