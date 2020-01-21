@@ -29,7 +29,7 @@ class Counters extends StatelessWidget {
           //debug
 //          state.values
 //              .forEach((v) => print("${v.title}, v:${v.value}, g:${v.goal}"));
-          return _renderValues(state.values);
+          return _renderValues(state.values, bloc);
         }
         if (snapshot.data is StateEmpty) {
           return _renderEmpty();
@@ -39,18 +39,25 @@ class Counters extends StatelessWidget {
     );
   }
 
-  _renderValues(List<CounterItem> items) {
+  _renderValues(List<CounterItem> items, CounterListBloc bloc) {
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (ctx, index) {
-        return Column(
-          children: <Widget>[
-            GestureDetector(
-              onTap: () => itemTap(items[index]),
-              child: CounterRow(items[index]),
-            ),
-            _divider(),
-          ],
+        return Dismissible(
+          key: Key(items[index].id.toString()),
+          confirmDismiss: (direction) {
+            bloc.incrementCounter(items[index]);
+            return Future.value(false);
+          },
+          child: Column(
+            children: <Widget>[
+              GestureDetector(
+                onTap: () => itemTap(items[index]),
+                child: CounterRow(items[index]),
+              ),
+              _divider(),
+            ],
+          ),
         );
       },
     );

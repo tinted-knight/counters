@@ -19,12 +19,9 @@ class CreateCounterBloc extends BaseBlocWithStates<CreateCounterState> {
       unit: unit,
     );
     pushState(CreateCounterState.inprogress);
-    print("Lets create new counter");
     if (await storage.add(newCounter)) {
-      print("Counter created!!!");
       pushState(CreateCounterState.success);
     } else {
-      print("Creating counter failed");
       pushState(CreateCounterState.error);
     }
   }

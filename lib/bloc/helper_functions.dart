@@ -3,7 +3,6 @@ import 'package:counter/model/CounterModel.dart';
 extension ToInt on String {
 // TODO: error handling
   int toInt() {
-    print("parsing $this");
     return int.parse(this);
   }
 }
@@ -26,5 +25,10 @@ extension CopyWith on CounterItem {
       unit: unit ?? this.unit,
       colorIndex: colorIndex ?? this.colorIndex,
     );
+  }
+
+  CounterItem stepUp() {
+    print("stepUp: ${this.value} + ${this.step}");
+    return this.copyWith(value: this.value + this.step);
   }
 }

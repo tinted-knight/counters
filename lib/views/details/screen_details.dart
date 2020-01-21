@@ -1,6 +1,6 @@
 import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/bloc/CounterUpdateBloc.dart';
-import 'package:counter/bloc/StreamListenableBuilder.dart';
+import 'package:counter/bloc/StreamBuilderNav.dart';
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/views/details/rows/ButtonRow.dart';
@@ -60,7 +60,6 @@ class _ScreenDetailsState extends State<ScreenDetails> {
 
   @override
   Widget build(BuildContext context) {
-    print("details: ${context.toString()}");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorPalette.bgColor(counter.colorIndex),
@@ -121,7 +120,6 @@ class _ScreenDetailsState extends State<ScreenDetails> {
 
   Widget _buildButtonRow(
       BuildContext context, AsyncSnapshot<CounterUpdateStates> snapshot) {
-    print("buttonRow: ${context.toString()}");
     if (snapshot.data == CounterUpdateStates.idle) {
       return Expanded(child: ButtonRow(
         onClick: (type) {

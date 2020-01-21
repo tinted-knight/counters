@@ -32,7 +32,7 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
       whereArgs: [item.id],
     );
     //debug
-    print("updating: $result");
+    print("update: $result");
     return result >= 0;
   }
 }
