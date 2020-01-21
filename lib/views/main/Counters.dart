@@ -26,8 +26,9 @@ class Counters extends StatelessWidget {
         }
         if (snapshot.data is StateValues) {
           final state = snapshot.data as StateValues;
-          state.values
-              .forEach((v) => print("${v.title}, v:${v.value}, g:${v.goal}"));
+          //debug
+//          state.values
+//              .forEach((v) => print("${v.title}, v:${v.value}, g:${v.goal}"));
           return _renderValues(state.values);
         }
         if (snapshot.data is StateEmpty) {

@@ -1,28 +1,40 @@
 import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/bloc/CounterListBloc.dart';
+import 'package:counter/bloc/CounterUpdateBloc.dart';
 import 'package:counter/bloc/CreateCounterBloc.dart';
-import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/theme/dark_theme.dart';
 import 'package:counter/views/create/screen_create.dart';
 import 'package:counter/views/details/screen_details.dart';
 import 'package:flutter/material.dart';
 
-import 'model/CounterModel.dart';
-import 'views/main/Counters.dart';
 import 'model/storage/LocalStorageProvider.dart';
+import 'views/main/Counters.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  final storage = SQLiteStorageProvider();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Counters',
       theme: themeLight,
-      home: MyHomePage(
-        title: 'Counter Prototype',
-        storageProvider: SQLiteStorageProvider(),
-      ),
+      initialRoute: "/",
+      routes: {
+        "/": (context) => MyHomePage(
+              title: 'Counter Prototype',
+              storageProvider: storage,
+            ),
+        "/details": (context) => BlocProvider(
+              bloc: CounterUpdateBloc(storage),
+              child: ScreenDetails(),
+            ),
+        "/create": (context) => BlocProvider<CreateCounterBloc>(
+              bloc: CreateCounterBloc(storage),
+              child: ScreenCreate(),
+            ),
+      },
     );
   }
 }
@@ -42,30 +54,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<CounterItem> items = [
-    CounterItem(
-      title: "Приседания",
-      value: 15,
-      goal: 100,
-      unit: "kilograms",
-      colorIndex: ColorPalette.blue,
-    ),
-    CounterItem(
-      title: "Aquadetrim",
-      value: 4000,
-      goal: 4000,
-      unit: "ME",
-      colorIndex: ColorPalette.yellow,
-    ),
-    CounterItem(
-      title: "Отжимания",
-      value: 30,
-      goal: 50,
-      unit: "раз",
-      colorIndex: ColorPalette.red,
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,20 +69,14 @@ class _MyHomePageState extends State<MyHomePage> {
       body: BlocProvider(
         bloc: CounterListBloc(widget.storageProvider),
         child: Counters(
-          itemTap: (item) => Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => ScreenDetails(item)),
+          itemTap: (item) => Navigator.of(context).pushNamed(
+            ScreenDetails.route,
+            arguments: item,
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (ctx) => BlocProvider<CreateCounterBloc>(
-              bloc: CreateCounterBloc(widget.storageProvider),
-              child: ScreenCreate(),
-            ),
-          ),
-        ),
+        onPressed: () => Navigator.of(context).pushNamed("/create"),
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),

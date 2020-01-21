@@ -15,7 +15,7 @@ class CounterValue extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Hero(
-          tag: item.title,
+          tag: item.id,
           child: Container(
             alignment: Alignment.center,
             width: 80.0,

@@ -13,8 +13,8 @@ final _decorationColorForLight = Color(0xff212121);
 typedef ChangeListener = Function(String);
 
 class ColoredTextField extends StatelessWidget {
-  const ColoredTextField(
-    this.title, {
+  const ColoredTextField({
+    this.title,
     Key key,
     this.decorationColor,
     this.textColor,
@@ -25,7 +25,7 @@ class ColoredTextField extends StatelessWidget {
   ColoredTextField.forLight(
       {String title = "", TextEditingController controller, bool onlyDigits})
       : this(
-          title,
+          title: title,
           decorationColor: _decorationColorForLight,
           textColor: _textColorForLight,
           controller: controller,
@@ -34,7 +34,7 @@ class ColoredTextField extends StatelessWidget {
 
   ColoredTextField.justColor(int color)
       : this(
-          "",
+          title: "",
           decorationColor: ColorPalette.bgColor(color),
           controller: null,
         );
@@ -61,6 +61,7 @@ class ColoredTextField extends StatelessWidget {
       ),
     );
   }
+
 ///////////////////////////////////////////////////////////////////////
   _testBorder() {
     final outlineBorder = OutlineInputBorder(

@@ -38,8 +38,8 @@ abstract class BaseBlocWithCommands<State, Command>
 
   @override
   void dispose() {
-    super.dispose();
     commandsController.close();
+    super.dispose();
   }
 }
 

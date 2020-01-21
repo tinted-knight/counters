@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 
+enum ButtonType { delete, cancel, save }
+
+typedef ButtonClick = Function(ButtonType);
+
 class ButtonRow extends StatelessWidget {
   const ButtonRow({
     Key key,
+    this.onClick,
   }) : super(key: key);
+
+  final ButtonClick onClick;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +42,7 @@ class ButtonRow extends StatelessWidget {
             margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 4.0),
             child: MaterialButton(
               child: Text("Save"),
-              onPressed: () {},
+              onPressed: () => onClick(ButtonType.save),
               color: Colors.white,
             ),
           ),

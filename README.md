@@ -22,6 +22,7 @@ samples, guidance on mobile development, and a full API reference.
 
 ### Main screen
 `Counter row`
+- We do not need some fields, like `step` and `goal`
 - Smaller unit font + opacity
 
 ### Details screen

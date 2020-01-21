@@ -1,3 +1,4 @@
+import 'package:counter/views/common/ColoredTextField.dart';
 import 'package:counter/views/common/DetailsTextField.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,10 @@ import '../../common/TextLabel.dart';
 class TopRow extends StatelessWidget {
   const TopRow({
     Key key,
+    this.controller,
   }) : super(key: key);
+
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,11 @@ class TopRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               ExpandedLeft(child: TextLabel("Today")),
-              ExpandedLeft(child: DetailsTextField("500")),
+              ExpandedLeft(
+                  child: ColoredTextField(
+                controller: controller,
+                onlyDigits: true,
+              )),
             ],
           ),
         ),

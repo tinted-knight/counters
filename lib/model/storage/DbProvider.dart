@@ -32,6 +32,30 @@ class DbProvider {
             " step INTEGER,"
             " unit TEXT,"
             " color_index INTEGER)");
+        await db.insert(tableCounters, {
+          "title": "Aquadetrim",
+          "value": "2000",
+          "goal": "4000",
+          "step": "500",
+          "unit": "ME",
+          "color_index": "0",
+        });
+        await db.insert(tableCounters, {
+          "title": "Приседания",
+          "value": "30",
+          "goal": "100",
+          "step": "15",
+          "unit": "times",
+          "color_index": "1",
+        });
+        await db.insert(tableCounters, {
+          "title": "Отжиманиия",
+          "value": "20",
+          "goal": "50",
+          "step": "10",
+          "unit": "times",
+          "color_index": "2",
+        });
       },
     );
   }

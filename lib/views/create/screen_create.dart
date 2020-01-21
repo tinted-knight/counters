@@ -1,6 +1,6 @@
 import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/bloc/CreateCounterBloc.dart';
-import 'package:counter/model/CounterModel.dart';
+import 'package:counter/bloc/StreamListenableBuilder.dart';
 import 'package:counter/views/create/rows/ButtonRow.dart';
 import 'package:counter/views/create/rows/PropertyRow.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +45,10 @@ class _ScreenCreateState extends State<ScreenCreate> {
           ),
         ],
       ),
-      body: StreamBuilder<CreateCounterState>(
+      body: StreamBuilderNav<CreateCounterState>(
+        listener: (state) {
+          if (state == CreateCounterState.success) Navigator.pop(context);
+        },
         stream: counterBloc.states,
         initialData: CreateCounterState.idle,
         builder: (context, snapshot) {
@@ -93,13 +96,6 @@ class _ScreenCreateState extends State<ScreenCreate> {
                         goal: _goalCtrl.text,
                         unit: _unitCtrl.text,
                       ),
-//                      onCreate: () {
-//                        print("saving");
-//                        print("title:${_titleCtrl.text}");
-//                        print("step:${_stepCtrl.text}");
-//                        print("goal:${_goalCtrl.text}");
-//                        print("unit:${_unitCtrl.text}");
-//                      },
                     )),
                   ],
                 ),
