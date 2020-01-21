@@ -2,6 +2,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 const tableCounters = "Counters";
+const tableTime = "Time";
 const _databaseName = "counters.db";
 
 class DbProvider {
@@ -24,6 +25,13 @@ class DbProvider {
       path,
       version: 1,
       onCreate: (db, version) async {
+        await db.execute("CREATE TABLE $tableTime ("
+            " id INTEGER PRIMARY KEY,"
+            " time INTEGER)");
+
+        final dt = DateTime.now().subtract(Duration(days: 1));
+        await db.insert(tableTime, {"time": dt.millisecondsSinceEpoch});
+
         await db.execute("CREATE TABLE $tableCounters ("
             "id INTEGER PRIMARY KEY,"
             " title TEXT,"
@@ -49,7 +57,7 @@ class DbProvider {
           "color_index": "1",
         });
         await db.insert(tableCounters, {
-          "title": "Отжиманиия",
+          "title": "Отжимания",
           "value": "20",
           "goal": "50",
           "step": "10",

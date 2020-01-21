@@ -31,8 +31,22 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
       where: "id = ?",
       whereArgs: [item.id],
     );
-    //debug
-    print("update: $result");
-    return result >= 0;
+    return result > 0;
+  }
+
+  @override
+  Future<DateTime> getTime() async {
+    var database = await connection();
+    final raw = await database.query(tableTime);
+    return DateTime.fromMillisecondsSinceEpoch(raw[0]["time"]);
+  }
+
+  @override
+  Future<bool> updateTime(int time) async {
+    var database = await connection();
+    await database.delete(tableTime);
+    final updated = await database.insert(tableTime, {"time": time});
+//    final updated = await database.update(tableTime, {"time": time});
+    return updated > 0;
   }
 }

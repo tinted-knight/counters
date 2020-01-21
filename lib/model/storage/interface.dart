@@ -4,4 +4,8 @@ abstract class ILocalStorage<CounterItem> {
   Future<List<CounterItem>> getAll();
 
   Future<bool> update(CounterItem item);
+
+  Future<DateTime> getTime();
+
+  Future<bool> updateTime(int time);
 }
