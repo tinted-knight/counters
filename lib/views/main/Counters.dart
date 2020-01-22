@@ -43,20 +43,20 @@ class Counters extends StatelessWidget {
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (ctx, index) {
-        return Dismissible(
-          key: Key(items[index].id.toString()),
-          confirmDismiss: (direction) {
-            bloc.incrementCounter(items[index]);
-            return Future.value(false);
-          },
-          child: Column(
-            children: <Widget>[
-              GestureDetector(
-                onTap: () => itemTap(items[index]),
-                child: CounterRow(items[index]),
-              ),
-              _divider(),
-            ],
+        return GestureDetector(
+          onTap: () => {itemTap(items[index])},
+          child: Dismissible(
+            key: Key(items[index].id.toString()),
+            confirmDismiss: (direction) {
+              bloc.incrementCounter(items[index]);
+              return Future.value(false);
+            },
+            child: Column(
+              children: <Widget>[
+                CounterRow(items[index]),
+                _divider(),
+              ],
+            ),
           ),
         );
       },

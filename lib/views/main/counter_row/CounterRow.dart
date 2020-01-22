@@ -15,18 +15,14 @@ class CounterRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
-      child: Stack(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              CounterIcon(item.isGoalReached),
-              CounterTitle(item.title),
-              CounterValue(item),
-            ],
-          ),
+          CounterIcon(item.isGoalReached),
+          CounterTitle(item.title),
+          CounterValue(item),
         ],
       ),
     );
