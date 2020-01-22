@@ -45,7 +45,7 @@ class _ScreenCreateState extends State<ScreenCreate> {
           ),
         ],
       ),
-      body: StreamBuilderNav<CreateCounterState>(
+      body: BlocStreamBuilder<CreateCounterState>(
         listener: (state) {
           if (state == CreateCounterState.success) Navigator.pop(context);
         },

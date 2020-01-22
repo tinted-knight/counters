@@ -24,9 +24,11 @@ samples, guidance on mobile development, and a full API reference.
 `Counter row`
 - We do not need some fields, like `step` and `goal`
 - Smaller unit font + opacity
+- Ripple effect on rows
 
 ### Details screen
-- (!) Display actual data
+`Button row`
+- `Cancel` to the left bottom + ios `Back` style 
 
 ### Create screen
 - `Input text field`: screen-wide with inner labels

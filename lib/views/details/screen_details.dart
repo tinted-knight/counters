@@ -61,17 +61,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ColorPalette.bgColor(counter.colorIndex),
-        elevation: 0.0,
-        title: Text(counter.title),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.help_outline, semanticLabel: "Quick help"),
-            onPressed: () {},
-          ),
-        ],
-      ),
+      appBar: _appBar(),
       body: _body(),
     );
   }
@@ -99,9 +89,9 @@ class _ScreenDetailsState extends State<ScreenDetails> {
                     StepRow(controller: _stepCtrl),
                     GoalRow(controller: _goalCtrl),
                     UnitRow(controller: _unitCtrl),
-                    StreamBuilderNav<CounterUpdateStates>(
+                    BlocStreamBuilder<CounterUpdateStates>(
                       listener: (state) {
-                        if (state == CounterUpdateStates.success)
+                        if (state == CounterUpdateStates.doneEditing)
                           Navigator.of(context).pop();
                       },
                       stream: bloc.states,
@@ -123,14 +113,22 @@ class _ScreenDetailsState extends State<ScreenDetails> {
     if (snapshot.data == CounterUpdateStates.idle) {
       return Expanded(child: ButtonRow(
         onClick: (type) {
-          if (type == ButtonType.save) {
-            bloc.update(
-              counter,
-              value: _valueCtrl.text,
-              step: _stepCtrl.text,
-              goal: _goalCtrl.text,
-              unit: _unitCtrl.text,
-            );
+          switch (type) {
+            case ButtonType.delete:
+              // TODO: Handle this case.
+              break;
+            case ButtonType.cancel:
+              bloc.btnCancelClick();
+              break;
+            case ButtonType.save:
+              bloc.btnSaveClick(
+                counter,
+                value: _valueCtrl.text,
+                step: _stepCtrl.text,
+                goal: _goalCtrl.text,
+                unit: _unitCtrl.text,
+              );
+              break;
           }
         },
       ));
@@ -141,9 +139,27 @@ class _ScreenDetailsState extends State<ScreenDetails> {
     if (snapshot.data == CounterUpdateStates.error) {
       //todo
     }
-    if (snapshot.data == CounterUpdateStates.success) {
+    if (snapshot.data == CounterUpdateStates.doneEditing) {
       return Expanded(child: Center(child: Text("success")));
     }
     return Expanded(child: Center(child: Text("null")));
+  }
+
+  AppBar _appBar() {
+    return AppBar(
+      backgroundColor: ColorPalette.bgColor(counter.colorIndex),
+      elevation: 0.0,
+      title: Text(counter.title),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.help_outline, semanticLabel: "Help"),
+          onPressed: () {},
+        ),
+        IconButton(
+          icon: Icon(Icons.save, semanticLabel: "Save"),
+          onPressed: () {},
+        ),
+      ],
+    );
   }
 }

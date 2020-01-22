@@ -10,7 +10,11 @@ class CounterUpdateBloc extends BaseBlocWithStates<CounterUpdateStates> {
 
   final ILocalStorage storage;
 
-  void update(
+  void btnCancelClick() {
+    pushState(CounterUpdateStates.doneEditing);
+  }
+
+  void btnSaveClick(
     CounterItem counter, {
     String value,
     String step,
@@ -30,11 +34,11 @@ class CounterUpdateBloc extends BaseBlocWithStates<CounterUpdateStates> {
 
   void _update(CounterItem counter) async {
     if (await storage.update(counter)) {
-      pushState(CounterUpdateStates.success);
+      pushState(CounterUpdateStates.doneEditing);
     } else {
       pushState(CounterUpdateStates.error);
     }
   }
 }
 
-enum CounterUpdateStates { idle, inprogress, success, error }
+enum CounterUpdateStates { idle, inprogress, doneEditing, error }

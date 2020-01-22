@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 // https://stackoverflow.com/a/59347530/8460732
 typedef StreamListener<T> = void Function(T value);
 
-class StreamBuilderNav<T> extends StreamBuilder<T> {
+class BlocStreamBuilder<T> extends StreamBuilder<T> {
 
   final StreamListener<T> listener;
 
-  const StreamBuilderNav({
+  const BlocStreamBuilder({
     Key key,
     T initialData,
     Stream<T> stream,
