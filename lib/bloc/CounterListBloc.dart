@@ -10,8 +10,8 @@ class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
 
   void _loadCounters() async {
     pushState(CounterListStates._loading());
-    // debug: fake delay
-    await Future.delayed(Duration(seconds: 1));
+//    // debug: fake delay
+//    await Future.delayed(Duration(seconds: 1));
     final values = await storage.getAll();
     if (values != null && values.isNotEmpty) {
       if (await _needResetCounters()) {
@@ -64,7 +64,8 @@ class CounterListStates {
 
   factory CounterListStates._values(List<CounterItem> values) = StateValues;
 
-  factory CounterListStates._didUpdated(CounterItem counter) = StateDidUpdated;
+  factory CounterListStates._didUpdated(
+      List<CounterItem> values, CounterItem updated) = StateDidUpdated;
 }
 
 class StateLoading extends CounterListStates {}
@@ -72,9 +73,10 @@ class StateLoading extends CounterListStates {}
 class StateEmpty extends CounterListStates {}
 
 class StateDidUpdated extends CounterListStates {
-  StateDidUpdated(this.counter);
+  StateDidUpdated(this.values, this.updated);
 
-  final CounterItem counter;
+  final List<CounterItem> values;
+  final CounterItem updated;
 }
 
 class StateValues extends CounterListStates {

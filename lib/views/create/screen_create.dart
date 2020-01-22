@@ -88,15 +88,16 @@ class _ScreenCreateState extends State<ScreenCreate> {
                     PropertyRow.unit("Unit", _unitCtrl),
                     PropertyRow.color("Color"),
                     Expanded(
-                        child: ButtonRow(
-                      onCancel: () => Navigator.of(context).pop(),
-                      onCreate: () => counterBloc.create(
-                        title: _titleCtrl.text,
-                        step: _stepCtrl.text,
-                        goal: _goalCtrl.text,
-                        unit: _unitCtrl.text,
+                      child: ButtonRow(
+                        onCancel: () => Navigator.of(context).pop(),
+                        onCreate: () => counterBloc.create(
+                          title: _titleCtrl.text,
+                          step: _stepCtrl.text,
+                          goal: _goalCtrl.text,
+                          unit: _unitCtrl.text,
+                        ),
                       ),
-                    )),
+                    ),
                   ],
                 ),
               ),

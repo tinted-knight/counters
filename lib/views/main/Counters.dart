@@ -43,20 +43,14 @@ class Counters extends StatelessWidget {
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (ctx, index) {
-        return GestureDetector(
-          onTap: () => {itemTap(items[index])},
-          child: Dismissible(
-            key: Key(items[index].id.toString()),
-            confirmDismiss: (direction) {
-              bloc.incrementCounter(items[index]);
-              return Future.value(false);
-            },
-            child: Column(
-              children: <Widget>[
-                CounterRow(items[index]),
-                _divider(),
-              ],
-            ),
+        return TestWidget(
+          onTap: () => itemTap(items[index]),
+          onSwiped: () => bloc.incrementCounter(items[index]),
+          child: Column(
+            children: <Widget>[
+              CounterRow(items[index]),
+              _divider(),
+            ],
           ),
         );
       },
@@ -72,4 +66,75 @@ class Counters extends StatelessWidget {
         margin: EdgeInsets.only(left: 32.0, right: 32.0),
         color: Colors.black12,
       );
+}
+
+typedef OnSwiped = Function();
+
+class TestWidget extends StatefulWidget {
+  const TestWidget({
+    Key key,
+    @required this.child,
+    @required this.onSwiped,
+    @required this.onTap,
+  }) : super(key: key);
+
+  final Widget child;
+  final OnSwiped onSwiped;
+  final GestureTapCallback onTap;
+
+  @override
+  _TestWidgetState createState() => _TestWidgetState();
+}
+
+class _TestWidgetState extends State<TestWidget> {
+  Color color;
+
+  int _red = 255;
+  int _green = 255;
+  int _blue = 255;
+
+  final _limit = 150;
+  final _velocity = 500.0;
+
+  @override
+  void initState() {
+    super.initState();
+    color = Color.fromARGB(50, _red, _green, _blue);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        widget.onTap();
+      },
+      onHorizontalDragUpdate: (details) {
+        final delta = (details.delta.dx * 2).floor();
+        final value = _red >= delta ? _red -= delta : _red = 0;
+        setState(() {
+          _red = value <= 255 ? value : 255;
+          _blue = value <= 255 ? value : 255;
+        });
+      },
+      onHorizontalDragEnd: (details) {
+        if (details.velocity.pixelsPerSecond.dx >= _velocity || _red <= _limit) {
+          widget.onSwiped();
+          setState(() {
+            _red = 0;
+            _blue = 0;
+          });
+        }
+      },
+      child: Stack(
+        children: <Widget>[
+          Positioned.fill(
+            child: Container(
+                color: color.withRed(_red).withGreen(_green).withBlue(_blue),
+                padding: EdgeInsets.all(16.0)),
+          ),
+          widget.child,
+        ],
+      ),
+    );
+  }
 }
