@@ -47,7 +47,7 @@ class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
   void incrementCounter(CounterItem counter) async {
     final updated = await storage.update(counter.stepUp());
     if (updated) {
-      _loadCounters();
+//      _loadCounters();
 //      pushState(CounterListStates._didUpdated(counter));
     }
   }

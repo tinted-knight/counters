@@ -86,20 +86,35 @@ class TestWidget extends StatefulWidget {
   _TestWidgetState createState() => _TestWidgetState();
 }
 
-class _TestWidgetState extends State<TestWidget> {
+class _TestWidgetState extends State<TestWidget>
+    with SingleTickerProviderStateMixin {
   Color color;
 
-  int _red = 255;
-  int _green = 255;
-  int _blue = 255;
+  int _value = 255;
 
   final _limit = 150;
   final _velocity = 500.0;
 
+  AnimationController _colorController;
+  Animation<Color> _colorAnimation;
+
   @override
   void initState() {
     super.initState();
-    color = Color.fromARGB(50, _red, _green, _blue);
+    color = Color.fromARGB(50, 255, 255, 255);
+    _colorController = AnimationController(
+      duration: Duration(milliseconds: 500),
+      vsync: this,
+    );
+    _colorAnimation = ColorTween(
+      end: Color.fromARGB(50, 0, 255, 0),
+      begin: Color.fromARGB(50, 255, 255, 255),
+    ).animate(_colorController);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
   }
 
   @override
@@ -110,31 +125,54 @@ class _TestWidgetState extends State<TestWidget> {
       },
       onHorizontalDragUpdate: (details) {
         final delta = (details.delta.dx * 2).floor();
-        final value = _red >= delta ? _red -= delta : _red = 0;
+        // decreasing red and green until 0 but not less
+        final newValue = _value >= delta ? _value -= delta : _value = 0;
+        final target = 1 - newValue / 255;
+        _colorController.value = target;
         setState(() {
-          _red = value <= 255 ? value : 255;
-          _blue = value <= 255 ? value : 255;
+          _value = newValue;
         });
       },
       onHorizontalDragEnd: (details) {
-        if (details.velocity.pixelsPerSecond.dx >= _velocity || _red <= _limit) {
+        // if there is enough velocity in user's swipe
+        // or swipe distance was long enough
+        // then considering that swipe was successful
+        if (details.velocity.pixelsPerSecond.dx >= _velocity ||
+            _value <= _limit) {
           widget.onSwiped();
           setState(() {
-            _red = 0;
-            _blue = 0;
+            _value = 255;
           });
+          _colorController.reverse();
         }
       },
-      child: Stack(
-        children: <Widget>[
-          Positioned.fill(
-            child: Container(
-                color: color.withRed(_red).withGreen(_green).withBlue(_blue),
-                padding: EdgeInsets.all(16.0)),
-          ),
-          widget.child,
-        ],
+      child: AnimatedBuilder(
+        animation: _colorAnimation,
+        builder: (context, child) {
+          return Stack(
+            children: <Widget>[
+              Positioned.fill(
+                child: Container(
+                    color: _colorAnimation.value,
+                    padding: EdgeInsets.all(16.0)),
+              ),
+              widget.child,
+            ],
+          );
+        },
+//        child: widget.child,
       ),
+//      child: Stack(
+//        children: <Widget>[
+//          Positioned.fill(
+//            child: Container(
+////                color: color.withRed(_red).withGreen(_green).withBlue(_blue),
+//                color: _colorAnimation.value,
+//                padding: EdgeInsets.all(16.0)),
+//          ),
+//          widget.child,
+//        ],
+//      ),
     );
   }
 }
