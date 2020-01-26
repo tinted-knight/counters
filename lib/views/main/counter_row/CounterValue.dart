@@ -36,20 +36,48 @@ class CounterValue extends StatelessWidget {
           ),
           padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
           margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
-          child: Text(
-            "${item.value.toString()} ${item.unit}",
-            style: kCounterValueStyle,
-            maxLines: 1,
-            softWrap: false,
-            overflow: TextOverflow.fade,
-          ),
+          child: _valueNew(),
         ),
       ],
     );
   }
+
+  Widget _valueNew() => Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 4.0),
+            child: Text(
+              item.value.toString(),
+              style: kCounterValueStyle,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              item.unit,
+              style: kCounterUnitStyle,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.fade,
+            ),
+          ),
+        ],
+      );
+
+  Widget _valueOld() => Text(
+        "${item.value.toString()} ${item.unit}",
+        style: kCounterValueStyle,
+        maxLines: 1,
+        softWrap: false,
+        overflow: TextOverflow.fade,
+      );
 }
 
 // style
-final kCounterValueStyle = TextStyle().copyWith(
+const kCounterValueStyle = TextStyle(
   color: Colors.white,
+);
+const kCounterUnitStyle = TextStyle(
+  color: Color(0xFFFFFFFF),
+  fontSize: 10.0,
 );
