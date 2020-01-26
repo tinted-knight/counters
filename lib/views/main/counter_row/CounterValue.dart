@@ -76,8 +76,6 @@ class CounterValue extends StatelessWidget {
 // style
 const kCounterValueStyle = TextStyle(
   color: Colors.white,
+  fontFamily: "RobotoCondensed",
 );
-const kCounterUnitStyle = TextStyle(
-  color: Color(0xFFFFFFFF),
-  fontSize: 10.0,
-);
+const kCounterUnitStyle = kCounterValueStyle;
