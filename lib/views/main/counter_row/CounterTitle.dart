@@ -15,11 +15,14 @@ class CounterTitle extends StatelessWidget {
       child: Text(
         title,
         style: _kCounterTitleStyle,
+        maxLines: 1,
+        softWrap: false,
+        overflow: TextOverflow.fade,
       ),
     );
   }
 }
 
-final _kCounterTitleStyle = TextStyle().copyWith(
+const _kCounterTitleStyle = TextStyle(
   fontSize: 18.0,
 );

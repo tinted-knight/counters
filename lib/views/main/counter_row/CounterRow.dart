@@ -7,9 +7,9 @@ import 'CounterValue.dart';
 
 class CounterRow extends StatelessWidget {
   const CounterRow(
-      this.item, {
-        Key key,
-      }) : super(key: key);
+    this.item, {
+    Key key,
+  }) : super(key: key);
 
   final CounterItem item;
 
@@ -21,7 +21,13 @@ class CounterRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           CounterIcon(item.isGoalReached),
-          CounterTitle(item.title),
+          Expanded(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
+              child: CounterTitle(item.title),
+            ),
+          ),
           CounterValue(item),
         ],
       ),
