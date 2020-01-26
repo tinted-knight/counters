@@ -22,10 +22,13 @@ class MyApp extends StatelessWidget {
       theme: themeLight,
       initialRoute: "/",
       routes: {
-        "/": (context) => MyHomePage(
-              title: 'Counter Prototype',
-              storageProvider: storage,
-            ),
+        "/": (context) => BlocProvider(
+          bloc: CounterListBloc(storage),
+          child: MainScreen(
+                title: 'Counter Prototype',
+                storageProvider: storage,
+              ),
+        ),
         "/details": (context) => BlocProvider(
               bloc: CounterUpdateBloc(storage),
               child: ScreenDetails(),
@@ -39,8 +42,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({
+class MainScreen extends StatefulWidget {
+  MainScreen({
     Key key,
     this.title,
     @required this.storageProvider,
@@ -50,12 +53,14 @@ class MyHomePage extends StatefulWidget {
   final SQLiteStorageProvider storageProvider;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<CounterListBloc>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -66,20 +71,34 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: BlocProvider(
-        bloc: CounterListBloc(widget.storageProvider),
-        child: Counters(
-          itemTap: (item) => Navigator.of(context).pushNamed(
-            ScreenDetails.route,
-            arguments: item,
-          ),
+      body: Counters(
+        itemTap: (item) => Navigator.of(context).pushNamed(
+          ScreenDetails.route,
+          arguments: item,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).pushNamed("/create"),
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      floatingActionButton: Builder(
+        builder: (context) => FloatingActionButton(
+          onPressed: () async {
+            final result = await Navigator.of(context).pushNamed("/create");
+            switch (result) {
+              case CreateResult.counter_created:
+                _showMessage(context, result.toString());
+                bloc.reloadCounters();
+                break;
+              case CreateResult.canceled:
+                _showMessage(context, result.toString());
+                break;
+            }
+          },
+          tooltip: 'Increment',
+          child: Icon(Icons.add),
+        ),
       ),
     );
+  }
+
+  _showMessage(BuildContext context, String msg) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 }

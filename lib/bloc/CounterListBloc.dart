@@ -8,6 +8,8 @@ class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
     _loadCounters();
   }
 
+  void reloadCounters() => _loadCounters();
+
   void _loadCounters() async {
     pushState(CounterListStates._loading());
 //    // debug: fake delay
@@ -47,7 +49,7 @@ class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
   void incrementCounter(CounterItem counter) async {
     final updated = await storage.update(counter.stepUp());
     if (updated) {
-//      _loadCounters();
+      _loadCounters();
 //      pushState(CounterListStates._didUpdated(counter));
     }
   }

@@ -41,6 +41,8 @@ class Counters extends StatelessWidget {
   }
 
   _renderValues(List<CounterItem> items, CounterListBloc bloc) {
+    //debug
+    print('_renderValues');
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (ctx, index) {

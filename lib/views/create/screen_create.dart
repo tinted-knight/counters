@@ -5,6 +5,8 @@ import 'package:counter/views/create/rows/ButtonRow.dart';
 import 'package:counter/views/create/rows/PropertyRow.dart';
 import 'package:flutter/material.dart';
 
+enum CreateResult { counter_created, canceled }
+
 class ScreenCreate extends StatefulWidget {
   @override
   _ScreenCreateState createState() => _ScreenCreateState();
@@ -47,7 +49,8 @@ class _ScreenCreateState extends State<ScreenCreate> {
       ),
       body: BlocStreamBuilder<CreateCounterState>(
         listener: (state) {
-          if (state == CreateCounterState.success) Navigator.pop(context);
+          if (state == CreateCounterState.success)
+            Navigator.pop(context, CreateResult.counter_created);
         },
         stream: counterBloc.states,
         initialData: CreateCounterState.idle,
@@ -89,7 +92,8 @@ class _ScreenCreateState extends State<ScreenCreate> {
                     PropertyRow.color("Color"),
                     Expanded(
                       child: ButtonRow(
-                        onCancel: () => Navigator.of(context).pop(),
+                        onCancel: () =>
+                            Navigator.of(context).pop(CreateResult.canceled),
                         onCreate: () => counterBloc.create(
                           title: _titleCtrl.text,
                           step: _stepCtrl.text,
