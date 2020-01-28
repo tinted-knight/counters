@@ -1,3 +1,4 @@
+import 'package:counter/bloc/AppBloc.dart';
 import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/bloc/CounterUpdateBloc.dart';
 import 'package:counter/bloc/StreamBuilderNav.dart';
@@ -28,6 +29,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
   final _unitCtrl = TextEditingController();
 
   CounterUpdateBloc bloc;
+  AppBloc appBloc;
   CounterItem counter;
 
   @override
@@ -35,6 +37,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
     super.initState();
 
     bloc = BlocProvider.of<CounterUpdateBloc>(context);
+    appBloc = BlocProvider.of<AppBloc>(context);
   }
 
   @override
@@ -90,10 +93,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
                     GoalRow(controller: _goalCtrl),
                     UnitRow(controller: _unitCtrl),
                     BlocStreamBuilder<CounterUpdateStates>(
-                      listener: (state) {
-                        if (state == CounterUpdateStates.doneEditing)
-                          Navigator.of(context).pop();
-                      },
+                      listener: _stateListener,
                       stream: bloc.states,
                       initialData: CounterUpdateStates.idle,
                       builder: _buildButtonRow,
@@ -108,6 +108,18 @@ class _ScreenDetailsState extends State<ScreenDetails> {
     );
   }
 
+  void _stateListener(CounterUpdateStates state) {
+    if (state == CounterUpdateStates.doneEditing) {
+      Navigator.of(context).pop();
+      return;
+    }
+    if (state == CounterUpdateStates.deleted) {
+      Navigator.of(context).pop(CounterUpdateStates.deleted);
+      appBloc.fire(action: AppActions.counterDeleted());
+      return;
+    }
+  }
+
   Widget _buildButtonRow(
       BuildContext context, AsyncSnapshot<CounterUpdateStates> snapshot) {
     if (snapshot.data == CounterUpdateStates.idle) {
@@ -115,7 +127,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
         onClick: (type) {
           switch (type) {
             case ButtonType.delete:
-              // TODO: Handle this case.
+              bloc.btnDeleteClick(counter);
               break;
             case ButtonType.cancel:
               bloc.btnCancelClick();
@@ -151,6 +163,12 @@ class _ScreenDetailsState extends State<ScreenDetails> {
       elevation: 0.0,
       title: Text(counter.title),
       actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.delete, semanticLabel: "Delete"),
+          onPressed: () {
+            bloc.btnDeleteClick(counter);
+          },
+        ),
         IconButton(
           icon: Icon(Icons.help_outline, semanticLabel: "Help"),
           onPressed: () {},

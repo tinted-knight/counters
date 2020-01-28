@@ -10,6 +10,14 @@ class CounterUpdateBloc extends BaseBlocWithStates<CounterUpdateStates> {
 
   final ILocalStorage storage;
 
+  void btnDeleteClick(CounterItem counter) async {
+    if (await storage.delete(counter)) {
+      pushState(CounterUpdateStates.deleted);
+    } else {
+      pushState(CounterUpdateStates.error);
+    }
+  }
+
   void btnCancelClick() {
     pushState(CounterUpdateStates.doneEditing);
   }
@@ -41,4 +49,4 @@ class CounterUpdateBloc extends BaseBlocWithStates<CounterUpdateStates> {
   }
 }
 
-enum CounterUpdateStates { idle, inprogress, doneEditing, error }
+enum CounterUpdateStates { idle, inprogress, doneEditing, error, deleted }

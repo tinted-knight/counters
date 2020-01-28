@@ -24,9 +24,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  AppBloc _appBloc;
+
   @override
   Widget build(BuildContext context) {
-    final appBloc = BlocProvider.of<AppBloc>(context);
+    _appBloc = BlocProvider.of<AppBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -42,23 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
         bloc: CounterListBloc(widget.storage),
         child: MainBody(),
       ),
-      floatingActionButton: Builder(
-        builder: (context) => FloatingActionButton(
-          onPressed: () async {
-            final result =
-                await Navigator.of(context).pushNamed(ScreenCreate.route);
-            switch (result) {
-              case CreateResult.counter_created:
-                appBloc.actions.add(AppActions.counterCreated(null));
-                break;
-              case CreateResult.canceled:
-                appBloc.actions.add(AppActions.creationCanceled());
-                break;
-            }
-          },
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.of(context).pushNamed(ScreenCreate.route),
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
       ),
     );
   }

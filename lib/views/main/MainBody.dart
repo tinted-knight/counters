@@ -26,6 +26,10 @@ class MainBody extends StatelessWidget {
             _showMessage(context, "counter created");
             return;
           }
+          if (appState is StateCounterDeleted) {
+            countersBloc.reloadCounters();
+            _showMessage(context, "counter deleted");
+          }
         },
         stream: appBloc.states,
         initialData: StateIdle(),
@@ -43,6 +47,21 @@ class MainBody extends StatelessWidget {
   }
 
   _showMessage(BuildContext context, String msg) {
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text(msg)));
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(msg),
+            FlatButton(
+              child: Text("Undo"),
+              onPressed: () {
+                print('undo');
+              },
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

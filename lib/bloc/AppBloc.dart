@@ -10,9 +10,15 @@ class AppBloc extends BaseBlocWithActions<AppStates, AppActions> {
   void handleAction(AppActions action) {
     if (action is ActionCreationCanceled) {
       pushState(AppStates._showActionMessage("creation canceled"));
+      return;
     }
     if (action is ActionCounterCreated) {
       pushState(AppStates._counterCreated());
+      return;
+    }
+    if (action is ActionCounterDeleted) {
+      pushState(AppStates._counterDeleted());
+      return;
     }
   }
 }
@@ -25,6 +31,8 @@ class AppStates {
   factory AppStates._showActionMessage(String msg) = StateActionMessage;
 
   factory AppStates._counterCreated() = StateCounterCreated;
+
+  factory AppStates._counterDeleted() = StateCounterDeleted;
 }
 
 class StateIdle extends AppStates {}
@@ -35,6 +43,8 @@ class StateActionMessage extends AppStates {
   final String msg;
 }
 
+class StateCounterDeleted extends AppStates {}
+
 class StateCounterCreated extends AppStates {}
 
 class AppActions {
@@ -43,6 +53,8 @@ class AppActions {
   factory AppActions.creationCanceled() = ActionCreationCanceled;
 
   factory AppActions.counterCreated(CounterItem item) = ActionCounterCreated;
+
+  factory AppActions.counterDeleted() = ActionCounterDeleted;
 }
 
 class ActionCounterCreated extends AppActions {
@@ -50,5 +62,7 @@ class ActionCounterCreated extends AppActions {
 
   final CounterItem counter;
 }
+
+class ActionCounterDeleted extends AppActions {}
 
 class ActionCreationCanceled extends AppActions {}

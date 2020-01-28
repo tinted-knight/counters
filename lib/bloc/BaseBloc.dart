@@ -34,6 +34,8 @@ abstract class BaseBlocWithActions<State, Action>
 
   StreamSink<Action> get actions => actionsController.sink;
 
+  void fire({Action action}) => actions.add(action);
+
   void handleAction(Action action);
 
   @override

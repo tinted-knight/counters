@@ -1,3 +1,4 @@
+import 'package:counter/bloc/AppBloc.dart';
 import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/bloc/CreateCounterBloc.dart';
 import 'package:counter/bloc/StreamBuilderNav.dart';
@@ -20,9 +21,13 @@ class _ScreenCreateState extends State<ScreenCreate> {
   final _goalCtrl = TextEditingController();
   final _unitCtrl = TextEditingController();
 
+  AppBloc appBloc;
+
   @override
   void initState() {
     super.initState();
+
+    appBloc = BlocProvider.of<AppBloc>(context);
   }
 
   @override
@@ -51,8 +56,10 @@ class _ScreenCreateState extends State<ScreenCreate> {
       ),
       body: BlocStreamBuilder<CreateCounterState>(
         listener: (state) {
-          if (state == CreateCounterState.success)
-            Navigator.pop(context, CreateResult.counter_created);
+          if (state == CreateCounterState.success) {
+            Navigator.pop(context);
+            appBloc.fire(action: AppActions.counterCreated(null));
+          }
         },
         stream: counterBloc.states,
         initialData: CreateCounterState.idle,
@@ -94,14 +101,21 @@ class _ScreenCreateState extends State<ScreenCreate> {
                     PropertyRow.color("Color"),
                     Expanded(
                       child: ButtonRow(
-                        onCancel: () =>
-                            Navigator.of(context).pop(CreateResult.canceled),
-                        onCreate: () => counterBloc.create(
-                          title: _titleCtrl.text,
-                          step: _stepCtrl.text,
-                          goal: _goalCtrl.text,
-                          unit: _unitCtrl.text,
-                        ),
+                        onCancel: () => Navigator.of(context).pop(CreateResult.canceled),
+                        onCreate: () {
+                          counterBloc.create(
+                            title: "Отжимания",
+                            step: "15",
+                            goal: "50",
+                            unit: "раз",
+                          );
+//                          counterBloc.create(
+//                          title: _titleCtrl.text,
+//                          step: _stepCtrl.text,
+//                          goal: _goalCtrl.text,
+//                          unit: _unitCtrl.text,
+//                        );
+                        },
                       ),
                     ),
                   ],

@@ -10,7 +10,12 @@ import 'package:flutter/material.dart';
 import 'model/storage/LocalStorageProvider.dart';
 import 'views/main/screen_main.dart';
 
-void main() => runApp(MyApp());
+final appBloc = AppBloc();
+
+void main() => runApp(BlocProvider(
+      bloc: appBloc,
+      child: MyApp(),
+    ));
 
 class MyApp extends StatelessWidget {
   final storage = SQLiteStorageProvider();
@@ -22,12 +27,9 @@ class MyApp extends StatelessWidget {
       theme: themeLight,
       initialRoute: HomeScreen.route,
       routes: {
-        HomeScreen.route: (context) => BlocProvider(
-              bloc: AppBloc(),
-              child: HomeScreen(
-                title: 'Counter Prototype',
-                storage: storage,
-              ),
+        HomeScreen.route: (context) => HomeScreen(
+              title: 'Counter Prototype',
+              storage: storage,
             ),
         ScreenDetails.route: (context) => BlocProvider(
               bloc: CounterUpdateBloc(storage),
