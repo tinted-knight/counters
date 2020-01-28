@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 enum CreateResult { counter_created, canceled }
 
 class ScreenCreate extends StatefulWidget {
+  static const route = "/create";
+
   @override
   _ScreenCreateState createState() => _ScreenCreateState();
 }

@@ -1,6 +1,5 @@
 import 'package:counter/bloc/AppBloc.dart';
 import 'package:counter/bloc/BaseBloc.dart';
-import 'package:counter/bloc/CounterListBloc.dart';
 import 'package:counter/bloc/CounterUpdateBloc.dart';
 import 'package:counter/bloc/CreateCounterBloc.dart';
 import 'package:counter/theme/dark_theme.dart';
@@ -9,7 +8,6 @@ import 'package:counter/views/details/screen_details.dart';
 import 'package:flutter/material.dart';
 
 import 'model/storage/LocalStorageProvider.dart';
-import 'views/main/Counters.dart';
 import 'views/main/screen_main.dart';
 
 void main() => runApp(MyApp());
@@ -22,39 +20,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Counters',
       theme: themeLight,
-      initialRoute: "/",
+      initialRoute: HomeScreen.route,
       routes: {
-        Routes.root.path: (context) => BlocProvider(
+        HomeScreen.route: (context) => BlocProvider(
               bloc: AppBloc(),
-              child: MainScreen(
+              child: HomeScreen(
                 title: 'Counter Prototype',
                 storage: storage,
               ),
             ),
-        Routes.details.path: (context) => BlocProvider(
+        ScreenDetails.route: (context) => BlocProvider(
               bloc: CounterUpdateBloc(storage),
               child: ScreenDetails(),
             ),
-        Routes.create.path: (context) => BlocProvider<CreateCounterBloc>(
+        ScreenCreate.route: (context) => BlocProvider<CreateCounterBloc>(
               bloc: CreateCounterBloc(storage),
               child: ScreenCreate(),
             ),
       },
     );
-  }
-}
-
-enum Routes { root, details, create }
-
-extension RoutesString on Routes {
-  String get path {
-    switch (this) {
-      case Routes.root:
-        return "/";
-      case Routes.details:
-        return "/details";
-      case Routes.create:
-        return "/create";
-    }
   }
 }
