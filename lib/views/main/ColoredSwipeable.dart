@@ -24,7 +24,7 @@ class _ColoredSwipeableState extends State<ColoredSwipeable>
 
   int _value = 255;
 
-  final _distanceLimit = 150;
+  final _distanceLimit = 50;
   final _velocityLimit = 500.0;
 
   AnimationController _colorController;
@@ -54,6 +54,12 @@ class _ColoredSwipeableState extends State<ColoredSwipeable>
     _currentAnimation = _greenAnimation;
   }
 
+  @override
+  void dispose() {
+    _colorController.dispose();
+    super.dispose();
+  }
+
   void _swipeNotCounted() {
     _colorController.reverse();
     _currentAnimation = _redFlashAnimation;
@@ -77,8 +83,8 @@ class _ColoredSwipeableState extends State<ColoredSwipeable>
   void _dragUpdate(DragUpdateDetails details) {
     final delta = (details.delta.dx * 2).floor();
     // decreasing red and green until 0 but not less
-    final newValue = _value >= delta ? _value -= delta : _value = 0;
-    final target = 1 - newValue / 255;
+    final newValue = _value - delta > 0 ? _value -= delta : _value = 0;
+    final target = -_value == 0 ? 0.9 : 1 - newValue / 255;
     _colorController.value = target;
     setState(() {
       _value = newValue;
