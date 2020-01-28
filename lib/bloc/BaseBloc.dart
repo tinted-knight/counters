@@ -24,21 +24,21 @@ abstract class BaseBlocWithStates<States> extends BaseBloc<States> {
   }
 }
 
-abstract class BaseBlocWithCommands<State, Command>
+abstract class BaseBlocWithActions<State, Action>
     extends BaseBlocWithStates<State> {
-  BaseBlocWithCommands() {
-    commandsController.stream.listen(handleCommand);
+  BaseBlocWithActions() {
+    actionsController.stream.listen(handleAction);
   }
 
-  final commandsController = StreamController<Command>.broadcast();
+  final actionsController = StreamController<Action>.broadcast();
 
-  StreamSink<Command> get commands => commandsController.sink;
+  StreamSink<Action> get actions => actionsController.sink;
 
-  void handleCommand(Command command);
+  void handleAction(Action action);
 
   @override
   void dispose() {
-    commandsController.close();
+    actionsController.close();
     super.dispose();
   }
 }

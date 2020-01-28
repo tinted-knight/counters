@@ -66,8 +66,8 @@ class CounterListStates {
 
   factory CounterListStates._values(List<CounterItem> values) = StateValues;
 
-  factory CounterListStates._didUpdated(
-      List<CounterItem> values, CounterItem updated) = StateDidUpdated;
+  factory CounterListStates._didUpdated(List<CounterItem> values) =
+      StateDidUpdated;
 }
 
 class StateLoading extends CounterListStates {}
@@ -75,10 +75,9 @@ class StateLoading extends CounterListStates {}
 class StateEmpty extends CounterListStates {}
 
 class StateDidUpdated extends CounterListStates {
-  StateDidUpdated(this.values, this.updated);
+  StateDidUpdated(this.values);
 
   final List<CounterItem> values;
-  final CounterItem updated;
 }
 
 class StateValues extends CounterListStates {

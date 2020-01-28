@@ -27,9 +27,6 @@ class Counters extends StatelessWidget {
         }
         if (snapshot.data is StateValues) {
           final state = snapshot.data as StateValues;
-          //debug
-//          state.values
-//              .forEach((v) => print("${v.title}, v:${v.value}, g:${v.goal}"));
           return _renderValues(state.values, bloc);
         }
         if (snapshot.data is StateEmpty) {
@@ -41,8 +38,6 @@ class Counters extends StatelessWidget {
   }
 
   _renderValues(List<CounterItem> items, CounterListBloc bloc) {
-    //debug
-    print('_renderValues');
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (ctx, index) {
@@ -69,4 +64,8 @@ class Counters extends StatelessWidget {
         margin: EdgeInsets.only(left: 32.0, right: 32.0),
         color: Colors.black12,
       );
+
+  _showMessage(BuildContext context, String msg) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
 }

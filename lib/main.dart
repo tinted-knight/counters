@@ -1,3 +1,4 @@
+import 'package:counter/bloc/AppBloc.dart';
 import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/bloc/CounterListBloc.dart';
 import 'package:counter/bloc/CounterUpdateBloc.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 
 import 'model/storage/LocalStorageProvider.dart';
 import 'views/main/Counters.dart';
+import 'views/main/screen_main.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,18 +24,18 @@ class MyApp extends StatelessWidget {
       theme: themeLight,
       initialRoute: "/",
       routes: {
-        "/": (context) => BlocProvider(
-          bloc: CounterListBloc(storage),
-          child: MainScreen(
+        Routes.root.path: (context) => BlocProvider(
+              bloc: AppBloc(),
+              child: MainScreen(
                 title: 'Counter Prototype',
-                storageProvider: storage,
+                storage: storage,
               ),
-        ),
-        "/details": (context) => BlocProvider(
+            ),
+        Routes.details.path: (context) => BlocProvider(
               bloc: CounterUpdateBloc(storage),
               child: ScreenDetails(),
             ),
-        "/create": (context) => BlocProvider<CreateCounterBloc>(
+        Routes.create.path: (context) => BlocProvider<CreateCounterBloc>(
               bloc: CreateCounterBloc(storage),
               child: ScreenCreate(),
             ),
@@ -42,63 +44,17 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainScreen extends StatefulWidget {
-  MainScreen({
-    Key key,
-    this.title,
-    @required this.storageProvider,
-  }) : super(key: key);
+enum Routes { root, details, create }
 
-  final String title;
-  final SQLiteStorageProvider storageProvider;
-
-  @override
-  _MainScreenState createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<CounterListBloc>(context);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.help_outline, semanticLabel: "Quick help"),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: Counters(
-        itemTap: (item) => Navigator.of(context).pushNamed(
-          ScreenDetails.route,
-          arguments: item,
-        ),
-      ),
-      floatingActionButton: Builder(
-        builder: (context) => FloatingActionButton(
-          onPressed: () async {
-            final result = await Navigator.of(context).pushNamed("/create");
-            switch (result) {
-              case CreateResult.counter_created:
-                _showMessage(context, result.toString());
-                bloc.reloadCounters();
-                break;
-              case CreateResult.canceled:
-                _showMessage(context, result.toString());
-                break;
-            }
-          },
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        ),
-      ),
-    );
-  }
-
-  _showMessage(BuildContext context, String msg) {
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text(msg)));
+extension RoutesString on Routes {
+  String get path {
+    switch (this) {
+      case Routes.root:
+        return "/";
+      case Routes.details:
+        return "/details";
+      case Routes.create:
+        return "/create";
+    }
   }
 }
