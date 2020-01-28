@@ -11,12 +11,14 @@ class CreateCounterBloc extends BaseBlocWithStates<CreateCounterState> {
 
   final ILocalStorage storage;
 
-  void create({String title, String step, String goal, String unit}) async {
+  void create(
+      {String title, String step, String goal, String unit, int colorIndex}) async {
     final newCounter = CounterItem(
       title: title,
       step: step.toInt(),
       goal: goal.toInt(),
       unit: unit,
+      colorIndex: colorIndex,
     );
     pushState(CreateCounterState.inprogress);
     if (await storage.add(newCounter)) {

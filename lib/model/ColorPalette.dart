@@ -18,11 +18,13 @@ class ColorPalette {
   static const red = 1;
   static const yellow = 2;
 
-  static const _palette = [_blue, _red, _yellow];
+  static const defaultColor = blue;
+
+  static const palette = [_blue, _red, _yellow];
 
   static const _bgPalette = [_bgBlue, _bgRed, _bgYellow];
 
-  static Color color(int value) => _palette[value];
+  static Color color(int value) => palette[value];
 
   static Color bgColor(int value) => _bgPalette[value];
 }
