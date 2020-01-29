@@ -27,6 +27,8 @@ class _ColoredSwipeableState extends State<ColoredSwipeable>
   final _distanceLimit = 50;
   final _velocityLimit = 500.0;
 
+  final _alpha = 200;
+
   AnimationController _colorController;
   Animation<Color> _currentAnimation;
   Animation<Color> _greenAnimation;
@@ -35,20 +37,20 @@ class _ColoredSwipeableState extends State<ColoredSwipeable>
   @override
   void initState() {
     super.initState();
-    color = Color.fromARGB(50, 255, 255, 255);
+    color = Color.fromARGB(_alpha, 255, 255, 255);
     _colorController = AnimationController(
       duration: Duration(milliseconds: 500),
       vsync: this,
     );
 
     _greenAnimation = ColorTween(
-      begin: Color.fromARGB(50, 255, 255, 255),
-      end: Color.fromARGB(50, 0, 255, 0),
+      begin: Color.fromARGB(_alpha, 255, 255, 255),
+      end: Color.fromARGB(_alpha, 0, 255, 0),
     ).animate(_colorController);
 
     _redFlashAnimation = ColorTween(
-      begin: Color.fromARGB(50, 255, 0, 0),
-      end: Color.fromARGB(50, 255, 255, 255),
+      begin: Color.fromARGB(_alpha, 255, 0, 0),
+      end: Color.fromARGB(_alpha, 255, 255, 255),
     ).animate(_colorController);
 
     _currentAnimation = _greenAnimation;
@@ -121,8 +123,7 @@ class _ColoredSwipeableState extends State<ColoredSwipeable>
             children: <Widget>[
               Positioned.fill(
                 child: Container(
-                    color: _currentAnimation.value,
-                    padding: EdgeInsets.all(16.0)),
+                    color: _currentAnimation.value, padding: EdgeInsets.all(16.0)),
               ),
               widget.child,
             ],
