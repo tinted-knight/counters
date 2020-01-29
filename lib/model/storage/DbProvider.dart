@@ -1,8 +1,10 @@
+import 'package:counter/model/HistoryModel.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 const tableCounters = "Counters";
 const tableTime = "Time";
+const tableHistory = "History";
 const _databaseName = "counters.db";
 
 class DbProvider {
@@ -25,11 +27,19 @@ class DbProvider {
       path,
       version: 1,
       onCreate: (db, version) async {
+        await db.execute("CREATE TABLE $tableHistory ("
+            " id INTEGER PRIMARY KEY,"
+            " $colCounterId INTEGER,"
+            " $colDate INTEGER,"
+            " $colValue INTEGER"
+            ")");
+
         await db.execute("CREATE TABLE $tableTime ("
             " id INTEGER PRIMARY KEY,"
-            " time INTEGER)");
+            " time INTEGER"
+            ")");
 
-        final dt = DateTime.now().subtract(Duration(days: 1));
+        final dt = DateTime.now();
         await db.insert(tableTime, {"time": dt.millisecondsSinceEpoch});
 
         await db.execute("CREATE TABLE $tableCounters ("
@@ -39,7 +49,8 @@ class DbProvider {
             " goal INTEGER,"
             " step INTEGER,"
             " unit TEXT,"
-            " color_index INTEGER)");
+            " color_index INTEGER"
+            ")");
         await db.insert(tableCounters, {
           "title": "Aquadetrim",
           "value": "2000",

@@ -1,4 +1,6 @@
 import 'package:counter/model/CounterModel.dart';
+import 'package:counter/model/HistoryModel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'DbProvider.dart';
@@ -46,6 +48,18 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
   }
 
   @override
+  Future<bool> updateHistory(CounterItem item, String timestamp) async {
+    final value = {
+      colCounterId: item.id.toString(),
+      colDate: timestamp,
+      colValue: item.value.toString(),
+    };
+    final database = await connection();
+    final result = await database.insert(tableHistory, value);
+    return result > 0;
+  }
+
+  @override
   Future<DateTime> getTime() async {
     final database = await connection();
     final raw = await database.query(tableTime);
@@ -57,7 +71,6 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
     final database = await connection();
     await database.delete(tableTime);
     final updated = await database.insert(tableTime, {"time": time});
-//    final updated = await database.update(tableTime, {"time": time});
     return updated > 0;
   }
 }

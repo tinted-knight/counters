@@ -8,7 +8,18 @@ class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
     _loadCounters();
   }
 
+  final ILocalStorage storage;
+
+  List<CounterItem> _counters;
+
   void reloadCounters() => _loadCounters();
+
+  void resetCounters() async {
+    pushState(CounterListStates._loading());
+    final reseted = await _resetCounters(_counters);
+    _counters = reseted;
+    pushState(CounterListStates._values(_counters));
+  }
 
   void _loadCounters() async {
     pushState(CounterListStates._loading());
@@ -17,28 +28,38 @@ class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
     final values = await storage.getAll();
     if (values != null && values.isNotEmpty) {
       if (await _needResetCounters()) {
-        await _updateTime();
-        final updatedCounters =
-            values.map((counter) => _resetValue(counter)).toList();
-        _saveUpdated(updatedCounters);
-        pushState(CounterListStates._values(updatedCounters));
+        _counters = await _resetCounters(values);
+        pushState(CounterListStates._values(_counters));
       } else {
-        pushState(CounterListStates._values(values));
+        _counters = values;
+        pushState(CounterListStates._values(_counters));
       }
     } else {
+      _counters.clear();
       pushState(CounterListStates._empty());
     }
   }
 
-  void _saveUpdated(List<CounterItem> counters) async {
+  Future<void> _saveUpdated(List<CounterItem> counters) async {
     counters.forEach((counter) async => await storage.update(counter));
   }
-
-  CounterItem _resetValue(CounterItem counter) => counter.copyWith(value: 0);
 
   Future<bool> _needResetCounters() async {
     final time = await storage.getTime();
     return time.add(Duration(days: 1)).day == DateTime.now().day;
+  }
+
+  Future<List<CounterItem>> _resetCounters(List<CounterItem> counters) async {
+    await _updateTime();
+    await _saveToHistory(counters);
+    final resetedCounters = counters.map((counter) => counter.flush).toList();
+    await _saveUpdated(resetedCounters);
+    return resetedCounters;
+  }
+
+  Future<void> _saveToHistory(List<CounterItem> counters) async {
+    final now = DateTime.now().millisecondsSinceEpoch.toString();
+    counters.forEach((counter) async => await storage.updateHistory(counter, now));
   }
 
   Future<bool> _updateTime() async {
@@ -50,11 +71,8 @@ class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
     final updated = await storage.update(counter.stepUp());
     if (updated) {
       _loadCounters();
-//      pushState(CounterListStates._didUpdated(counter));
     }
   }
-
-  final ILocalStorage storage;
 }
 
 class CounterListStates {
@@ -66,8 +84,7 @@ class CounterListStates {
 
   factory CounterListStates._values(List<CounterItem> values) = StateValues;
 
-  factory CounterListStates._didUpdated(List<CounterItem> values) =
-      StateDidUpdated;
+  factory CounterListStates._didUpdated(List<CounterItem> values) = StateDidUpdated;
 }
 
 class StateLoading extends CounterListStates {}
@@ -84,4 +101,8 @@ class StateValues extends CounterListStates {
   StateValues(this.values);
 
   final List<CounterItem> values;
+}
+
+extension FlushCounter on CounterItem {
+  CounterItem get flush => this.copyWith(value: 0);
 }

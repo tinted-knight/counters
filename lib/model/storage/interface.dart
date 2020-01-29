@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 abstract class ILocalStorage<CounterItem> {
   Future<bool> add(CounterItem item);
 
@@ -6,6 +8,8 @@ abstract class ILocalStorage<CounterItem> {
   Future<bool> update(CounterItem item);
 
   Future<bool> delete(CounterItem item);
+
+  Future<bool> updateHistory(CounterItem item, String timestamp);
 
   Future<DateTime> getTime();
 

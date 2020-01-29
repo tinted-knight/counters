@@ -29,11 +29,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     _appBloc = BlocProvider.of<AppBloc>(context);
+    final countersBloc = CounterListBloc(widget.storage);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
         actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.autorenew),
+            onPressed: () => countersBloc.resetCounters(),
+          ),
           IconButton(
             icon: Icon(Icons.help_outline, semanticLabel: "Quick help"),
             onPressed: () {},
@@ -41,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: BlocProvider(
-        bloc: CounterListBloc(widget.storage),
+        bloc: countersBloc,
         child: MainBody(),
       ),
       floatingActionButton: FloatingActionButton(
