@@ -5,6 +5,8 @@ abstract class ILocalStorage<CounterItem> {
 
   Future<bool> update(CounterItem item);
 
+  Future<bool> delete(CounterItem item);
+
   Future<DateTime> getTime();
 
   Future<bool> updateTime(int time);

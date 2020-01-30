@@ -11,20 +11,20 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
 
   @override
   Future<bool> add(CounterItem item) async {
-    var database = await connection();
+    final database = await connection();
     return await database.insert(tableCounters, item.toMap()) >= 0;
   }
 
   @override
   Future<List<CounterItem>> getAll() async {
-    var database = await connection();
+    final database = await connection();
     final raw = await database.query(tableCounters);
     return raw.map((item) => CounterItem.fromMap(item)).toList();
   }
 
   @override
   Future<bool> update(CounterItem item) async {
-    var database = await connection();
+    final database = await connection();
     final result = await database.update(
       tableCounters,
       item.toMap(),
@@ -35,15 +35,26 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
   }
 
   @override
+  Future<bool> delete(CounterItem item) async {
+    final database = await connection();
+    final deleted = await database.delete(
+      tableCounters,
+      where: "id = ?",
+      whereArgs: [item.id],
+    );
+    return deleted > 0;
+  }
+
+  @override
   Future<DateTime> getTime() async {
-    var database = await connection();
+    final database = await connection();
     final raw = await database.query(tableTime);
     return DateTime.fromMillisecondsSinceEpoch(raw[0]["time"]);
   }
 
   @override
   Future<bool> updateTime(int time) async {
-    var database = await connection();
+    final database = await connection();
     await database.delete(tableTime);
     final updated = await database.insert(tableTime, {"time": time});
 //    final updated = await database.update(tableTime, {"time": time});
