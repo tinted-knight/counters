@@ -47,7 +47,7 @@ class Counters extends StatelessWidget {
           child: Column(
             children: <Widget>[
               CounterRow(items[index]),
-              _divider(),
+//              _divider(),
             ],
           ),
         );

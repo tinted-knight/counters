@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _appBloc = BlocProvider.of<AppBloc>(context);
 
     return Scaffold(
+//      backgroundColor: Color(0xFFDFDDDD),
       appBar: AppBar(
         title: Text(widget.title),
         actions: <Widget>[
