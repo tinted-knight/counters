@@ -27,6 +27,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
   final _stepCtrl = TextEditingController();
   final _goalCtrl = TextEditingController();
   final _unitCtrl = TextEditingController();
+  final _titleCtrl = TextEditingController();
 
   CounterUpdateBloc bloc;
   AppBloc appBloc;
@@ -50,6 +51,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
     _stepCtrl.text = counter.step.toString();
     _goalCtrl.text = counter.goal.toString();
     _unitCtrl.text = counter.unit;
+    _titleCtrl.text = counter.title;
   }
 
   @override
@@ -85,7 +87,11 @@ class _ScreenDetailsState extends State<ScreenDetails> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     SizedBox(
-                      child: TopRow(controller: _valueCtrl),
+                      child: TopRow(
+                        value: counter.value,
+                        goal: counter.goal,
+                        controller: _valueCtrl,
+                      ),
                       height: 120.0,
                     ),
                     SizedBox(height: 42.0),
@@ -135,6 +141,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
             case ButtonType.save:
               bloc.btnSaveClick(
                 counter,
+                title: _titleCtrl.text,
                 value: _valueCtrl.text,
                 step: _stepCtrl.text,
                 goal: _goalCtrl.text,
@@ -161,7 +168,10 @@ class _ScreenDetailsState extends State<ScreenDetails> {
     return AppBar(
       backgroundColor: ColorPalette.bgColor(counter.colorIndex),
       elevation: 0.0,
-      title: Text(counter.title),
+      title: TextField(
+        controller: _titleCtrl,
+        style: TextStyle(color: Color(0xFFFFFFFF)),
+      ),
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.delete, semanticLabel: "Delete"),

@@ -1,6 +1,7 @@
 import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/storage/interface.dart';
+
 import 'helper_functions.dart';
 
 class CounterUpdateBloc extends BaseBlocWithStates<CounterUpdateStates> {
@@ -24,12 +25,14 @@ class CounterUpdateBloc extends BaseBlocWithStates<CounterUpdateStates> {
 
   void btnSaveClick(
     CounterItem counter, {
+    String title,
     String value,
     String step,
     String goal,
     String unit,
   }) =>
       _update(counter.copyWith(
+        title: title,
         value: value.toInt(),
         step: step.toInt(),
         goal: goal.toInt(),
