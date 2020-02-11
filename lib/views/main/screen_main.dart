@@ -33,19 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
 //      backgroundColor: Color(0xFFDFDDDD),
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.autorenew),
-            onPressed: () => countersBloc.resetCounters(),
-          ),
-          IconButton(
-            icon: Icon(Icons.help_outline, semanticLabel: "Quick help"),
-            onPressed: () {},
-          ),
-        ],
-      ),
+      appBar: _appBar(countersBloc.resetCounters),
       body: BlocProvider(
         bloc: countersBloc,
         child: MainBody(),
@@ -57,4 +45,32 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  Widget _appBar(Function onPressed) => PreferredSize(
+        preferredSize: Size.fromHeight(80.0),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 16.0),
+          child: AppBar(
+            actionsIconTheme: Theme.of(context).iconTheme.copyWith(
+                  color: Color(0xff212121),
+                ),
+            title: Text(
+              widget.title,
+              style: TextStyle(color: Color(0xff212121)),
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.autorenew),
+                onPressed: () => onPressed,
+              ),
+              IconButton(
+                icon: Icon(Icons.help_outline, semanticLabel: "Quick help"),
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ),
+      );
 }

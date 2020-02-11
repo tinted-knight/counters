@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       initialRoute: HomeScreen.route,
       routes: {
         HomeScreen.route: (context) => HomeScreen(
-              title: 'Counter Prototype',
+              title: 'Your Counters',
               storage: storage,
             ),
         ScreenDetails.route: (context) => BlocProvider(

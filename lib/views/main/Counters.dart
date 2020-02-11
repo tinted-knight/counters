@@ -27,7 +27,13 @@ class Counters extends StatelessWidget {
         }
         if (snapshot.data is StateValues) {
           final state = snapshot.data as StateValues;
-          return _renderValues(state.values, bloc);
+          //hack Color of waves when reach top or bottom of list
+          return Theme(
+            data: Theme.of(context).copyWith(
+              accentColor: Color(0xff212121),
+            ),
+            child: _renderValues(state.values, bloc),
+          );
         }
         if (snapshot.data is StateEmpty) {
           return _renderEmpty();
