@@ -27,7 +27,7 @@ class _ColoredSwipeableState extends State<ColoredSwipeable>
   final _distanceLimit = 50;
   final _velocityLimit = 500.0;
 
-  final _alpha = 200;
+  final _alpha = 50;
 
   AnimationController _colorController;
   Animation<Color> _currentAnimation;
@@ -121,11 +121,17 @@ class _ColoredSwipeableState extends State<ColoredSwipeable>
         builder: (context, child) {
           return Stack(
             children: <Widget>[
+              widget.child,
               Positioned.fill(
                 child: Container(
-                    color: _currentAnimation.value, padding: EdgeInsets.all(16.0)),
+                  padding: EdgeInsets.all(16.0),
+                  margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  decoration: BoxDecoration(
+                    color: _currentAnimation.value,
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  ),
+                ),
               ),
-              widget.child,
             ],
           );
         },

@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final countersBloc = CounterListBloc(widget.storage);
 
     return Scaffold(
+//      backgroundColor: Color(0xFFDFDDDD),
       appBar: AppBar(
         title: Text(widget.title),
         actions: <Widget>[

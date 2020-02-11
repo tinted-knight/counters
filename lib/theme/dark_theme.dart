@@ -5,13 +5,17 @@ class ThemeLight {
 
   static const primary = Color(0xff212121);
   static const accent = Color(0xffFF5722);
+  static const scaffoldBgColor = Color(0xFFEFEEEE);
 }
 
-var themeLight = _buildThemeData(ThemeData());
+var themeLight = _buildThemeData(ThemeData(
+//  fontFamily: "RobotoCondensed",
+));
 
 _buildThemeData(ThemeData baseTheme) => baseTheme.copyWith(
       primaryColor: ThemeLight.primary,
       accentColor: ThemeLight.accent,
+      scaffoldBackgroundColor: ThemeLight.scaffoldBgColor,
       buttonTheme: _buildButtonTheme(baseTheme),
       floatingActionButtonTheme: _buildFabTheme(baseTheme),
 //      textTheme: _buildTextTheme(baseTheme),

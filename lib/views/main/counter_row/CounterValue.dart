@@ -16,40 +16,64 @@ class CounterValue extends StatelessWidget {
       children: <Widget>[
         Hero(
           tag: item.id,
-          child: Container(
-            alignment: Alignment.center,
-            width: 80.0,
-            decoration: BoxDecoration(
-              color: ColorPalette.color(item.colorIndex),
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
-            margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
-          ),
+          child: _coloredValue(null),
         ),
-        Container(
-          alignment: Alignment.center,
-          width: 80.0,
-          decoration: BoxDecoration(
-            color: ColorPalette.color(item.colorIndex),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 12.0),
-          margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
-          child: Text(
-            "${item.value.toString()} ${item.unit}",
-            style: kCounterValueStyle,
-            maxLines: 1,
-            softWrap: false,
-            overflow: TextOverflow.fade,
-          ),
-        ),
+        _coloredValue(_valueNew()),
       ],
     );
   }
+
+  Widget _coloredValue(Widget child) {
+    return Container(
+      alignment: Alignment.center,
+      width: 80.0,
+      decoration: BoxDecoration(
+        color: ColorPalette.color(item.colorIndex),
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(8.0),
+          bottomRight: Radius.circular(8.0),
+        ),
+      ),
+      padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
+      margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
+      child: child,
+    );
+  }
+
+  Widget _valueNew() => Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 4.0),
+            child: Text(
+              item.value.toString(),
+              style: kCounterValueStyle,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              item.unit,
+              style: kCounterUnitStyle,
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.fade,
+            ),
+          ),
+        ],
+      );
+
+  Widget _valueOld() => Text(
+        "${item.value.toString()} ${item.unit}",
+        style: kCounterValueStyle,
+        maxLines: 1,
+        softWrap: false,
+        overflow: TextOverflow.fade,
+      );
 }
 
 // style
-final kCounterValueStyle = TextStyle().copyWith(
+const kCounterValueStyle = TextStyle(
   color: Colors.white,
+  fontFamily: "RobotoCondensed",
 );
+const kCounterUnitStyle = kCounterValueStyle;
