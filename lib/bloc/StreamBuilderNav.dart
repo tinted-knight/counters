@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 // https://stackoverflow.com/a/59347530/8460732
 typedef StreamListener<T> = void Function(T value);
 
-class BlocStreamBuilder<T> extends StreamBuilder<T> {
-
+class RedirectStreamBuilder<T> extends StreamBuilder<T> {
   final StreamListener<T> listener;
 
-  const BlocStreamBuilder({
+  const RedirectStreamBuilder({
     Key key,
     T initialData,
     Stream<T> stream,

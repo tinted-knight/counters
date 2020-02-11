@@ -1,7 +1,7 @@
 import 'package:counter/bloc/AppBloc.dart';
 import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/bloc/CounterUpdateBloc.dart';
-import 'package:counter/bloc/StreamBuilderNav.dart';
+import 'package:counter/bloc/bloc_state_builder.dart';
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/views/details/rows/ButtonRow.dart';
@@ -98,10 +98,8 @@ class _ScreenDetailsState extends State<ScreenDetails> {
                     StepRow(controller: _stepCtrl),
                     GoalRow(controller: _goalCtrl),
                     UnitRow(controller: _unitCtrl),
-                    BlocStreamBuilder<CounterUpdateStates>(
-                      listener: _stateListener,
-                      stream: bloc.states,
-                      initialData: CounterUpdateStates.idle,
+                    BlocStateBuilder<CounterUpdateStates>(
+                      bloc: bloc,
                       builder: _buildButtonRow,
                     ),
                   ],
@@ -114,21 +112,14 @@ class _ScreenDetailsState extends State<ScreenDetails> {
     );
   }
 
-  void _stateListener(CounterUpdateStates state) {
-    if (state == CounterUpdateStates.doneEditing) {
-      Navigator.of(context).pop();
-      return;
-    }
-    if (state == CounterUpdateStates.deleted) {
-      Navigator.of(context).pop(CounterUpdateStates.deleted);
-      appBloc.fire(action: AppActions.counterDeleted());
-      return;
-    }
+  void _popScreen() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.of(context).popUntil(ModalRoute.withName("/"));
+    });
   }
 
-  Widget _buildButtonRow(
-      BuildContext context, AsyncSnapshot<CounterUpdateStates> snapshot) {
-    if (snapshot.data == CounterUpdateStates.idle) {
+  Widget _buildButtonRow(BuildContext context, CounterUpdateStates state) {
+    if (state == CounterUpdateStates.idle) {
       return Expanded(child: ButtonRow(
         onClick: (type) {
           switch (type) {
@@ -152,16 +143,22 @@ class _ScreenDetailsState extends State<ScreenDetails> {
         },
       ));
     }
-    if (snapshot.data == CounterUpdateStates.inprogress) {
+    if (state == CounterUpdateStates.inprogress) {
       return CircularProgressIndicator();
     }
-    if (snapshot.data == CounterUpdateStates.error) {
+    if (state == CounterUpdateStates.error) {
       //todo
     }
-    if (snapshot.data == CounterUpdateStates.doneEditing) {
-      return Expanded(child: Center(child: Text("success")));
+    if (state == CounterUpdateStates.doneEditing) {
+      _popScreen();
+      return Expanded(child: Center(child: Text("")));
     }
-    return Expanded(child: Center(child: Text("null")));
+    if (state == CounterUpdateStates.deleted) {
+      _popScreen();
+      appBloc.fire(action: AppActions.counterDeleted());
+      return Expanded(child: Center(child: Text("")));
+    }
+    return Expanded(child: Center(child: Text("")));
   }
 
   AppBar _appBar() {

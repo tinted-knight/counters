@@ -15,7 +15,7 @@ class MainBody extends StatelessWidget {
     final appBloc = BlocProvider.of<AppBloc>(context);
     final countersBloc = BlocProvider.of<CounterListBloc>(context);
 
-    return BlocStreamBuilder<AppStates>(
+    return RedirectStreamBuilder<AppStates>(
         listener: (appState) {
           if (appState is StateActionMessage) {
             _showMessage(context, appState.msg);
@@ -35,7 +35,7 @@ class MainBody extends StatelessWidget {
         initialData: StateIdle(),
         builder: (context, snapshot) {
           return BlocProvider(
-            bloc: countersBloc,
+            blocBuilder: () => countersBloc,
             child: Counters(
               itemTap: (item) => Navigator.of(context).pushNamed(
                 ScreenDetails.route,

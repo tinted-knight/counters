@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //      backgroundColor: Color(0xFFDFDDDD),
       appBar: _appBar(countersBloc.resetCounters),
       body: BlocProvider(
-        bloc: countersBloc,
+        blocBuilder: () => countersBloc,
         child: MainBody(),
       ),
       floatingActionButton: FloatingActionButton(

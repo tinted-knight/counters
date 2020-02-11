@@ -13,7 +13,7 @@ import 'views/main/screen_main.dart';
 final appBloc = AppBloc();
 
 void main() => runApp(BlocProvider(
-      bloc: appBloc,
+      blocBuilder: () => appBloc,
       child: MyApp(),
     ));
 
@@ -32,11 +32,11 @@ class MyApp extends StatelessWidget {
               storage: storage,
             ),
         ScreenDetails.route: (context) => BlocProvider(
-              bloc: CounterUpdateBloc(storage),
+              blocBuilder: () => CounterUpdateBloc(storage),
               child: ScreenDetails(),
             ),
         ScreenCreate.route: (context) => BlocProvider<CreateCounterBloc>(
-              bloc: CreateCounterBloc(storage),
+              blocBuilder: () => CreateCounterBloc(storage),
               child: ScreenCreate(),
             ),
       },

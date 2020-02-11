@@ -5,9 +5,7 @@ import 'package:counter/model/storage/interface.dart';
 import 'helper_functions.dart';
 
 class CounterUpdateBloc extends BaseBlocWithStates<CounterUpdateStates> {
-  CounterUpdateBloc(this.storage) {
-    pushState(CounterUpdateStates.idle);
-  }
+  CounterUpdateBloc(this.storage) : super(initialState: CounterUpdateStates.idle);
 
   final ILocalStorage storage;
 
