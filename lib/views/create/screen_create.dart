@@ -116,18 +116,12 @@ class _ScreenCreateState extends State<ScreenCreate> {
                         onCancel: () => Navigator.of(context).pop(CreateResult.canceled),
                         onCreate: () {
                           counterBloc.create(
-                            title: "Отжимания",
-                            step: "15",
-                            goal: "50",
-                            unit: "раз",
+                            title: _titleCtrl.text,
+                            step: _stepCtrl.text,
+                            goal: _goalCtrl.text,
+                            unit: _unitCtrl.text,
                             colorIndex: selectedColorIndex,
                           );
-//                          counterBloc.create(
-//                          title: _titleCtrl.text,
-//                          step: _stepCtrl.text,
-//                          goal: _goalCtrl.text,
-//                          unit: _unitCtrl.text,
-//                        );
                         },
                       ),
                     ),

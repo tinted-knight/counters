@@ -1,6 +1,7 @@
 import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/storage/interface.dart';
+
 import '../bloc/helper_functions.dart';
 
 class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
@@ -45,8 +46,15 @@ class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
   }
 
   Future<bool> _needResetCounters() async {
-    final time = await storage.getTime();
-    return time.add(Duration(days: 1)).day == DateTime.now().day;
+    //todo Corner case: New Year Day
+    final dbTime = await storage.getTime();
+    final today = DateTime.now();
+    final helper = DateTime(today.year, 1, 1, 0, 0);
+
+    final dbDayOfYear = dbTime.difference(helper).inDays;
+    final todayDayOfYear = today.difference(helper).inDays;
+
+    return (todayDayOfYear - dbDayOfYear) >= 1;
   }
 
   Future<List<CounterItem>> _resetCounters(List<CounterItem> counters) async {
