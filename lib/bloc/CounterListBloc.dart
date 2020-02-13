@@ -5,7 +5,7 @@ import 'package:counter/model/storage/interface.dart';
 import '../bloc/helper_functions.dart';
 
 class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
-  CounterListBloc(this.storage) {
+  CounterListBloc(this.storage) : super(initialState: CounterListStates._empty()) {
     _loadCounters();
   }
 

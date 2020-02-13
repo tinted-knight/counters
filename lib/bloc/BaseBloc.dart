@@ -32,7 +32,7 @@ abstract class BaseBlocWithStates<States> extends BlocBase<States> {
 }
 
 abstract class BaseBlocWithActions<State, Action> extends BaseBlocWithStates<State> {
-  BaseBlocWithActions() {
+  BaseBlocWithActions({State initialState}) : super(initialState: initialState) {
     actionsController.stream.listen(handleAction);
   }
 
@@ -58,7 +58,7 @@ class BlocProvider<T extends BlocBase> extends StatefulWidget {
     @required this.child,
     @required this.blocBuilder,
     this.blocDispose,
-  }): super(key: key);
+  }) : super(key: key);
 
   final Widget child;
   final BlocBuilder<T> blocBuilder;
@@ -67,15 +67,15 @@ class BlocProvider<T extends BlocBase> extends StatefulWidget {
   @override
   _BlocProviderState<T> createState() => _BlocProviderState<T>();
 
-  static T of<T extends BlocBase>(BuildContext context){
-    _BlocProviderInherited<T> provider = context.getElementForInheritedWidgetOfExactType<_BlocProviderInherited<T>>()?.widget;
+  static T of<T extends BlocBase>(BuildContext context) {
+    _BlocProviderInherited<T> provider =
+        context.getElementForInheritedWidgetOfExactType<_BlocProviderInherited<T>>()?.widget;
 
     return provider?.bloc;
   }
 }
 
-class _BlocProviderState<T extends BlocBase> extends State<BlocProvider<T>>{
-
+class _BlocProviderState<T extends BlocBase> extends State<BlocProvider<T>> {
   T bloc;
 
   @override
@@ -85,8 +85,8 @@ class _BlocProviderState<T extends BlocBase> extends State<BlocProvider<T>>{
   }
 
   @override
-  void dispose(){
-    if (widget.blocDispose != null){
+  void dispose() {
+    if (widget.blocDispose != null) {
       widget.blocDispose(bloc);
     } else {
       bloc?.dispose();
@@ -95,7 +95,7 @@ class _BlocProviderState<T extends BlocBase> extends State<BlocProvider<T>>{
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return new _BlocProviderInherited<T>(
       bloc: bloc,
       child: widget.child,

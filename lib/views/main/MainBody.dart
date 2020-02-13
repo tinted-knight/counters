@@ -1,7 +1,8 @@
-import 'package:counter/bloc/AppBloc.dart';
 import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/bloc/CounterListBloc.dart';
 import 'package:counter/bloc/StreamBuilderNav.dart';
+import 'package:counter/bloc/app_bloc/AppBloc.dart';
+import 'package:counter/bloc/app_bloc/app_states.dart';
 import 'package:counter/views/details/screen_details.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,10 @@ class MainBody extends StatelessWidget {
             countersBloc.reloadCounters();
             _showMessage(context, "counter deleted");
           }
+          if (appState is StateCounterUpdated) {
+            countersBloc.reloadCounters();
+            _showMessage(context, "counter updated");
+          }
         },
         stream: appBloc.states,
         initialData: StateIdle(),
@@ -53,12 +58,6 @@ class MainBody extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(msg),
-            FlatButton(
-              child: Text("Undo"),
-              onPressed: () {
-                print('undo');
-              },
-            )
           ],
         ),
       ),

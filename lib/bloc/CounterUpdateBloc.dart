@@ -18,7 +18,7 @@ class CounterUpdateBloc extends BaseBlocWithStates<CounterUpdateStates> {
   }
 
   void btnCancelClick() {
-    pushState(CounterUpdateStates.doneEditing);
+    pushState(CounterUpdateStates.updated);
   }
 
   void btnSaveClick(
@@ -42,12 +42,14 @@ class CounterUpdateBloc extends BaseBlocWithStates<CounterUpdateStates> {
   }
 
   void _update(CounterItem counter) async {
+    print('updateBloc::_update');
     if (await storage.update(counter)) {
-      pushState(CounterUpdateStates.doneEditing);
+      print('updateBloc::storage.update');
+      pushState(CounterUpdateStates.updated);
     } else {
       pushState(CounterUpdateStates.error);
     }
   }
 }
 
-enum CounterUpdateStates { idle, inprogress, doneEditing, error, deleted }
+enum CounterUpdateStates { idle, inprogress, updated, error, deleted }

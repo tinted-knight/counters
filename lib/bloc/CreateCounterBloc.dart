@@ -5,8 +5,8 @@ import 'BaseBloc.dart';
 import 'helper_functions.dart';
 
 class CreateCounterBloc extends BaseBlocWithStates<CreateCounterState> {
-  CreateCounterBloc(this.storage) : super() {
-    pushState(CreateCounterState.idle);
+  CreateCounterBloc(this.storage) : super(initialState: CreateCounterState.idle) {
+//    pushState(CreateCounterState.idle);
   }
 
   final ILocalStorage storage;
