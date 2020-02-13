@@ -5,9 +5,7 @@ import 'BaseBloc.dart';
 import 'helper_functions.dart';
 
 class CreateCounterBloc extends BaseBlocWithStates<CreateCounterState> {
-  CreateCounterBloc(this.storage) : super(initialState: CreateCounterState.idle) {
-//    pushState(CreateCounterState.idle);
-  }
+  CreateCounterBloc(this.storage) : super(initialState: CreateCounterState.idle);
 
   final ILocalStorage storage;
 
@@ -34,19 +32,3 @@ class CreateCounterBloc extends BaseBlocWithStates<CreateCounterState> {
 }
 
 enum CreateCounterState { idle, inprogress, success, error }
-
-//class CreateCounterCommands {
-//  CreateCounterCommands();
-//
-//  factory CreateCounterCommands.create(CounterItem value) = CreateCounterCreate;
-//
-//  factory CreateCounterCommands.cancel() = CreateCounterCancel;
-//}
-//
-//class CreateCounterCancel extends CreateCounterCommands {}
-//
-//class CreateCounterCreate extends CreateCounterCommands {
-//  CreateCounterCreate(this.value);
-//
-//  final CounterItem value;
-//}

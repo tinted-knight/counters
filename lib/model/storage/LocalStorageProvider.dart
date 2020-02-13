@@ -60,6 +60,14 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
   }
 
   @override
+  Future<List<HistoryModel>> getHistoryFor({CounterItem counter}) async {
+    final database = await connection();
+    final raw =
+        await database.query(tableHistory, where: "$colCounterId = ?", whereArgs: [counter.id]);
+    return raw.map((item) => HistoryModel.fromMap(item)).toList();
+  }
+
+  @override
   Future<DateTime> getTime() async {
     final database = await connection();
     final raw = await database.query(tableTime);

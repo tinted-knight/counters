@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 const _kTextLabelBg = Color(0xff212121);
 
 class TextLabel extends StatelessWidget {
-  const TextLabel(this.title, {Key key}) : super(key: key);
+  const TextLabel(this.title, {Key key, this.centered = false}) : super(key: key);
 
   final String title;
+  final bool centered;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,7 @@ class TextLabel extends StatelessWidget {
       padding: EdgeInsets.all(16.0),
       child: Text(
         title,
+        textAlign: centered ? TextAlign.center : TextAlign.start,
         style: TextStyle().copyWith(
           color: Colors.white,
         ),

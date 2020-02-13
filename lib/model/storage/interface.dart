@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:counter/model/HistoryModel.dart';
+
 abstract class ILocalStorage<CounterItem> {
   Future<bool> add(CounterItem item);
 
@@ -10,6 +12,8 @@ abstract class ILocalStorage<CounterItem> {
   Future<bool> delete(CounterItem item);
 
   Future<bool> updateHistory(CounterItem item, String timestamp);
+
+  Future<List<HistoryModel>> getHistoryFor({CounterItem counter});
 
   Future<DateTime> getTime();
 

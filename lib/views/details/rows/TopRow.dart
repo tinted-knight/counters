@@ -27,7 +27,7 @@ class TopRow extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              ExpandedLeft(child: TextLabel("Today")),
+              ExpandedLeft(child: TextLabel("Today", centered: true)),
               ExpandedLeft(
                   child: ColoredTextField(
                 controller: controller,

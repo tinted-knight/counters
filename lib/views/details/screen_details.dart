@@ -5,8 +5,10 @@ import 'package:counter/bloc/app_bloc/AppBloc.dart';
 import 'package:counter/bloc/app_bloc/app_actions.dart';
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
+import 'package:counter/model/HistoryModel.dart';
 import 'package:counter/views/details/rows/ButtonRow.dart';
 import 'package:counter/views/details/rows/GoalRow.dart';
+import 'package:counter/views/history/history_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'rows/ButtonRow.dart';
@@ -66,7 +68,6 @@ class _ScreenDetailsState extends State<ScreenDetails> {
 
   @override
   Widget build(BuildContext context) {
-    print('screen_details::build');
     return Scaffold(
       appBar: _appBar(),
       body: _body(),
@@ -103,7 +104,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
                     RedirectStreamBuilder(
                       listener: _navigationListener,
                       stream: bloc.states,
-                      initialData: CounterUpdateStates.idle,
+                      initialData: CounterDetailsState.idle(),
                       builder: _buildButtonRow,
                     ),
                   ],
@@ -116,58 +117,67 @@ class _ScreenDetailsState extends State<ScreenDetails> {
     );
   }
 
-  void _navigationListener(CounterUpdateStates state) {
-    if (state == CounterUpdateStates.updated) {
+  void _navigationListener(CounterDetailsState state) {
+    print('_navigationListener');
+    if (state is StateUpdated) {
       Navigator.of(context).pop();
       appBloc.fire(action: AppActions.counterUpdated());
       return;
     }
-    if (state == CounterUpdateStates.deleted) {
+    if (state is StateDeleted) {
       Navigator.of(context).pop();
       appBloc.fire(action: AppActions.counterDeleted());
       return;
     }
+    if (state is StateHistory) {
+      Navigator.of(context).pushNamed(ScreenHistory.route, arguments: counter);
+      return;
+    }
   }
 
-  Widget _buildButtonRow(BuildContext context, AsyncSnapshot<CounterUpdateStates> snapshot) {
-    print('screen_details::_buildButtonRow');
-    if (snapshot.data == CounterUpdateStates.idle) {
+  Widget _buildButtonRow(BuildContext context, AsyncSnapshot<CounterDetailsState> snapshot) {
+    print('_buildButtonRow');
+    if (snapshot.data is StateIdle) {
       return Expanded(child: ButtonRow(
         onClick: (type) {
           switch (type) {
             case ButtonType.delete:
-              bloc.btnDeleteClick(counter);
+              bloc.btnHistoryClick(counter);
               break;
             case ButtonType.cancel:
               bloc.btnCancelClick();
               break;
             case ButtonType.save:
-              bloc.btnSaveClick(
-                counter,
-                title: _titleCtrl.text,
-                value: _valueCtrl.text,
-                step: _stepCtrl.text,
-                goal: _goalCtrl.text,
-                unit: _unitCtrl.text,
-              );
+              _btnSaveClick();
               break;
           }
         },
       ));
     }
-    if (snapshot.data == CounterUpdateStates.inprogress) {
+    if (snapshot.data is StateInprogress) {
       return CircularProgressIndicator();
     }
-    if (snapshot.data == CounterUpdateStates.error) {
+    if (snapshot.data is StateError) {
       //todo
     }
-    if (snapshot.data == CounterUpdateStates.updated) {
+    if (snapshot.data is StateUpdated) {
       return Expanded(child: Center(child: Text("")));
     }
-    if (snapshot.data == CounterUpdateStates.deleted) {
+    if (snapshot.data is StateDeleted) {
       return Expanded(child: Center(child: Text("")));
     }
     return Expanded(child: Center(child: Text("")));
+  }
+
+  void _btnSaveClick() {
+    bloc.btnSaveClick(
+      counter,
+      title: _titleCtrl.text,
+      value: _valueCtrl.text,
+      step: _stepCtrl.text,
+      goal: _goalCtrl.text,
+      unit: _unitCtrl.text,
+    );
   }
 
   AppBar _appBar() {
@@ -191,7 +201,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
         ),
         IconButton(
           icon: Icon(Icons.save, semanticLabel: "Save"),
-          onPressed: () {},
+          onPressed: _btnSaveClick,
         ),
       ],
     );

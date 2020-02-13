@@ -53,7 +53,7 @@ class DbProvider {
             ")");
         await db.insert(tableCounters, {
           "title": "Aquadetrim",
-          "value": "2000",
+          "value": "1000",
           "goal": "4000",
           "step": "500",
           "unit": "ME",

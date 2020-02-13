@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.autorenew),
-                onPressed: () => onPressed,
+                onPressed: onPressed,
               ),
               IconButton(
                 icon: Icon(Icons.help_outline, semanticLabel: "Quick help"),

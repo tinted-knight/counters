@@ -16,6 +16,7 @@ class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
   void reloadCounters() => _loadCounters();
 
   void resetCounters() async {
+    print('resetCounters');
     pushState(CounterListStates._loading());
     final reseted = await _resetCounters(_counters);
     _counters = reseted;
