@@ -115,3 +115,9 @@ class StateValues extends CounterListStates {
 extension FlushCounter on CounterItem {
   CounterItem get flush => this.copyWith(value: 0);
 }
+
+extension Printable on List<CounterItem> {
+  void debugPrint() {
+    this.forEach((element) => print("${element.title} : ${element.value}"));
+  }
+}

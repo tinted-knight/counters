@@ -118,7 +118,6 @@ class _ScreenDetailsState extends State<ScreenDetails> {
   }
 
   void _navigationListener(CounterDetailsState state) {
-    print('_navigationListener');
     if (state is StateUpdated) {
       Navigator.of(context).pop();
       appBloc.fire(action: AppActions.counterUpdated());
@@ -136,7 +135,6 @@ class _ScreenDetailsState extends State<ScreenDetails> {
   }
 
   Widget _buildButtonRow(BuildContext context, AsyncSnapshot<CounterDetailsState> snapshot) {
-    print('_buildButtonRow');
     if (snapshot.data is StateIdle) {
       return Expanded(child: ButtonRow(
         onClick: (type) {
