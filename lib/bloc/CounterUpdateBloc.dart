@@ -23,7 +23,7 @@ class CounterUpdateBloc extends BaseBlocWithStates<CounterDetailsState> {
   }
 
   void btnCancelClick() {
-    pushState(CounterDetailsState.updated());
+    pushState(CounterDetailsState.canceled());
   }
 
   void btnSaveClick(
@@ -68,6 +68,8 @@ class CounterDetailsState {
 
   factory CounterDetailsState.updated() = StateUpdated;
 
+  factory CounterDetailsState.canceled() = StateCanceled;
+
   factory CounterDetailsState.deleted() = StateDeleted;
 
   factory CounterDetailsState.history() = StateHistory;
@@ -80,6 +82,8 @@ class StateError extends CounterDetailsState {}
 class StateInprogress extends CounterDetailsState {}
 
 class StateUpdated extends CounterDetailsState {}
+
+class StateCanceled extends CounterDetailsState {}
 
 class StateDeleted extends CounterDetailsState {}
 

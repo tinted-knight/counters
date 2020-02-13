@@ -123,6 +123,10 @@ class _ScreenDetailsState extends State<ScreenDetails> {
       appBloc.fire(action: AppActions.counterUpdated());
       return;
     }
+    if (state is StateCanceled) {
+      Navigator.of(context).pop();
+      return;
+    }
     if (state is StateDeleted) {
       Navigator.of(context).pop();
       appBloc.fire(action: AppActions.counterDeleted());
@@ -135,7 +139,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
   }
 
   Widget _buildButtonRow(BuildContext context, AsyncSnapshot<CounterDetailsState> snapshot) {
-    if (snapshot.data is StateIdle) {
+    if (snapshot.data is StateIdle || snapshot.data is StateHistory) {
       return Expanded(child: ButtonRow(
         onClick: (type) {
           switch (type) {
