@@ -1,12 +1,12 @@
 import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/model/CounterModel.dart';
-import 'package:counter/model/HistoryModel.dart';
 import 'package:counter/model/storage/interface.dart';
 
-import 'helper_functions.dart';
+import '../helper_functions.dart';
+import 'counter_details_state.dart';
 
-class CounterUpdateBloc extends BaseBlocWithStates<CounterDetailsState> {
-  CounterUpdateBloc(this.storage) : super(initialState: CounterDetailsState.idle());
+class CounterDetailsBloc extends BaseBlocWithStates<CounterDetailsState> {
+  CounterDetailsBloc(this.storage) : super(initialState: CounterDetailsState.idle());
 
   final ILocalStorage storage;
 
@@ -56,35 +56,3 @@ class CounterUpdateBloc extends BaseBlocWithStates<CounterDetailsState> {
     }
   }
 }
-
-class CounterDetailsState {
-  CounterDetailsState();
-
-  factory CounterDetailsState.idle() = StateIdle;
-
-  factory CounterDetailsState.error() = StateError;
-
-  factory CounterDetailsState.inprogress() = StateInprogress;
-
-  factory CounterDetailsState.updated() = StateUpdated;
-
-  factory CounterDetailsState.canceled() = StateCanceled;
-
-  factory CounterDetailsState.deleted() = StateDeleted;
-
-  factory CounterDetailsState.history() = StateHistory;
-}
-
-class StateIdle extends CounterDetailsState {}
-
-class StateError extends CounterDetailsState {}
-
-class StateInprogress extends CounterDetailsState {}
-
-class StateUpdated extends CounterDetailsState {}
-
-class StateCanceled extends CounterDetailsState {}
-
-class StateDeleted extends CounterDetailsState {}
-
-class StateHistory extends CounterDetailsState {}

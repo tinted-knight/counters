@@ -1,8 +1,9 @@
 import 'package:counter/bloc/BaseBloc.dart';
-import 'package:counter/bloc/CounterUpdateBloc.dart';
+import 'package:counter/bloc/counter_details_bloc/CounterUpdateBloc.dart';
 import 'package:counter/bloc/StreamBuilderNav.dart';
 import 'package:counter/bloc/app_bloc/AppBloc.dart';
 import 'package:counter/bloc/app_bloc/app_actions.dart';
+import 'package:counter/bloc/counter_details_bloc/counter_details_state.dart';
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/HistoryModel.dart';
@@ -32,7 +33,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
   final _unitCtrl = TextEditingController();
   final _titleCtrl = TextEditingController();
 
-  CounterUpdateBloc bloc;
+  CounterDetailsBloc bloc;
   AppBloc appBloc;
   CounterItem counter;
 
@@ -40,7 +41,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
   void initState() {
     super.initState();
 
-    bloc = BlocProvider.of<CounterUpdateBloc>(context);
+    bloc = BlocProvider.of<CounterDetailsBloc>(context);
     appBloc = BlocProvider.of<AppBloc>(context);
   }
 
@@ -63,6 +64,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
     _stepCtrl.dispose();
     _goalCtrl.dispose();
     _unitCtrl.dispose();
+    _titleCtrl.dispose();
     super.dispose();
   }
 
@@ -118,33 +120,33 @@ class _ScreenDetailsState extends State<ScreenDetails> {
   }
 
   void _navigationListener(CounterDetailsState state) {
-    if (state is StateUpdated) {
+    if (state is DetailsStateUpdated) {
       Navigator.of(context).pop();
       appBloc.fire(action: AppActions.counterUpdated());
       return;
     }
-    if (state is StateCanceled) {
+    if (state is DetailsStateCanceled) {
       Navigator.of(context).pop();
       return;
     }
-    if (state is StateDeleted) {
+    if (state is DetailsStateDeleted) {
       Navigator.of(context).pop();
       appBloc.fire(action: AppActions.counterDeleted());
       return;
     }
-    if (state is StateHistory) {
+    if (state is DetailsStateHistory) {
       Navigator.of(context).pushNamed(ScreenHistory.route, arguments: counter);
       return;
     }
   }
 
   Widget _buildButtonRow(BuildContext context, AsyncSnapshot<CounterDetailsState> snapshot) {
-    if (snapshot.data is StateIdle || snapshot.data is StateHistory) {
+    if (snapshot.data is DetailsStateIdle || snapshot.data is DetailsStateHistory) {
       return Expanded(child: ButtonRow(
         onClick: (type) {
           switch (type) {
-            case ButtonType.delete:
-              bloc.btnHistoryClick(counter);
+            case ButtonType.stats:
+              _btnShowHistoryClick();
               break;
             case ButtonType.cancel:
               bloc.btnCancelClick();
@@ -156,20 +158,22 @@ class _ScreenDetailsState extends State<ScreenDetails> {
         },
       ));
     }
-    if (snapshot.data is StateInprogress) {
+    if (snapshot.data is DetailsStateInprogress) {
       return CircularProgressIndicator();
     }
-    if (snapshot.data is StateError) {
+    if (snapshot.data is DetailsStateError) {
       //todo
     }
-    if (snapshot.data is StateUpdated) {
+    if (snapshot.data is DetailsStateUpdated) {
       return Expanded(child: Center(child: Text("")));
     }
-    if (snapshot.data is StateDeleted) {
+    if (snapshot.data is DetailsStateDeleted) {
       return Expanded(child: Center(child: Text("")));
     }
     return Expanded(child: Center(child: Text("")));
   }
+
+  void _btnShowHistoryClick() => bloc.btnHistoryClick(counter);
 
   void _btnSaveClick() {
     bloc.btnSaveClick(
@@ -198,8 +202,8 @@ class _ScreenDetailsState extends State<ScreenDetails> {
           },
         ),
         IconButton(
-          icon: Icon(Icons.help_outline, semanticLabel: "Help"),
-          onPressed: () {},
+          icon: Icon(Icons.show_chart, semanticLabel: "Help"),
+          onPressed: _btnShowHistoryClick,
         ),
         IconButton(
           icon: Icon(Icons.save, semanticLabel: "Save"),

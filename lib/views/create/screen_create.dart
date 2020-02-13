@@ -1,8 +1,9 @@
 import 'package:counter/bloc/BaseBloc.dart';
-import 'package:counter/bloc/CreateCounterBloc.dart';
+import 'package:counter/bloc/create_counter_bloc/CreateCounterBloc.dart';
 import 'package:counter/bloc/StreamBuilderNav.dart';
 import 'package:counter/bloc/app_bloc/AppBloc.dart';
 import 'package:counter/bloc/app_bloc/app_actions.dart';
+import 'package:counter/bloc/create_counter_bloc/create_counter_state.dart';
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/views/create/rows/ButtonRow.dart';
 import 'package:counter/views/create/rows/PropertyRow.dart';

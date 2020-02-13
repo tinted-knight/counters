@@ -1,8 +1,8 @@
-import 'package:counter/bloc/HistoryBloc.dart';
+import 'package:counter/bloc/history_bloc/HistoryBloc.dart';
 import 'package:counter/bloc/app_bloc/AppBloc.dart';
 import 'package:counter/bloc/BaseBloc.dart';
-import 'package:counter/bloc/CounterUpdateBloc.dart';
-import 'package:counter/bloc/CreateCounterBloc.dart';
+import 'package:counter/bloc/counter_details_bloc/CounterUpdateBloc.dart';
+import 'package:counter/bloc/create_counter_bloc/CreateCounterBloc.dart';
 import 'package:counter/theme/dark_theme.dart';
 import 'package:counter/views/create/screen_create.dart';
 import 'package:counter/views/details/screen_details.dart';
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
               storage: storage,
             ),
         ScreenDetails.route: (context) => BlocProvider(
-              blocBuilder: () => CounterUpdateBloc(storage),
+              blocBuilder: () => CounterDetailsBloc(storage),
               child: ScreenDetails(),
             ),
         ScreenCreate.route: (context) => BlocProvider<CreateCounterBloc>(

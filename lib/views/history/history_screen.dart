@@ -1,6 +1,7 @@
 import 'package:counter/bloc/BaseBloc.dart';
-import 'package:counter/bloc/HistoryBloc.dart';
 import 'package:counter/bloc/bloc_state_builder.dart';
+import 'package:counter/bloc/history_bloc/HistoryBloc.dart';
+import 'package:counter/bloc/history_bloc/history_bloc_states.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:flutter/material.dart';
 

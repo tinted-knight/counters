@@ -1,5 +1,6 @@
 import 'package:counter/bloc/BaseBloc.dart';
-import 'package:counter/bloc/CounterListBloc.dart';
+import 'package:counter/bloc/counter_list_bloc/CounterListBloc.dart';
+import 'package:counter/bloc/counter_list_bloc/counter_list_states.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:flutter/material.dart';
 
@@ -20,13 +21,13 @@ class Counters extends StatelessWidget {
 
     return StreamBuilder<CounterListStates>(
       stream: bloc.states,
-      initialData: StateLoading(),
+      initialData: CounterListStateLoading(),
       builder: (context, snapshot) {
-        if (snapshot.data is StateLoading) {
+        if (snapshot.data is CounterListStateLoading) {
           return CircularProgressIndicator();
         }
-        if (snapshot.data is StateValues) {
-          final state = snapshot.data as StateValues;
+        if (snapshot.data is CounterListStateValues) {
+          final state = snapshot.data as CounterListStateValues;
           //hack Color of waves when reach top or bottom of list
           return Theme(
             data: Theme.of(context).copyWith(
@@ -35,7 +36,7 @@ class Counters extends StatelessWidget {
             child: _renderValues(state.values, bloc),
           );
         }
-        if (snapshot.data is StateEmpty) {
+        if (snapshot.data is CounterListStateEmpty) {
           return _renderEmpty();
         }
         return _renderError();

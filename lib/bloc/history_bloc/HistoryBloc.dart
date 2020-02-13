@@ -1,7 +1,8 @@
 import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/model/CounterModel.dart';
-import 'package:counter/model/HistoryModel.dart';
 import 'package:counter/model/storage/interface.dart';
+
+import 'history_bloc_states.dart';
 
 class HistoryBloc extends BaseBlocWithStates<HistoryState> {
   HistoryBloc(this.storage) : super(initialState: HistoryState.loading());
@@ -17,24 +18,4 @@ class HistoryBloc extends BaseBlocWithStates<HistoryState> {
       pushState(HistoryState.error());
     }
   }
-}
-
-class HistoryState {
-  HistoryState();
-
-  factory HistoryState.loading() = HistoryStateLoading;
-
-  factory HistoryState.error() = HistoryStateError;
-
-  factory HistoryState.values(List<HistoryModel> value) = HistoryStateValues;
-}
-
-class HistoryStateLoading extends HistoryState {}
-
-class HistoryStateError extends HistoryState {}
-
-class HistoryStateValues extends HistoryState {
-  HistoryStateValues(this.value);
-
-  final List<HistoryModel> value;
 }

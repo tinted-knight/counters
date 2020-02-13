@@ -1,6 +1,6 @@
 import 'package:counter/bloc/app_bloc/AppBloc.dart';
 import 'package:counter/bloc/BaseBloc.dart';
-import 'package:counter/bloc/CounterListBloc.dart';
+import 'package:counter/bloc/counter_list_bloc/CounterListBloc.dart';
 import 'package:counter/model/storage/LocalStorageProvider.dart';
 import 'package:counter/views/create/screen_create.dart';
 import 'package:flutter/material.dart';

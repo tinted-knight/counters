@@ -1,8 +1,9 @@
 import 'package:counter/model/storage/interface.dart';
 
-import '../model/CounterModel.dart';
-import 'BaseBloc.dart';
-import 'helper_functions.dart';
+import '../../model/CounterModel.dart';
+import '../BaseBloc.dart';
+import '../helper_functions.dart';
+import 'create_counter_state.dart';
 
 class CreateCounterBloc extends BaseBlocWithStates<CreateCounterState> {
   CreateCounterBloc(this.storage) : super(initialState: CreateCounterState.idle);
@@ -30,5 +31,3 @@ class CreateCounterBloc extends BaseBlocWithStates<CreateCounterState> {
     //todo
   }
 }
-
-enum CreateCounterState { idle, inprogress, success, error }

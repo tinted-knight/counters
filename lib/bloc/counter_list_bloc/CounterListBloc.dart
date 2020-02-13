@@ -2,10 +2,11 @@ import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/storage/interface.dart';
 
-import '../bloc/helper_functions.dart';
+import '../helper_functions.dart';
+import 'counter_list_states.dart';
 
 class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
-  CounterListBloc(this.storage) : super(initialState: CounterListStates._empty()) {
+  CounterListBloc(this.storage) : super(initialState: CounterListStates.empty()) {
     _loadCounters();
   }
 
@@ -17,28 +18,28 @@ class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
 
   void resetCounters() async {
     print('resetCounters');
-    pushState(CounterListStates._loading());
+    pushState(CounterListStates.loading());
     final reseted = await _resetCounters(_counters);
     _counters = reseted;
-    pushState(CounterListStates._values(_counters));
+    pushState(CounterListStates.values(_counters));
   }
 
   void _loadCounters() async {
-    pushState(CounterListStates._loading());
+    pushState(CounterListStates.loading());
 //    // debug: fake delay
 //    await Future.delayed(Duration(seconds: 1));
     final values = await storage.getAll();
     if (values != null && values.isNotEmpty) {
       if (await _needResetCounters()) {
         _counters = await _resetCounters(values);
-        pushState(CounterListStates._values(_counters));
+        pushState(CounterListStates.values(_counters));
       } else {
         _counters = values;
-        pushState(CounterListStates._values(_counters));
+        pushState(CounterListStates.values(_counters));
       }
     } else {
       _counters.clear();
-      pushState(CounterListStates._empty());
+      pushState(CounterListStates.empty());
     }
   }
 
@@ -82,34 +83,6 @@ class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
       _loadCounters();
     }
   }
-}
-
-class CounterListStates {
-  CounterListStates();
-
-  factory CounterListStates._loading() = StateLoading;
-
-  factory CounterListStates._empty() = StateEmpty;
-
-  factory CounterListStates._values(List<CounterItem> values) = StateValues;
-
-  factory CounterListStates._didUpdated(List<CounterItem> values) = StateDidUpdated;
-}
-
-class StateLoading extends CounterListStates {}
-
-class StateEmpty extends CounterListStates {}
-
-class StateDidUpdated extends CounterListStates {
-  StateDidUpdated(this.values);
-
-  final List<CounterItem> values;
-}
-
-class StateValues extends CounterListStates {
-  StateValues(this.values);
-
-  final List<CounterItem> values;
 }
 
 extension FlushCounter on CounterItem {
