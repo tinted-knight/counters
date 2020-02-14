@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final countersBloc = CounterListBloc(widget.storage);
 
     return Scaffold(
-//      backgroundColor: Color(0xFFDFDDDD),
+//      backgroundColor: Color(0xFFF5F5F5),
       appBar: _appBar(countersBloc.resetCounters),
       body: BlocProvider(
         blocBuilder: () => countersBloc,

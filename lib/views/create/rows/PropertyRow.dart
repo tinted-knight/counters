@@ -67,7 +67,7 @@ class PropertyRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          ExpandedLeft(child: ColoredTextLabel.forLight(label)),
+          ExpandedLeft(child: TextLabel(label)),
           ExpandedRight(
             child: type != ValueType.color
                 ? ColoredTextField.forLight(

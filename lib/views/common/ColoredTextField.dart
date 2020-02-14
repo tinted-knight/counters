@@ -22,8 +22,7 @@ class ColoredTextField extends StatelessWidget {
     @required this.controller,
   }) : super(key: key);
 
-  ColoredTextField.forLight(
-      {String title = "", TextEditingController controller, bool onlyDigits})
+  ColoredTextField.forLight({String title = "", TextEditingController controller, bool onlyDigits})
       : this(
           title: title,
           decorationColor: _decorationColorForLight,
@@ -49,10 +48,7 @@ class ColoredTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: decorationColor ?? _decorationColorDefault,
-        borderRadius: BorderRadius.circular(8.0),
-      ),
+      decoration: _neumorphicInnerDecoration,
       child: TextField(
         keyboardType: onlyDigits ? TextInputType.number : TextInputType.text,
         controller: controller,
@@ -61,6 +57,23 @@ class ColoredTextField extends StatelessWidget {
       ),
     );
   }
+
+  BoxDecoration get _whiteDecoration => BoxDecoration(
+        color: decorationColor ?? _decorationColorDefault,
+        borderRadius: BorderRadius.circular(8.0),
+      );
+
+  BoxDecoration get _neumorphicInnerDecoration => BoxDecoration(
+        color: Colors.black.withOpacity(0.075),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white,
+            offset: Offset(2, 2),
+            blurRadius: 2,
+          ),
+        ],
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+      );
 
 ///////////////////////////////////////////////////////////////////////
   _testBorder() {

@@ -20,13 +20,9 @@ class ButtonRow extends StatelessWidget {
       children: <Widget>[
         Container(
           margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 4.0),
-          child: FlatButton(
-            child: Row(
-              children: <Widget>[
-                Icon(Icons.chevron_left, color: Colors.white),
-                Text("Cancel", style: TextStyle(color: Colors.white))
-              ],
-            ),
+          child: FlatButton.icon(
+            icon: Icon(Icons.chevron_left),
+            label: Text("Cancel"),
             onPressed: () => onClick(ButtonType.cancel),
 //            color: Colors.black,
           ),
@@ -34,17 +30,17 @@ class ButtonRow extends StatelessWidget {
         Container(
           margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 4.0),
           child: MaterialButton(
-            child: Text("Stats", style: TextStyle(color: Color(0xffffffff))),
+            child: Text("Stats"),
             onPressed: () => onClick(ButtonType.stats),
           ),
         ),
         Expanded(
           child: Container(
             margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 4.0),
-            child: MaterialButton(
+            child: RaisedButton(
+              colorBrightness: Brightness.dark,
               child: Text("Save"),
               onPressed: () => onClick(ButtonType.save),
-              color: Colors.white,
             ),
           ),
         ),

@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 
 import 'rows/ButtonRow.dart';
 import 'rows/StepRow.dart';
-import 'rows/TopRow.dart';
+import 'rows/top_row/TopRow.dart';
 import 'rows/UnitRow.dart';
 
 class ScreenDetails extends StatefulWidget {
@@ -72,9 +72,47 @@ class _ScreenDetailsState extends State<ScreenDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
-      body: _body(),
+      body: _bodyNoHero,
     );
   }
+
+  Widget get _bodyNoHero => LayoutBuilder(
+        builder: (ctx, viewport) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: viewport.maxHeight),
+            child: IntrinsicHeight(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SizedBox(
+                    child: TopRow(
+                      value: counter.value,
+                      goal: counter.goal,
+                      controller: _valueCtrl,
+                      upButtonTap: () {
+                        print('upButtonTap');
+                      },
+                      downButtonTap: () {
+                        print('downButtonTap');
+                      },
+                    ),
+                    height: 150.0,
+                  ),
+                  StepRow(controller: _stepCtrl),
+                  GoalRow(controller: _goalCtrl),
+                  UnitRow(controller: _unitCtrl),
+                  RedirectStreamBuilder(
+                    listener: _navigationListener,
+                    stream: bloc.states,
+                    initialData: CounterDetailsState.idle(),
+                    builder: _buildButtonRow,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
 
   Widget _body() {
     return LayoutBuilder(
@@ -96,10 +134,15 @@ class _ScreenDetailsState extends State<ScreenDetails> {
                         value: counter.value,
                         goal: counter.goal,
                         controller: _valueCtrl,
+                        upButtonTap: () {
+                          print('upButtonTap');
+                        },
+                        downButtonTap: () {
+                          print('downButtonTap');
+                        },
                       ),
-                      height: 120.0,
+                      height: 150.0,
                     ),
-                    SizedBox(height: 42.0),
                     StepRow(controller: _stepCtrl),
                     GoalRow(controller: _goalCtrl),
                     UnitRow(controller: _unitCtrl),
@@ -142,21 +185,30 @@ class _ScreenDetailsState extends State<ScreenDetails> {
 
   Widget _buildButtonRow(BuildContext context, AsyncSnapshot<CounterDetailsState> snapshot) {
     if (snapshot.data is DetailsStateIdle || snapshot.data is DetailsStateHistory) {
-      return Expanded(child: ButtonRow(
-        onClick: (type) {
-          switch (type) {
-            case ButtonType.stats:
-              _btnShowHistoryClick();
-              break;
-            case ButtonType.cancel:
-              bloc.btnCancelClick();
-              break;
-            case ButtonType.save:
-              _btnSaveClick();
-              break;
-          }
-        },
-      ));
+      return Expanded(
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            buttonTheme: Theme.of(context).buttonTheme.copyWith(
+                  buttonColor: ColorPalette.bgColor(counter.colorIndex),
+                ),
+          ),
+          child: ButtonRow(
+            onClick: (type) {
+              switch (type) {
+                case ButtonType.stats:
+                  _btnShowHistoryClick();
+                  break;
+                case ButtonType.cancel:
+                  bloc.btnCancelClick();
+                  break;
+                case ButtonType.save:
+                  _btnSaveClick();
+                  break;
+              }
+            },
+          ),
+        ),
+      );
     }
     if (snapshot.data is DetailsStateInprogress) {
       return CircularProgressIndicator();
