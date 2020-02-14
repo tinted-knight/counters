@@ -74,11 +74,18 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
     return DateTime.fromMillisecondsSinceEpoch(raw[0]["time"]);
   }
 
-  @override
-  Future<bool> updateTime(int time) async {
+  Future<int> _getRawTime() async {
     final database = await connection();
+    final raw = await database.query(tableTime);
+    return raw[0]["time"];
+  }
+
+  @override
+  Future<int> updateTime(int time) async {
+    final database = await connection();
+    final prevTime = await _getRawTime();
     await database.delete(tableTime);
     final updated = await database.insert(tableTime, {"time": time});
-    return updated > 0;
+    return prevTime;
   }
 }

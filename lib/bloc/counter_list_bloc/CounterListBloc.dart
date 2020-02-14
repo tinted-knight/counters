@@ -60,19 +60,18 @@ class CounterListBloc extends BaseBlocWithStates<CounterListStates> {
   }
 
   Future<List<CounterItem>> _resetCounters(List<CounterItem> counters) async {
-    await _updateTime();
-    await _saveToHistory(counters);
+    final timeToSave = await _updateTime();
+    await _saveToHistory(counters, timeToSave);
     final resetedCounters = counters.map((counter) => counter.flush).toList();
     await _saveUpdated(resetedCounters);
     return resetedCounters;
   }
 
-  Future<void> _saveToHistory(List<CounterItem> counters) async {
-    final now = DateTime.now().millisecondsSinceEpoch.toString();
-    counters.forEach((counter) async => await storage.updateHistory(counter, now));
+  Future<void> _saveToHistory(List<CounterItem> counters, int time) async {
+    counters.forEach((counter) async => await storage.updateHistory(counter, time.toString()));
   }
 
-  Future<bool> _updateTime() async {
+  Future<int> _updateTime() async {
     final now = DateTime.now().millisecondsSinceEpoch;
     return await storage.updateTime(now);
   }
