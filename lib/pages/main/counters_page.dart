@@ -36,7 +36,10 @@ class CountersPage extends StatelessWidget {
             itemCount: state.counters.length,
             itemBuilder: (context, index) {
               return ColoredSwipeable(
-                onTap: () => navBloc.detailsOf(state.counters[index]),
+                onTap: () {
+                  print('item onTap: ${state.counters[index].id}');
+                  navBloc.detailsOf(state.counters[index].id);
+                },
                 onSwiped: null,
                 child: Column(
                   children: <Widget>[

@@ -3,7 +3,6 @@ import 'package:counter/bloc/app_bloc/AppBloc.dart';
 import 'package:counter/bloc/create_counter_bloc/CreateCounterBloc.dart';
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/history_bloc/HistoryBloc.dart';
-import 'package:counter/pages/details/counter_bloc.dart';
 import 'package:counter/pages/details/details_page.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/theme/dark_theme.dart';
@@ -43,11 +42,7 @@ class MyApp extends StatelessWidget {
           initialRoute: HomeScreen.route,
           routes: {
             CountersPage.route: (context) => CountersPage(title: 'YCounters'),
-//            ScreenDetails.route: (context) => DetailsPage(),
-            ScreenDetails.route: (context) => BlocProvider(
-                  blocBuilder: () => SingleCounterBloc(repo: storage),
-                  child: DetailsPage(),
-                ),
+            ScreenDetails.route: (context) => DetailsPage(),
             ScreenCreate.route: (context) => BlocProvider<CreateCounterBloc>(
                   blocBuilder: () => CreateCounterBloc(storage),
                   child: ScreenCreate(),

@@ -2,19 +2,22 @@ import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:counter/model/CounterModel.dart';
 
 class CountersEvent extends BlocEvent {
-  CountersEvent(this.type, {this.counterItem}) : assert(type != null);
+  CountersEvent(this.type, {this.counters}) : assert(type != null);
 
   final CountersEventType type;
-  final CounterItem counterItem;
+  final List<CounterItem> counters;
 
   factory CountersEvent.start() => CountersEvent(CountersEventType.start);
 
-  factory CountersEvent.initialized() => CountersEvent(CountersEventType.initialized);
+  factory CountersEvent.loaded(List<CounterItem> items) => CountersEvent(
+        CountersEventType.loaded,
+        counters: items,
+      );
 
-  factory CountersEvent.updated(CounterItem item) => CountersEvent(
+  factory CountersEvent.updated(List<CounterItem> items) => CountersEvent(
         CountersEventType.updated,
-        counterItem: item,
+        counters: items,
       );
 }
 
-enum CountersEventType { start, initialized, updated }
+enum CountersEventType { start, loaded, updated }

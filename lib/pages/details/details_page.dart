@@ -3,9 +3,8 @@ import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
-import 'package:counter/pages/details/counter_bloc.dart';
-import 'package:counter/pages/details/counter_state.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
+import 'package:counter/pages/main/counters_state.dart';
 import 'package:counter/views/details/rows/ButtonRow.dart';
 import 'package:counter/views/details/rows/GoalRow.dart';
 import 'package:counter/views/details/rows/StepRow.dart';
@@ -23,45 +22,41 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  SingleCounterBloc singleBloc;
   CountersBloc countersBloc;
-  CounterItem counter;
+  int index;
   NavigatorBloc navBloc;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if (counter == null) counter = ModalRoute.of(context).settings.arguments;
-    if (singleBloc == null) singleBloc = BlocProvider.of<SingleCounterBloc>(context);
+    if (index == null) index = ModalRoute.of(context).settings.arguments;
     if (countersBloc == null) countersBloc = BlocProvider.of<CountersBloc>(context);
     if (navBloc == null) navBloc = BlocProvider.of<NavigatorBloc>(context);
 
-    singleBloc.load(counter);
+//    singleBloc.load(counter);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocStreamBuilder<SingleCounterState>(
+    return BlocStreamBuilder<CounterState>(
       stateListener: (state) {
-        if (state.hasSaved) {
-          countersBloc.saved(singleBloc.counter);
-          navBloc.pop();
-        }
+        if (state.isUpdated) navBloc.pop();
       },
-      bloc: singleBloc,
+      bloc: countersBloc,
       builder: (context, state) {
-        if (state.isLoading) return Scaffold(body: Center(child: CircularProgressIndicator()));
+        if (state.isLoading) {
+          return Scaffold(body: Center(child: CircularProgressIndicator()));
+        }
+        if (state.isUpdated) {
+          return Scaffold(body: Center(child: Text("updated")));
+        }
 
-        if (state.isSaving) return Scaffold(body: Center(child: Text("saving...")));
-
-        if (state.hasSaved) return Scaffold(body: Center(child: Text("tadaaaaaa")));
-
-        if (state.validationError) return Scaffold(body: Center(child: Text("validation error")));
-
+        final counter = state.counters.firstWhere((item) => item.id == index);
+        countersBloc.populateControllers(counter);
         return Scaffold(
-          appBar: _appBar(state.counter.colorIndex),
-          body: _body(state.counter),
+          appBar: _appBar(counter.colorIndex),
+          body: _body(counter),
         );
       },
     );
@@ -79,7 +74,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     child: TopRow(
                       value: counter.value,
                       goal: counter.goal,
-                      controller: singleBloc.valueCtrl,
+                      controller: countersBloc.valueCtrl,
                       upButtonTap: () {
                         print('upButtonTap');
                       },
@@ -89,9 +84,9 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                     height: 150.0,
                   ),
-                  StepRow(controller: singleBloc.stepCtrl),
-                  GoalRow(controller: singleBloc.goalCtrl),
-                  UnitRow(controller: singleBloc.unitCtrl),
+                  StepRow(controller: countersBloc.stepCtrl),
+                  GoalRow(controller: countersBloc.goalCtrl),
+                  UnitRow(controller: countersBloc.unitCtrl),
                   Expanded(
                     child: Theme(
                       data: Theme.of(context).copyWith(
@@ -127,14 +122,16 @@ class _DetailsPageState extends State<DetailsPage> {
 //    return counterBloc.btnHistoryClick(counter);
   }
 
-  void _btnSaveClick() => singleBloc.save();
+  void _btnSaveClick() => countersBloc.update(index);
+
+//  void _btnSaveClick() => singleBloc.save();
 
   AppBar _appBar(int colorInt) {
     return AppBar(
       backgroundColor: ColorPalette.bgColor(colorInt),
       elevation: 0.0,
       title: TextField(
-        controller: singleBloc.titleCtrl,
+        controller: countersBloc.titleCtrl,
         style: TextStyle(color: Color(0xFFFFFFFF)),
       ),
       actions: <Widget>[

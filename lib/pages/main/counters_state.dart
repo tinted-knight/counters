@@ -7,15 +7,15 @@ class CounterState extends BlocState {
     this.isLoading = false,
     this.hasFailed = false,
     @required this.isLoaded,
+    this.isUpdated = false,
     this.counters,
-    this.details,
   });
 
   final bool isLoading;
   final bool hasFailed;
   final bool isLoaded;
+  final bool isUpdated;
   final List<CounterItem> counters;
-  final int details;
 
   factory CounterState.init() => CounterState(isLoaded: false);
 
@@ -29,11 +29,17 @@ class CounterState extends BlocState {
         counters: counters,
       );
 
+  factory CounterState.updated(List<CounterItem> counters) => CounterState(
+        isLoading: false,
+        isLoaded: true,
+        isUpdated: true,
+        counters: counters,
+      );
+
   CounterState copyWith({int details}) => CounterState(
         isLoaded: this.isLoaded,
         isLoading: this.isLoading,
         hasFailed: this.hasFailed,
         counters: this.counters,
-        details: details,
       );
 }
