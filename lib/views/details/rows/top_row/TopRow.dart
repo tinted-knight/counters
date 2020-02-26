@@ -13,6 +13,7 @@ class TopRow extends StatelessWidget {
     this.controller,
     this.upButtonTap,
     this.downButtonTap,
+    this.hasError = false,
   }) : super(key: key);
 
   final int value;
@@ -20,6 +21,7 @@ class TopRow extends StatelessWidget {
   final TextEditingController controller;
   final Function upButtonTap;
   final Function downButtonTap;
+  final bool hasError;
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +37,12 @@ class TopRow extends StatelessWidget {
             children: <Widget>[
               ExpandedLeft(child: TextLabel("Today", centered: true)),
               ExpandedLeft(
-                  child: ColoredTextField(
-                controller: controller,
-                onlyDigits: true,
-              )),
+                child: ColoredTextField(
+                  controller: controller,
+                  onlyDigits: true,
+                  textColor: hasError ? Colors.red : null,
+                ),
+              ),
               UpDownArrows(upButtonTap: upButtonTap, downButtonTap: downButtonTap),
             ],
           ),

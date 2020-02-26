@@ -4,16 +4,15 @@ import 'package:counter/bloc/create_counter_bloc/CreateCounterBloc.dart';
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/history_bloc/HistoryBloc.dart';
 import 'package:counter/pages/details/details_page.dart';
+import 'package:counter/pages/details/single_bloc.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/theme/dark_theme.dart';
 import 'package:counter/views/create/screen_create.dart';
-import 'package:counter/views/details/screen_details.dart';
 import 'package:counter/views/history/history_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'model/storage/LocalStorageProvider.dart';
 import 'pages/main/counters_page.dart';
-import 'views/main/screen_main.dart';
 
 final appBloc = AppBloc();
 
@@ -39,10 +38,13 @@ class MyApp extends StatelessWidget {
           navigatorKey: _navigatorKey,
           title: 'Counters',
           theme: themeLight,
-          initialRoute: HomeScreen.route,
+          initialRoute: CountersPage.route,
           routes: {
             CountersPage.route: (context) => CountersPage(title: 'YCounters'),
-            ScreenDetails.route: (context) => DetailsPage(),
+            DetailsPage.route: (context) => BlocProvider<SingleBloc>(
+                  blocBuilder: () => SingleBloc(repo: storage),
+                  child: DetailsPage(),
+                ),
             ScreenCreate.route: (context) => BlocProvider<CreateCounterBloc>(
                   blocBuilder: () => CreateCounterBloc(storage),
                   child: ScreenCreate(),

@@ -8,9 +8,11 @@ class GoalRow extends StatelessWidget {
   const GoalRow({
     Key key,
     this.controller,
+    this.hasError = false,
   }) : super(key: key);
 
   final TextEditingController controller;
+  final bool hasError;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +22,12 @@ class GoalRow extends StatelessWidget {
       children: <Widget>[
         ExpandedLeft(child: TextLabel("Goal")),
         ExpandedRight(
-            child: ColoredTextField(
-          controller: controller,
-          onlyDigits: true,
-        )),
+          child: ColoredTextField(
+            controller: controller,
+            onlyDigits: true,
+            textColor: hasError ? Colors.red : null,
+          ),
+        ),
       ],
     );
   }

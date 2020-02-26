@@ -36,7 +36,7 @@ class CounterState extends BlocState {
         counters: counters,
       );
 
-  CounterState copyWith({int details}) => CounterState(
+  CounterState copyWith() => CounterState(
         isLoaded: this.isLoaded,
         isLoading: this.isLoading,
         hasFailed: this.hasFailed,

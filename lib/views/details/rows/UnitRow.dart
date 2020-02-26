@@ -18,7 +18,9 @@ class UnitRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         ExpandedLeft(child: TextLabel("Unit")),
-        ExpandedRight(child: ColoredTextField(controller: controller)),
+        ExpandedRight(
+          child: ColoredTextField(controller: controller),
+        ),
       ],
     );
   }
