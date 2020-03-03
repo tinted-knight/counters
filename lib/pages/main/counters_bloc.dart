@@ -17,19 +17,23 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
 
   void reload() => _loadCounters();
 
+  void increment(int index) => fire(CountersEvent.increment(_counters[index].id));
+
   @override
-  Stream<CounterState> eventHandler(CountersEvent event, CounterState currentState) async* {
-    if (event.type == CountersEventType.start) {
-      yield CounterState.loading();
-    }
-    if (event.type == CountersEventType.loaded) {
-      _counters = event.counters;
-      yield CounterState.loaded(_counters);
-    }
-    if (event.type == CountersEventType.updated) {
-      _counters = event.counters;
-      yield CounterState.updated(_counters);
-      yield CounterState.loaded(_counters);
+  Stream<CounterState> eventHandler(
+      CountersEvent event, CounterState currentState) async* {
+    switch (event.type) {
+      case CountersEventType.start:
+        yield CounterState.loading();
+        break;
+      case CountersEventType.loaded:
+        _counters = event.counters;
+        yield CounterState.loaded(_counters);
+        break;
+      case CountersEventType.increment:
+        await _stepUp(event.index);
+        _loadCounters();
+        break;
     }
   }
 
@@ -39,5 +43,10 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
     if (values != null && values.isNotEmpty) {
       fire(CountersEvent.loaded(values));
     }
+  }
+
+  Future<void> _stepUp(int index) async {
+    final toUpdate = _counters.firstWhere((item) => item.id == index).stepUp();
+    await repo.update(toUpdate);
   }
 }

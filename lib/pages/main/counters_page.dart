@@ -33,7 +33,6 @@ class CountersPage extends StatelessWidget {
             return Center(child: Text("failed"));
           }
           if (state.isLoaded) {
-            print('>> Counters::build');
             return ListView.builder(
               itemCount: state.counters.length,
               itemBuilder: (context, index) {
@@ -41,7 +40,7 @@ class CountersPage extends StatelessWidget {
                   onTap: () {
                     navBloc.detailsOf(state.counters[index]);
                   },
-                  onSwiped: null,
+                  onSwiped: () => countersBloc.increment(index),
                   child: Column(
                     children: <Widget>[
                       CounterRow(state.counters[index]),

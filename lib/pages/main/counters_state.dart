@@ -29,13 +29,6 @@ class CounterState extends BlocState {
         counters: counters,
       );
 
-  factory CounterState.updated(List<CounterItem> counters) => CounterState(
-        isLoading: false,
-        isLoaded: true,
-        isUpdated: true,
-        counters: counters,
-      );
-
   CounterState copyWith() => CounterState(
         isLoaded: this.isLoaded,
         isLoading: this.isLoading,
