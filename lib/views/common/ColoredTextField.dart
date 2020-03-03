@@ -26,7 +26,7 @@ class ColoredTextField extends StatelessWidget {
       : this(
           title: title,
           decorationColor: _decorationColorForLight,
-          textColor: _textColorForLight,
+//          textColor: _textColorForLight,
           controller: controller,
           onlyDigits: onlyDigits,
         );

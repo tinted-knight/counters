@@ -1,8 +1,8 @@
 import 'package:counter/bloc/BaseBloc.dart';
-import 'package:counter/bloc/create_counter_bloc/CreateCounterBloc.dart';
 import 'package:counter/bloc/StreamBuilderNav.dart';
 import 'package:counter/bloc/app_bloc/AppBloc.dart';
 import 'package:counter/bloc/app_bloc/app_actions.dart';
+import 'package:counter/bloc/create_counter_bloc/CreateCounterBloc.dart';
 import 'package:counter/bloc/create_counter_bloc/create_counter_state.dart';
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/views/create/rows/ButtonRow.dart';
@@ -52,8 +52,15 @@ class _ScreenCreateState extends State<ScreenCreate> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         elevation: 0.0,
-        title: Text("Create counter"),
+        title: Text(
+          "Create counter",
+          style: TextStyle(color: Color(0xff212121)),
+        ),
+        iconTheme: Theme.of(context).iconTheme.copyWith(
+          color: Color(0xff212121),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.help_outline, semanticLabel: "Quick help"),

@@ -133,19 +133,6 @@ class _DetailsOfState extends State<DetailsOf> {
                     onSave: () => singleBloc.update(),
                     onCancel: () => singleBloc.cancel(),
                     onStat: () {},
-//                    onSave: (type) {
-//                      switch (type) {
-//                        case ButtonType.stats:
-////                            _btnShowHistoryClick();
-//                          break;
-//                        case ButtonType.cancel:
-////                      counterBloc.btnCancelClick();
-//                          break;
-//                        case ButtonType.save:
-//                          singleBloc.update();
-//                          break;
-//                      }
-//                    },
                   ),
                 ),
               ],
