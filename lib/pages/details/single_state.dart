@@ -6,6 +6,7 @@ class SingleState extends BlocState {
   final bool hasLoaded;
   final bool isSaving;
   final bool hasSaved;
+  final bool hasCanceled;
   final bool validationError;
   final CounterItem counter;
   final CounterItem counterWithErrors;
@@ -15,6 +16,7 @@ class SingleState extends BlocState {
       this.hasLoaded = false,
       this.isSaving = false,
       this.hasSaved = false,
+      this.hasCanceled = false,
       this.validationError = false,
       this.counter,
       this.counterWithErrors});
@@ -24,6 +26,8 @@ class SingleState extends BlocState {
   factory SingleState.saving() => SingleState(isSaving: true);
 
   factory SingleState.saved() => SingleState(hasSaved: true);
+
+  factory SingleState.canceled() => SingleState(hasCanceled: true);
 
   factory SingleState.loaded(CounterItem item) => SingleState(
         hasLoaded: true,

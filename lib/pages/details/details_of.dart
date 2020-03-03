@@ -52,6 +52,9 @@ class _DetailsOfState extends State<DetailsOf> {
           navBloc.pop();
           countersBloc.reload();
         }
+        if (state.hasCanceled) {
+          navBloc.pop();
+        }
       },
       builder: (context, state) {
         if (state.isLoading) {
@@ -60,7 +63,8 @@ class _DetailsOfState extends State<DetailsOf> {
         if (state.isSaving) {
           return Center(child: Text("saving"));
         }
-        if (state.hasSaved) return Container();
+        if (state.hasSaved || state.hasCanceled) return Container();
+
         return _buildLayout(state);
       },
     );
@@ -79,7 +83,7 @@ class _DetailsOfState extends State<DetailsOf> {
                   backgroundColor: ColorPalette.bgColor(widget.counter.colorIndex),
                   elevation: 0.0,
                   title: TextField(
-//        controller: singleBloc.valueCtrl,
+                    controller: singleBloc.titleCtrl,
                     style: TextStyle(color: Color(0xFFFFFFFF)),
                   ),
                   actions: <Widget>[
@@ -124,27 +128,24 @@ class _DetailsOfState extends State<DetailsOf> {
                 ),
                 UnitRow(controller: singleBloc.unitCtrl),
                 Expanded(
-                  child: Theme(
-                    data: Theme.of(context).copyWith(
-                      buttonTheme: Theme.of(context).buttonTheme.copyWith(
-                            buttonColor: ColorPalette.bgColor(state.counter.colorIndex),
-                          ),
-                    ),
-                    child: ButtonRow(
-                      onClick: (type) {
-                        switch (type) {
-                          case ButtonType.stats:
-//                            _btnShowHistoryClick();
-                            break;
-                          case ButtonType.cancel:
-//                      counterBloc.btnCancelClick();
-                            break;
-                          case ButtonType.save:
-                            singleBloc.update();
-                            break;
-                        }
-                      },
-                    ),
+                  child: ButtonRow(
+                    buttonColor: ColorPalette.bgColor(state.counter.colorIndex),
+                    onSave: () => singleBloc.update(),
+                    onCancel: () => singleBloc.cancel(),
+                    onStat: () {},
+//                    onSave: (type) {
+//                      switch (type) {
+//                        case ButtonType.stats:
+////                            _btnShowHistoryClick();
+//                          break;
+//                        case ButtonType.cancel:
+////                      counterBloc.btnCancelClick();
+//                          break;
+//                        case ButtonType.save:
+//                          singleBloc.update();
+//                          break;
+//                      }
+//                    },
                   ),
                 ),
               ],

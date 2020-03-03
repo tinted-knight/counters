@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'details_content.dart';
+import 'details_of.dart';
 
 class DetailsPage extends StatelessWidget {
   static const route = "/details";

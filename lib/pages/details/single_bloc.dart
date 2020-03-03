@@ -4,9 +4,11 @@ import 'package:counter/model/storage/interface.dart';
 import 'package:counter/pages/details/single_event.dart';
 import 'package:counter/pages/details/single_state.dart';
 import 'package:flutter/material.dart';
+
 import '../../bloc/helper_functions.dart';
 
-class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextControllersMixin {
+class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState>
+    with TextControllersMixin {
   SingleBloc({this.repo}) : super(initialState: SingleState.loading());
 
   final ILocalStorage repo;
@@ -31,6 +33,8 @@ class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextC
     }
   }
 
+  void cancel() => fire(SingleEvent.canceled());
+
   @override
   Stream<SingleState> eventHandler(SingleEvent event, SingleState currentState) async* {
     switch (event.type) {
@@ -49,6 +53,9 @@ class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextC
       case SingleEventType.validationError:
         yield currentState.copyWith(
             validationError: true, counterWithErrors: event.counterWithErrors);
+        break;
+      case SingleEventType.canceled:
+        yield SingleState.canceled();
         break;
     }
   }
