@@ -28,7 +28,16 @@ class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextC
     // todo fake
     await Future.delayed(Duration(seconds: 1));
     if (await repo.update(updatedItem)) {
-      fire(SingleEvent.saved());
+      fire(SingleEvent.done());
+    }
+  }
+
+  void delete(CounterItem item) async {
+    fire(SingleEvent.deleting());
+    // todo fake
+    await Future.delayed(Duration(seconds: 1));
+    if (await repo.delete(item)) {
+      fire(SingleEvent.done());
     }
   }
 
@@ -46,8 +55,8 @@ class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextC
       case SingleEventType.saving:
         yield currentState.copyWith(isSaving: true);
         break;
-      case SingleEventType.saved:
-        yield SingleState.saved();
+      case SingleEventType.done:
+        yield SingleState.done();
         break;
       case SingleEventType.validationError:
         yield currentState.copyWith(
@@ -55,6 +64,9 @@ class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextC
         break;
       case SingleEventType.canceled:
         yield currentState.canceled();
+        break;
+      case SingleEventType.deleting:
+        yield currentState.deleting();
         break;
     }
   }

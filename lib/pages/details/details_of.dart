@@ -9,6 +9,7 @@ import 'package:counter/views/details/rows/GoalRow.dart';
 import 'package:counter/views/details/rows/StepRow.dart';
 import 'package:counter/views/details/rows/UnitRow.dart';
 import 'package:counter/views/details/rows/top_row/TopRow.dart';
+import 'package:counter/widgets/action_buttons.dart';
 import 'package:flutter/material.dart';
 
 import 'single_bloc.dart';
@@ -48,19 +49,21 @@ class _DetailsOfState extends State<DetailsOf> {
           _showMessage(context, "validation error");
           return;
         }
-        if (state.hasSaved) {
+        if (state.hasDone) {
           navBloc.pop();
           countersBloc.reload();
+          return;
         }
         if (state.hasCanceled) {
           navBloc.pop();
+          return;
         }
       },
       builder: (context, state) {
         if (state.isLoading) {
           return Center(child: CircularProgressIndicator());
         }
-        if (state.hasSaved) return Container();
+        if (state.hasDone) return Container();
 
         return _buildLayout(state);
       },
@@ -84,18 +87,12 @@ class _DetailsOfState extends State<DetailsOf> {
                     style: TextStyle(color: Color(0xFFFFFFFF)),
                   ),
                   actions: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.delete, semanticLabel: "Delete"),
-                      onPressed: () {
-//            counterBloc.btnDeleteClick(counter);
-                      },
+                    DeleteActionButton(
+                      inAction: state.isDeleting,
+                      onPressed: () => singleBloc.delete(state.counter),
                     ),
-                    IconButton(
-                      icon: Icon(Icons.show_chart, semanticLabel: "Help"),
-//          onPressed: _btnShowHistoryClick,
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.save, semanticLabel: "Save"),
+                    SaveActionButton(
+                      inAction: state.isSaving,
                       onPressed: singleBloc.update,
                     ),
                   ],
