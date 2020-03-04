@@ -27,7 +27,7 @@ class SingleState extends BlocState {
 
   factory SingleState.saved() => SingleState(hasSaved: true);
 
-  factory SingleState.canceled() => SingleState(hasCanceled: true);
+  SingleState canceled() => this.copyWith(hasCanceled: true);
 
   factory SingleState.loaded(CounterItem item) => SingleState(
         hasLoaded: true,
@@ -39,6 +39,7 @@ class SingleState extends BlocState {
     bool hasLoaded,
     bool isSaving,
     bool hasSaved,
+    bool hasCanceled,
     bool validationError,
     CounterItem counter,
     CounterItem counterWithErrors,
@@ -48,6 +49,7 @@ class SingleState extends BlocState {
         hasLoaded: hasLoaded ?? this.hasLoaded,
         isSaving: isSaving ?? this.isSaving,
         hasSaved: hasSaved ?? this.hasSaved,
+        hasCanceled: hasCanceled ?? this.hasCanceled,
         validationError: validationError ?? this.validationError,
         counter: counter ?? this.counter,
         counterWithErrors: counterWithErrors ?? this.counterWithErrors,

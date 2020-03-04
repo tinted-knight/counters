@@ -1,7 +1,12 @@
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:counter/model/CounterModel.dart';
+import 'package:counter/model/storage/LocalStorageProvider.dart';
 import 'package:counter/pages/details/details_page.dart';
+import 'package:counter/pages/details/single_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../BaseBloc.dart';
 
 class NavigatorBloc extends BlocEventStateBase<NavigatorAction, dynamic> {
   final GlobalKey<NavigatorState> navigatorKey;

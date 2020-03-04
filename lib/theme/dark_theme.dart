@@ -10,7 +10,7 @@ class ThemeLight {
 
 var themeLight = _buildThemeData(ThemeData(
 //  fontFamily: "RobotoCondensed",
-));
+    ));
 
 _buildThemeData(ThemeData baseTheme) => baseTheme.copyWith(
       primaryColor: ThemeLight.primary,
@@ -20,6 +20,10 @@ _buildThemeData(ThemeData baseTheme) => baseTheme.copyWith(
       floatingActionButtonTheme: _buildFabTheme(baseTheme),
 //      textTheme: _buildTextTheme(baseTheme),
       inputDecorationTheme: _buildInputDecorationTheme(baseTheme),
+      pageTransitionsTheme: PageTransitionsTheme(builders: {
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+      }),
     );
 
 //_buildTextTheme(ThemeData baseTheme) => baseTheme.textTheme.copyWith(

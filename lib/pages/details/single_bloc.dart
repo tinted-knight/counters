@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../../bloc/helper_functions.dart';
 
-class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState>
-    with TextControllersMixin {
+class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextControllersMixin {
   SingleBloc({this.repo}) : super(initialState: SingleState.loading());
 
   final ILocalStorage repo;
@@ -27,7 +26,7 @@ class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState>
 
     fire(SingleEvent.saving());
     // todo fake
-    Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 1));
     if (await repo.update(updatedItem)) {
       fire(SingleEvent.saved());
     }
@@ -55,7 +54,7 @@ class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState>
             validationError: true, counterWithErrors: event.counterWithErrors);
         break;
       case SingleEventType.canceled:
-        yield SingleState.canceled();
+        yield currentState.canceled();
         break;
     }
   }

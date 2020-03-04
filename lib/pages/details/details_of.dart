@@ -60,10 +60,7 @@ class _DetailsOfState extends State<DetailsOf> {
         if (state.isLoading) {
           return Center(child: CircularProgressIndicator());
         }
-        if (state.isSaving) {
-          return Center(child: Text("saving"));
-        }
-        if (state.hasSaved || state.hasCanceled) return Container();
+        if (state.hasSaved) return Container();
 
         return _buildLayout(state);
       },
@@ -130,6 +127,7 @@ class _DetailsOfState extends State<DetailsOf> {
                 Expanded(
                   child: ButtonRow(
                     buttonColor: ColorPalette.bgColor(state.counter.colorIndex),
+                    isSaving: state.isSaving,
                     onSave: () => singleBloc.update(),
                     onCancel: () => singleBloc.cancel(),
                     onStat: () {},
