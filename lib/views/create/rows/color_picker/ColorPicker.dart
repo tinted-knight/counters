@@ -22,7 +22,7 @@ class ColorPicker extends StatefulWidget {
 class _ColorPickerState extends State<ColorPicker> {
   int selected;
 
-  final colors = <int>[ColorPalette.blue, ColorPalette.red, ColorPalette.yellow];
+  final colors = ColorPalette.intPallete;
 
   @override
   void initState() {
@@ -34,8 +34,8 @@ class _ColorPickerState extends State<ColorPicker> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(right: 8.0, left: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+      child: Wrap(
+        alignment: WrapAlignment.start,
         children: squares(),
       ),
     );
