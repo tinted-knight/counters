@@ -4,12 +4,14 @@ import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
+import 'package:counter/views/create/rows/color_picker/ColorPicker.dart';
 import 'package:counter/views/details/rows/ButtonRow.dart';
 import 'package:counter/views/details/rows/GoalRow.dart';
 import 'package:counter/views/details/rows/StepRow.dart';
 import 'package:counter/views/details/rows/UnitRow.dart';
 import 'package:counter/views/details/rows/top_row/TopRow.dart';
 import 'package:counter/widgets/action_buttons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'single_bloc.dart';
@@ -79,25 +81,10 @@ class _DetailsOfState extends State<DetailsOf> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                AppBar(
-                  backgroundColor: ColorPalette.bgColor(widget.counter.colorIndex),
-                  elevation: 0.0,
-                  title: TextField(
-                    controller: singleBloc.titleCtrl,
-                    style: TextStyle(color: Color(0xFFFFFFFF)),
-                  ),
-                  actions: <Widget>[
-                    DeleteActionButton(
-                      inAction: state.isDeleting,
-                      onPressed: () => singleBloc.delete(state.counter),
-                    ),
-                    SaveActionButton(
-                      inAction: state.isSaving,
-                      onPressed: singleBloc.update,
-                    ),
-                  ],
-                ),
-                SizedBox(
+                _appBar(state),
+                Container(
+                  margin: EdgeInsets.only(top: 8.0),
+                  height: 150.0,
                   child: TopRow(
                     value: state.counter.value,
                     goal: state.counter.goal,
@@ -110,7 +97,6 @@ class _DetailsOfState extends State<DetailsOf> {
                       print('downButtonTap');
                     },
                   ),
-                  height: 150.0,
                 ),
                 StepRow(
                   controller: singleBloc.stepCtrl,
@@ -138,7 +124,45 @@ class _DetailsOfState extends State<DetailsOf> {
     );
   }
 
-  _showMessage(BuildContext context, String msg) {
+  AppBar _appBar(SingleState state) => AppBar(
+        backgroundColor: ColorPalette.bgColor(state.counter.colorIndex),
+        elevation: 4.0,
+        title: TextField(
+          controller: singleBloc.titleCtrl,
+          style: TextStyle(color: Color(0xFFFFFFFF)),
+        ),
+        actions: <Widget>[
+          ColorActionButton(
+            inAction: false,
+            onPressed: _showColorPicker,
+          ),
+          DeleteActionButton(
+            inAction: state.isDeleting,
+            onPressed: () => singleBloc.delete(state.counter),
+          ),
+          SaveActionButton(
+            inAction: state.isSaving,
+            onPressed: singleBloc.update,
+          ),
+        ],
+      );
+
+  void _showColorPicker() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        child: ColorPicker(
+          selected: ColorPalette.blue,
+          onColorPicked: (newColor) {
+            singleBloc.applyColor(newColor);
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
+    );
+  }
+
+  void _showMessage(BuildContext context, String msg) {
     Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Row(

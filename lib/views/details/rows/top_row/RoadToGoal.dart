@@ -27,7 +27,7 @@ class RoadToGoal extends StatelessWidget {
         child: Text(
           "$roadToGoal%\n of goal",
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 30.0),
+          style: TextStyle(fontSize: 30.0, color: Color(0xff313131)),
         ),
       ),
     );

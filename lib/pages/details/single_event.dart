@@ -19,7 +19,7 @@ class SingleEvent extends BlocEvent {
 
   factory SingleEvent.deleting() => SingleEvent(SingleEventType.deleting);
 
-  factory SingleEvent.done() => SingleEvent(SingleEventType.done);
+  factory SingleEvent.doneEditing() => SingleEvent(SingleEventType.doneEditing);
 
   factory SingleEvent.canceled() => SingleEvent(SingleEventType.canceled);
 
@@ -33,7 +33,7 @@ enum SingleEventType {
   loading,
   loaded,
   saving,
-  done,
+  doneEditing,
   validationError,
   canceled,
   deleting,

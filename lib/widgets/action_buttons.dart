@@ -35,3 +35,20 @@ class SaveActionButton extends IconButtonIndicator {
   @override
   String get label => "Delete";
 }
+
+class ColorActionButton extends IconButtonIndicator {
+  ColorActionButton({bool inAction, Function onPressed})
+      : super(
+          inAction: inAction,
+          onPressed: onPressed,
+        );
+
+  @override
+  Color get color => Colors.white;
+
+  @override
+  IconData get iconData => Icons.color_lens;
+
+  @override
+  String get label => "Pick color";
+}

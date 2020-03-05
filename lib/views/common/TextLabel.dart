@@ -23,9 +23,6 @@ class TextLabel extends StatelessWidget {
       child: Text(
         title,
         textAlign: centered ? TextAlign.center : TextAlign.start,
-//        style: TextStyle().copyWith(
-//          color: Colors.white,
-//        ),
       ),
     );
   }

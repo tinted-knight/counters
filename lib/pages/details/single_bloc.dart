@@ -18,18 +18,7 @@ class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextC
   }
 
   void update() async {
-    final updatedItem = fillFromControllers(lastState.counter);
-    if (!isValid(updatedItem)) {
-      fire(SingleEvent.validationError(updatedItem));
-      return;
-    }
-
-    fire(SingleEvent.saving());
-    // todo fake
-    await Future.delayed(Duration(seconds: 1));
-    if (await repo.update(updatedItem)) {
-      fire(SingleEvent.done());
-    }
+    if (_update() != null) fire(SingleEvent.doneEditing());
   }
 
   void delete(CounterItem item) async {
@@ -37,8 +26,28 @@ class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextC
     // todo fake
     await Future.delayed(Duration(seconds: 1));
     if (await repo.delete(item)) {
-      fire(SingleEvent.done());
+      fire(SingleEvent.doneEditing());
     }
+  }
+
+  Future<CounterItem> _update({int withColor}) async {
+    final updatedItem = fillFromControllers(lastState.counter).copyWith(colorIndex: withColor);
+    if (!isValid(updatedItem)) {
+      fire(SingleEvent.validationError(updatedItem));
+      return null;
+    }
+    fire(SingleEvent.saving());
+    // todo fake
+    await Future.delayed(Duration(seconds: 1));
+    if (await repo.update(updatedItem)) {
+      return updatedItem;
+    }
+    return null;
+  }
+
+  void applyColor(int color) async {
+    final updated = await _update(withColor: color);
+    if (updated != null) fire(SingleEvent.loaded(updated));
   }
 
   void cancel() => fire(SingleEvent.canceled());
@@ -55,7 +64,7 @@ class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextC
       case SingleEventType.saving:
         yield currentState.copyWith(isSaving: true);
         break;
-      case SingleEventType.done:
+      case SingleEventType.doneEditing:
         yield SingleState.done();
         break;
       case SingleEventType.validationError:

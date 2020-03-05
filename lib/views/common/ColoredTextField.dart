@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // default - dark
-final _textColorDefault = Color(0xff000000);
-final _decorationColorDefault = Color(0xffffffff);
+const _textColorDefault = Color(0xff313131);
+const _decorationColorDefault = Color(0xffffffff);
 // light
 final _textColorForLight = Color(0xffffffff);
 final _decorationColorForLight = Color(0xff212121);
