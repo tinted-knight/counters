@@ -18,7 +18,7 @@ class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextC
   }
 
   void update() async {
-    if (_update() != null) fire(SingleEvent.doneEditing());
+    if (await _update() != null) fire(SingleEvent.doneEditing());
   }
 
   void delete(CounterItem item) async {

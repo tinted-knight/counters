@@ -20,8 +20,7 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
   void increment(int index) => fire(CountersEvent.increment(_counters[index].id));
 
   @override
-  Stream<CounterState> eventHandler(
-      CountersEvent event, CounterState currentState) async* {
+  Stream<CounterState> eventHandler(CountersEvent event, CounterState currentState) async* {
     switch (event.type) {
       case CountersEventType.start:
         yield CounterState.loading();
@@ -39,10 +38,51 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
 
   void _loadCounters() async {
     fire(CountersEvent.start());
+    // todo fake
+    await Future.delayed(Duration(seconds: 1));
+
     final values = await repo.getAll();
     if (values != null && values.isNotEmpty) {
-      fire(CountersEvent.loaded(values));
+      if (await _needResetCounters()) {
+        final reseted = await _resetCounters(values);
+        fire(CountersEvent.loaded(reseted));
+      } else {
+        fire(CountersEvent.loaded(values));
+      }
     }
+  }
+
+  Future<bool> _needResetCounters() async {
+    //todo Corner case: New Year Day
+    final dbTime = await repo.getTime();
+    final today = DateTime.now();
+    final helper = DateTime(today.year, 1, 1, 0, 0);
+
+    final dbDayOfYear = dbTime.difference(helper).inDays;
+    final todayDayOfYear = today.difference(helper).inDays;
+
+    return (todayDayOfYear - dbDayOfYear) >= 1;
+  }
+
+  Future<List<CounterItem>> _resetCounters(List<CounterItem> counters) async {
+    final timeToSave = await _updateTime();
+    await _saveToHistory(counters, timeToSave);
+    final resetedCounters = counters.map((counter) => counter.flush).toList();
+    await _saveUpdated(resetedCounters);
+    return resetedCounters;
+  }
+
+  Future<int> _updateTime() async {
+    final now = DateTime.now().millisecondsSinceEpoch;
+    return await repo.updateTime(now);
+  }
+
+  Future<void> _saveToHistory(List<CounterItem> counters, int time) async {
+    counters.forEach((counter) async => await repo.updateHistory(counter, time.toString()));
+  }
+
+  Future<void> _saveUpdated(List<CounterItem> counters) async {
+    counters.forEach((counter) async => await repo.update(counter));
   }
 
   Future<void> _stepUp(int index) async {

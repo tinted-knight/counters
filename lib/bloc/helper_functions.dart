@@ -31,4 +31,6 @@ extension CopyWith on CounterItem {
     print("stepUp: ${this.value} + ${this.step}");
     return this.copyWith(value: this.value + this.step);
   }
+
+  CounterItem get flush => this.copyWith(value: 0);
 }
