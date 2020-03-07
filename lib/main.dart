@@ -3,11 +3,11 @@ import 'package:counter/bloc/app_bloc/AppBloc.dart';
 import 'package:counter/bloc/create_counter_bloc/CreateCounterBloc.dart';
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/history_bloc/HistoryBloc.dart';
+import 'package:counter/pages/create/create_page.dart';
 import 'package:counter/pages/details/details_page.dart';
 import 'package:counter/pages/details/single_bloc.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/theme/dark_theme.dart';
-import 'package:counter/views/create/screen_create.dart';
 import 'package:counter/views/history/history_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -45,9 +45,9 @@ class MyApp extends StatelessWidget {
                   blocBuilder: () => SingleBloc(repo: storage),
                   child: DetailsPage(),
                 ),
-            ScreenCreate.route: (context) => BlocProvider<CreateCounterBloc>(
+            CreatePage.route: (context) => BlocProvider<CreateCounterBloc>(
                   blocBuilder: () => CreateCounterBloc(storage),
-                  child: ScreenCreate(),
+                  child: CreatePage(),
                 ),
             ScreenHistory.route: (context) => BlocProvider<HistoryBloc>(
                   blocBuilder: () => HistoryBloc(storage),
