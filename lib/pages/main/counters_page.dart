@@ -22,7 +22,7 @@ class CountersPage extends StatelessWidget {
     final navBloc = BlocProvider.of<NavigatorBloc>(context);
 
     return Scaffold(
-      appBar: _appBar(context, null),
+      appBar: _appBar(context, countersBloc.reload),
       body: BlocStreamBuilder<CounterState>(
         bloc: countersBloc,
         builder: (context, state) {
