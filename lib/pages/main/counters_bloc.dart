@@ -17,6 +17,12 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
 
   void reload() => _loadCounters();
 
+  void singleUpdated(CounterItem item) {
+    final index = _counters.indexWhere((element) => element.id == item.id);
+    _counters[index] = item;
+    fire(CountersEvent.loaded(_counters));
+  }
+
   void increment(int index) => fire(CountersEvent.increment(_counters[index].id));
 
   @override
@@ -37,6 +43,7 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
   }
 
   void _loadCounters() async {
+    print('countersBloc::load');
     fire(CountersEvent.start());
     // todo fake
     await Future.delayed(Duration(seconds: 1));

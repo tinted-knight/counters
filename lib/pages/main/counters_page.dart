@@ -18,6 +18,7 @@ class CountersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('main::build');
     final countersBloc = BlocProvider.of<CountersBloc>(context);
     final navBloc = BlocProvider.of<NavigatorBloc>(context);
 

@@ -9,6 +9,7 @@ class SingleState extends BlocState {
   final bool hasDone;
   final bool hasCanceled;
   final bool validationError;
+  final bool colorHasUpdated;
   final CounterItem counter;
   final CounterItem counterWithErrors;
 
@@ -20,6 +21,7 @@ class SingleState extends BlocState {
       this.hasDone = false,
       this.hasCanceled = false,
       this.validationError = false,
+      this.colorHasUpdated = false,
       this.counter,
       this.counterWithErrors});
 
@@ -30,6 +32,11 @@ class SingleState extends BlocState {
   SingleState canceled() => this.copyWith(hasCanceled: true);
 
   SingleState deleting() => this.copyWith(isDeleting: true);
+
+  factory SingleState.colorUpdated(CounterItem item) => SingleState(
+        colorHasUpdated: true,
+        counter: item,
+      );
 
   factory SingleState.loaded(CounterItem item) => SingleState(
         hasLoaded: true,
@@ -44,6 +51,7 @@ class SingleState extends BlocState {
     bool hasDone,
     bool hasCanceled,
     bool validationError,
+    bool colorHasUpdated,
     CounterItem counter,
     CounterItem counterWithErrors,
   }) =>
@@ -55,6 +63,7 @@ class SingleState extends BlocState {
         hasDone: hasDone ?? this.hasDone,
         hasCanceled: hasCanceled ?? this.hasCanceled,
         validationError: validationError ?? this.validationError,
+        colorHasUpdated: colorHasUpdated ?? this.colorHasUpdated,
         counter: counter ?? this.counter,
         counterWithErrors: counterWithErrors ?? this.counterWithErrors,
       );

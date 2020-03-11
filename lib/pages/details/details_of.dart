@@ -60,6 +60,9 @@ class _DetailsOfState extends State<DetailsOf> {
           navBloc.pop();
           return;
         }
+        if (state.colorHasUpdated) {
+          countersBloc.singleUpdated(state.counter);
+        }
       },
       builder: (context, state) {
         if (state.isLoading) {

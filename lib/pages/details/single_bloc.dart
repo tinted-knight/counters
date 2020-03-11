@@ -47,7 +47,7 @@ class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextC
 
   void applyColor(int color) async {
     final updated = await _update(withColor: color);
-    if (updated != null) fire(SingleEvent.loaded(updated));
+    if (updated != null) fire(SingleEvent.colorUpdated(updated));
   }
 
   void cancel() => fire(SingleEvent.canceled());
@@ -76,6 +76,9 @@ class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextC
         break;
       case SingleEventType.deleting:
         yield currentState.deleting();
+        break;
+      case SingleEventType.colorUpdated:
+        yield SingleState.colorUpdated(event.counter);
         break;
     }
   }
@@ -124,10 +127,7 @@ mixin TextControllersMixin on BlocEventStateBase<SingleEvent, SingleState> {
     return true;
   }
 
-  int intValueOf(String s) {
-    print('>validate: $s');
-    return int.tryParse(s) ?? -1;
-  }
+  int intValueOf(String s) => int.tryParse(s) ?? -1;
 
   @override
   void dispose() {

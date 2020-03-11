@@ -23,6 +23,11 @@ class SingleEvent extends BlocEvent {
 
   factory SingleEvent.canceled() => SingleEvent(SingleEventType.canceled);
 
+  factory SingleEvent.colorUpdated(CounterItem item) => SingleEvent(
+        SingleEventType.colorUpdated,
+        counter: item,
+      );
+
   factory SingleEvent.validationError(CounterItem item) => SingleEvent(
         SingleEventType.validationError,
         counterWithErrors: item,
@@ -37,4 +42,5 @@ enum SingleEventType {
   validationError,
   canceled,
   deleting,
+  colorUpdated,
 }
