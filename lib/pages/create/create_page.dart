@@ -23,11 +23,14 @@ class CreatePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create counter"),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        title: Text("Create counter", style: TextStyle(color: Color(0xff313131))),
+        iconTheme: IconThemeData(color: Color(0xff313131)),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.help_outline),
-            onPressed: null,
+            onPressed: () {},
           )
         ],
       ),
@@ -40,7 +43,7 @@ class CreatePage extends StatelessWidget {
           }
         },
         builder: (ctx, state) {
-          if (state.isIdle) return _content(createBloc);
+          if (state.isIdle) return _content(createBloc, navBloc);
 
           if (state.isSaving) return Center(child: Text("saving..."));
 
@@ -52,7 +55,7 @@ class CreatePage extends StatelessWidget {
     );
   }
 
-  Widget _content(CreateBloc createBloc) {
+  Widget _content(CreateBloc createBloc, NavigatorBloc navBloc) {
     return LayoutBuilder(
         builder: (ctx, viewport) => SingleChildScrollView(
               child: ConstrainedBox(
@@ -70,7 +73,7 @@ class CreatePage extends StatelessWidget {
                       ),
                       Expanded(
                         child: ButtonRow(
-                          onCancel: () {},
+                          onCancel: () => navBloc.pop(),
                           onCreate: () => createBloc.create(),
                         ),
                       ),

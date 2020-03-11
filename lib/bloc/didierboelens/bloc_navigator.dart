@@ -1,12 +1,9 @@
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:counter/model/CounterModel.dart';
-import 'package:counter/model/storage/LocalStorageProvider.dart';
+import 'package:counter/pages/create/create_page.dart';
 import 'package:counter/pages/details/details_page.dart';
-import 'package:counter/pages/details/single_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../BaseBloc.dart';
 
 class NavigatorBloc extends BlocEventStateBase<NavigatorAction, dynamic> {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -21,10 +18,14 @@ class NavigatorBloc extends BlocEventStateBase<NavigatorAction, dynamic> {
       navigatorKey.currentState.pushNamed('/home');
     } else if (event is NavigateToDetails) {
       navigatorKey.currentState.pushNamed(DetailsPage.route, arguments: event.item);
+    } else if (event is NavigatorActionCreate) {
+      navigatorKey.currentState.pushNamed(CreatePage.route);
     }
   }
 
   void detailsOf(CounterItem item) => fire(NavigateToDetails(item));
+
+  void create() => fire(NavigatorActionCreate());
 
   void pop() => fire(NavigatorActionPop());
 }
@@ -36,6 +37,8 @@ class NavigatorAction {
 class NavigatorIdle extends NavigatorAction {}
 
 class NavigatorActionPop extends NavigatorAction {}
+
+class NavigatorActionCreate extends NavigatorAction {}
 
 class NavigateToHomeEvent extends NavigatorAction {}
 

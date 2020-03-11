@@ -1,3 +1,4 @@
+import 'package:counter/theme/dark_theme.dart';
 import 'package:flutter/material.dart';
 
 class ButtonRow extends StatelessWidget {
@@ -40,6 +41,7 @@ class ButtonRow extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 4.0),
         child: RaisedButton(
           child: Text("Create"),
+          color: ThemeLight.button,
           colorBrightness: Brightness.dark,
           onPressed: onCreate,
         ),
