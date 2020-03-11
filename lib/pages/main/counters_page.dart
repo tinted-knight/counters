@@ -1,3 +1,4 @@
+import 'package:counter/bloc/app_bloc.dart';
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
@@ -11,22 +12,24 @@ import 'counters_bloc.dart';
 import 'counters_state.dart';
 
 class CountersPage extends StatelessWidget {
-  const CountersPage({Key key, this.title}) : super(key: key);
+  const CountersPage({Key key, this.title, this.isSwipeable}) : super(key: key);
 
   static const route = "/";
 
   final String title;
+  final bool isSwipeable;
 
   @override
   Widget build(BuildContext context) {
     print('main::build');
     final countersBloc = BlocProvider.of<CountersBloc>(context);
     final navBloc = BlocProvider.of<NavigatorBloc>(context);
+    final appBloc = BlocProvider.of<AppBloc>(context);
 
     return Scaffold(
       appBar: _appBar(
         context,
-        countersBloc.reload,
+        appBloc,
         onCreate: () => navBloc.create(),
       ),
       body: Column(
@@ -45,17 +48,18 @@ class CountersPage extends StatelessWidget {
                   return ListView.builder(
                     itemCount: state.counters.length,
                     itemBuilder: (context, index) {
-                      return _nonSwipeable(
-                        counter: state.counters[index],
-                        onTap: () => navBloc.detailsOf(state.counters[index]),
-                        onIncrement: () => countersBloc.stepUp(index),
-                        onDecrement: () => countersBloc.stepDown(index),
-                      );
-//                      return _swipeable(
-//                        counter: state.counters[index],
-//                        onTap: () => navBloc.detailsOf(state.counters[index]),
-//                        onSwiped: () => countersBloc.increment(index),
-//                      );
+                      return isSwipeable
+                          ? _swipeable(
+                              counter: state.counters[index],
+                              onTap: () => navBloc.detailsOf(state.counters[index]),
+                              onSwiped: () => countersBloc.stepUp(index),
+                            )
+                          : _nonSwipeable(
+                              counter: state.counters[index],
+                              onTap: () => navBloc.detailsOf(state.counters[index]),
+                              onIncrement: () => countersBloc.stepUp(index),
+                              onDecrement: () => countersBloc.stepDown(index),
+                            );
                     },
                   );
                 }
@@ -102,7 +106,7 @@ class CountersPage extends StatelessWidget {
     );
   }
 
-  Widget _appBar(BuildContext context, Function onFlush, {Function onCreate}) => PreferredSize(
+  Widget _appBar(BuildContext context, AppBloc appBloc, {Function onCreate}) => PreferredSize(
         preferredSize: Size.fromHeight(100.0),
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 16.0),
@@ -118,9 +122,9 @@ class CountersPage extends StatelessWidget {
             elevation: 0.0,
             actions: <Widget>[
               IconButton(
-                tooltip: "Flush counter | Reload all",
-                icon: Icon(Icons.autorenew),
-                onPressed: onFlush,
+                tooltip: "Switch swipeable",
+                icon: Icon(isSwipeable ? Icons.remove : Icons.add),
+                onPressed: appBloc.switchSwipeable,
               ),
               IconButton(
                 tooltip: "Gimme some heeeelp",
