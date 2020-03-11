@@ -36,10 +36,14 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
         yield CounterState.loaded(_counters);
         break;
       case CountersEventType.increment:
-        await _stepUp(event.index);
-        _loadCounters();
+        _performIncrement(event.index);
         break;
     }
+  }
+
+  void _performIncrement(int index) async {
+    final updated = await _stepUp(index);
+    if (updated != null) singleUpdated(updated);
   }
 
   void _loadCounters() async {
@@ -92,8 +96,9 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
     counters.forEach((counter) async => await repo.update(counter));
   }
 
-  Future<void> _stepUp(int index) async {
+  Future<CounterItem> _stepUp(int index) async {
     final toUpdate = _counters.firstWhere((item) => item.id == index).stepUp();
-    await repo.update(toUpdate);
+    if (await repo.update(toUpdate)) return toUpdate;
+    return null;
   }
 }
