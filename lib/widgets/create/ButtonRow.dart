@@ -1,8 +1,8 @@
 import 'package:counter/theme/dark_theme.dart';
 import 'package:flutter/material.dart';
 
-class ButtonRow extends StatelessWidget {
-  const ButtonRow({
+class CreateButtonRow extends StatelessWidget {
+  const CreateButtonRow({
     Key key,
     this.onCreate,
     this.onCancel,

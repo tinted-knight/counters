@@ -1,5 +1,5 @@
-import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
+import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/views/main/ColoredSwipeable.dart';
 import 'package:counter/views/main/counter_row/CounterRow.dart';
@@ -62,7 +62,7 @@ class CountersPage extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: Container(
-                  height: 40.0,
+                  height: 60.0,
                   child: RaisedButton.icon(
                     shape: RoundedRectangleBorder(),
                     color: Color(0xff00796b),

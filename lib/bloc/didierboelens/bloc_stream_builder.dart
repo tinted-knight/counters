@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'bloc_event_state.dart';
 
 typedef Widget AsyncBlocStateBuilder<BlocState>(BuildContext context, BlocState state);
-typedef StreamListener2<BlocState> = void Function(BlocState value);
+typedef StreamListener<BlocState> = void Function(BlocState value);
 
 class BlocStreamBuilder<BlocState> extends StatelessWidget {
   const BlocStreamBuilder({
@@ -17,11 +17,11 @@ class BlocStreamBuilder<BlocState> extends StatelessWidget {
 
   final BlocEventStateBase<BlocEvent, BlocState> bloc;
   final AsyncBlocStateBuilder<BlocState> builder;
-  final StreamListener2<BlocState> stateListener;
+  final StreamListener<BlocState> stateListener;
 
   @override
   Widget build(BuildContext context) {
-    return RedirectStreamBuilder2<BlocState>(
+    return RedirectStreamBuilder<BlocState>(
       stream: bloc.state,
       initialData: bloc.initialState,
       builder: (BuildContext context, AsyncSnapshot<BlocState> snapshot) {
@@ -32,10 +32,10 @@ class BlocStreamBuilder<BlocState> extends StatelessWidget {
   }
 }
 
-class RedirectStreamBuilder2<BlocState> extends StreamBuilder<BlocState> {
-  final StreamListener2<BlocState> navListener;
+class RedirectStreamBuilder<BlocState> extends StreamBuilder<BlocState> {
+  final StreamListener<BlocState> navListener;
 
-  const RedirectStreamBuilder2({
+  const RedirectStreamBuilder({
     Key key,
     BlocState initialData,
     Stream<BlocState> stream,

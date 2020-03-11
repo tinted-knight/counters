@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../BaseBloc.dart';
+import 'bloc_base.dart';
 
 abstract class BlocEvent extends Object {}
 abstract class BlocState extends Object {}

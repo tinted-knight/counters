@@ -1,27 +1,19 @@
-import 'package:counter/bloc/BaseBloc.dart';
-import 'package:counter/bloc/app_bloc/AppBloc.dart';
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
-import 'package:counter/bloc/history_bloc/HistoryBloc.dart';
+import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/pages/create/create_bloc.dart';
 import 'package:counter/pages/create/create_page.dart';
 import 'package:counter/pages/details/details_page.dart';
 import 'package:counter/pages/details/single_bloc.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/theme/dark_theme.dart';
-import 'package:counter/views/history/history_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'model/storage/LocalStorageProvider.dart';
 import 'pages/main/counters_page.dart';
 
-final appBloc = AppBloc();
+void main() => runApp(CountersApp());
 
-void main() => runApp(BlocProvider(
-      blocBuilder: () => appBloc,
-      child: MyApp(),
-    ));
-
-class MyApp extends StatelessWidget {
+class CountersApp extends StatelessWidget {
   final storage = SQLiteStorageProvider();
 
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
@@ -49,10 +41,10 @@ class MyApp extends StatelessWidget {
                   blocBuilder: () => CreateBloc(storage),
                   child: CreatePage(),
                 ),
-            ScreenHistory.route: (context) => BlocProvider<HistoryBloc>(
-                  blocBuilder: () => HistoryBloc(storage),
-                  child: ScreenHistory(),
-                ),
+//            ScreenHistory.route: (context) => BlocProvider<HistoryBloc>(
+//                  blocBuilder: () => HistoryBloc(storage),
+//                  child: ScreenHistory(),
+//                ),
           },
         ),
       ),

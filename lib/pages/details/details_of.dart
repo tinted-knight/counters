@@ -1,16 +1,16 @@
-import 'package:counter/bloc/BaseBloc.dart';
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
+import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
-import 'package:counter/views/create/rows/color_picker/ColorPicker.dart';
 import 'package:counter/views/details/rows/ButtonRow.dart';
 import 'package:counter/views/details/rows/GoalRow.dart';
 import 'package:counter/views/details/rows/StepRow.dart';
 import 'package:counter/views/details/rows/UnitRow.dart';
 import 'package:counter/views/details/rows/top_row/TopRow.dart';
 import 'package:counter/widgets/action_buttons.dart';
+import 'package:counter/widgets/color_picker/ColorPicker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

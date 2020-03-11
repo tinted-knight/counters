@@ -1,55 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
-abstract class BlocBase<States> {
-  void dispose();
-}
+import 'bloc_base.dart';
 
 typedef BlocBuilder<T> = T Function();
 typedef BlocDisposer<T> = Function(T);
-
-abstract class BaseBlocWithStates<States> extends BlocBase<States> {
-  BaseBlocWithStates({@required this.initialState});
-
-  final streamController = StreamController<States>.broadcast();
-
-  final States initialState;
-
-  void pushState(States state) {
-    if (!streamController.isClosed) {
-      streamController.sink.add(state);
-    } else {
-      print('pushState (${States.toString()}), closed');
-    }
-  }
-
-  Stream<States> get states => streamController.stream;
-
-  void dispose() {
-    streamController.close();
-  }
-}
-
-abstract class BaseBlocWithActions<State, Action> extends BaseBlocWithStates<State> {
-  BaseBlocWithActions({State initialState}) : super(initialState: initialState) {
-    actionsController.stream.listen(handleAction);
-  }
-
-  final actionsController = StreamController<Action>.broadcast();
-
-  StreamSink<Action> get actions => actionsController.sink;
-
-  void fire({Action action}) => actions.add(action);
-
-  void handleAction(Action action);
-
-  @override
-  void dispose() {
-    actionsController.close();
-    super.dispose();
-  }
-}
 
 // https://www.didierboelens.com/2018/12/reactive-programming---streams---bloc---practical-use-cases/
 class BlocProvider<T extends BlocBase> extends StatefulWidget {

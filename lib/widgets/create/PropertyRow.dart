@@ -1,10 +1,9 @@
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/views/common/ColoredTextField.dart';
-import 'package:counter/views/common/ColoredTextLabel.dart';
 import 'package:flutter/material.dart';
 
-import '../../common/TextLabel.dart';
-import '../../common/DetailsTextField.dart';
+import '../../views/common/DetailsTextField.dart';
+import '../../views/common/TextLabel.dart';
 
 enum ValueType { str, int, color }
 
