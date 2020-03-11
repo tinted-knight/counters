@@ -4,6 +4,7 @@ import 'package:counter/theme/dark_theme.dart';
 import 'package:counter/views/main/counter_row/non_swipeable/counter_value_ns.dart';
 import 'package:flutter/material.dart';
 
+import '../CounterIcon.dart';
 import '../CounterTitle.dart';
 
 const _kOffset = 3.0;
@@ -46,13 +47,13 @@ class CounterRowNonSwipeable extends StatelessWidget {
             tooltip: "Step down",
             icon: Icon(Icons.remove_circle),
           ),
-//          CounterIcon(item.isGoalReached),
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
               child: CounterTitle(item.title),
             ),
           ),
+          CounterIcon(item.isGoalReached),
           CounterValueIncrement(item, onTap: onIncrement),
         ],
       );
