@@ -1,8 +1,10 @@
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
+import 'package:counter/model/CounterModel.dart';
 import 'package:counter/views/main/ColoredSwipeable.dart';
 import 'package:counter/views/main/counter_row/CounterRow.dart';
+import 'package:counter/views/main/counter_row/non_swipeable/counter_row_non_swipeable.dart';
 import 'package:flutter/material.dart';
 
 import 'counters_bloc.dart';
@@ -43,13 +45,17 @@ class CountersPage extends StatelessWidget {
                   return ListView.builder(
                     itemCount: state.counters.length,
                     itemBuilder: (context, index) {
-                      return ColoredSwipeable(
-                        onTap: () {
-                          navBloc.detailsOf(state.counters[index]);
-                        },
-                        onSwiped: () => countersBloc.increment(index),
-                        child: CounterRow(state.counters[index]),
+                      return _nonSwipeable(
+                        counter: state.counters[index],
+                        onTap: () => navBloc.detailsOf(state.counters[index]),
+                        onIncrement: () => countersBloc.stepUp(index),
+                        onDecrement: () => countersBloc.stepDown(index),
                       );
+//                      return _swipeable(
+//                        counter: state.counters[index],
+//                        onTap: () => navBloc.detailsOf(state.counters[index]),
+//                        onSwiped: () => countersBloc.increment(index),
+//                      );
                     },
                   );
                 }
@@ -80,6 +86,22 @@ class CountersPage extends StatelessWidget {
     );
   }
 
+  Widget _swipeable({CounterItem counter, Function onTap, Function onSwiped}) => ColoredSwipeable(
+        onTap: onTap,
+        onSwiped: onSwiped,
+        child: CounterRow(counter),
+      );
+
+  Widget _nonSwipeable(
+      {CounterItem counter, Function onTap, Function onIncrement, Function onDecrement}) {
+    return CounterRowNonSwipeable(
+      counter,
+      onTap: onTap,
+      onIncrement: onIncrement,
+      onDecrement: onDecrement,
+    );
+  }
+
   Widget _appBar(BuildContext context, Function onFlush, {Function onCreate}) => PreferredSize(
         preferredSize: Size.fromHeight(100.0),
         child: Container(
@@ -107,7 +129,8 @@ class CountersPage extends StatelessWidget {
               ),
               IconButton(
                 tooltip: "Create counter",
-                icon: Icon(Icons.add),
+                color: Colors.redAccent,
+                icon: Icon(Icons.add_box),
                 onPressed: onCreate,
               ),
             ],

@@ -23,7 +23,9 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
     fire(CountersEvent.loaded(_counters));
   }
 
-  void increment(int index) => fire(CountersEvent.increment(_counters[index].id));
+  void stepUp(int index) => fire(CountersEvent.stepUp(_counters[index].id));
+
+  void stepDown(int index) => fire(CountersEvent.stepDown(_counters[index].id));
 
   @override
   Stream<CounterState> eventHandler(CountersEvent event, CounterState currentState) async* {
@@ -35,14 +37,22 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
         _counters = event.counters;
         yield CounterState.loaded(_counters);
         break;
-      case CountersEventType.increment:
-        _performIncrement(event.index);
+      case CountersEventType.stepUp:
+        _performStepUp(event.index);
+        break;
+      case CountersEventType.stepDown:
+        _performStepDown(event.index);
         break;
     }
   }
 
-  void _performIncrement(int index) async {
+  void _performStepUp(int index) async {
     final updated = await _stepUp(index);
+    if (updated != null) singleUpdated(updated);
+  }
+
+  void _performStepDown(int index) async {
+    final updated = await _stepDown(index);
     if (updated != null) singleUpdated(updated);
   }
 
@@ -99,6 +109,14 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
   Future<CounterItem> _stepUp(int index) async {
     final toUpdate = _counters.firstWhere((item) => item.id == index).stepUp();
     if (await repo.update(toUpdate)) return toUpdate;
+    return null;
+  }
+
+  Future<CounterItem> _stepDown(int index) async {
+    final toUpdate = _counters.firstWhere((item) => item.id == index).stepDown();
+    if (toUpdate != null) {
+      if (await repo.update(toUpdate)) return toUpdate;
+    }
     return null;
   }
 }

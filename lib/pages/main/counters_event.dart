@@ -15,10 +15,15 @@ class CountersEvent extends BlocEvent {
         counters: items,
       );
 
-  factory CountersEvent.increment(int id) => CountersEvent(
-        CountersEventType.increment,
+  factory CountersEvent.stepUp(int id) => CountersEvent(
+        CountersEventType.stepUp,
+        index: id,
+      );
+
+  factory CountersEvent.stepDown(int id) => CountersEvent(
+        CountersEventType.stepDown,
         index: id,
       );
 }
 
-enum CountersEventType { start, loaded, increment }
+enum CountersEventType { start, loaded, stepUp, stepDown }

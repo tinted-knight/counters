@@ -32,5 +32,12 @@ extension CopyWith on CounterItem {
     return this.copyWith(value: this.value + this.step);
   }
 
+  CounterItem stepDown() {
+    final newValue = this.value - this.step;
+    print("stepDown: $newValue = ${this.value} - ${this.step}");
+    if (newValue >= 0) return this.copyWith(value: newValue);
+    return null;
+  }
+
   CounterItem get flush => this.copyWith(value: 0);
 }
