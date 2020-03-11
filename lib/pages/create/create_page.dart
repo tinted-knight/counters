@@ -1,7 +1,9 @@
 import 'package:counter/bloc/BaseBloc.dart';
+import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/pages/create/create_state.dart';
+import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/views/create/rows/ButtonRow.dart';
 import 'package:counter/views/create/rows/PropertyRow.dart';
 import 'package:counter/views/create/rows/color_picker/ColorPicker.dart';
@@ -16,6 +18,8 @@ class CreatePage extends StatelessWidget {
   Widget build(BuildContext context) {
     print('create::build');
     final createBloc = BlocProvider.of<CreateBloc>(context);
+    final countersBloc = BlocProvider.of<CountersBloc>(context);
+    final navBloc = BlocProvider.of<NavigatorBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -29,7 +33,12 @@ class CreatePage extends StatelessWidget {
       ),
       body: BlocStreamBuilder<CreateState>(
         bloc: createBloc,
-        stateListener: (state) {},
+        stateListener: (state) {
+          if (state.hasSaved) {
+            countersBloc.reload();
+            navBloc.pop();
+          }
+        },
         builder: (ctx, state) {
           if (state.isIdle) return _content(createBloc);
 

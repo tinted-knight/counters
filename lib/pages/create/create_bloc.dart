@@ -6,16 +6,18 @@ import 'package:counter/pages/create/create_event.dart';
 import 'package:counter/pages/create/create_state.dart';
 import 'package:flutter/material.dart';
 
-class CreateBloc extends BlocEventStateBase<CreateEvent, CreateState>
-    with TextControllersMixin {
+class CreateBloc extends BlocEventStateBase<CreateEvent, CreateState> with TextControllersMixin {
   CreateBloc(this.repo) : super(initialState: CreateState.idle());
 
   final ILocalStorage repo;
 
   void create() async {
+    fire(CreateEvent.saving());
     final newCounter = composeCounter();
-    print('bloc::create, ${newCounter.title}');
     await repo.add(newCounter);
+    // todo fake
+    await Future.delayed(Duration(seconds: 1));
+    fire(CreateEvent.saved());
   }
 
   @override
@@ -25,10 +27,10 @@ class CreateBloc extends BlocEventStateBase<CreateEvent, CreateState>
         yield CreateState.idle();
         break;
       case CreateEventType.saving:
-        // TODO: Handle this case.
+        yield CreateState.saving();
         break;
       case CreateEventType.saved:
-        // TODO: Handle this case.
+        yield CreateState.saved();
         break;
     }
   }
