@@ -1,8 +1,8 @@
 import 'package:counter/views/common/ColoredTextField.dart';
 import 'package:flutter/material.dart';
 
+import '../../common/ExpandedRight.dart';
 import '../../common/TextLabel.dart';
-import '../../common/DetailsTextField.dart';
 
 class StepRow extends StatelessWidget {
   const StepRow({Key key, this.controller, this.hasError = false}) : super(key: key);

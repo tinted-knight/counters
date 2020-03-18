@@ -1,7 +1,7 @@
 import 'package:counter/views/common/ColoredTextField.dart';
 import 'package:flutter/material.dart';
 
-import '../../views/common/DetailsTextField.dart';
+import '../../views/common/ExpandedRight.dart';
 import '../../views/common/TextLabel.dart';
 
 enum ValueType { str, int, color }

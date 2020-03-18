@@ -1,4 +1,3 @@
-import 'package:counter/model/ColorPalette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -28,13 +27,6 @@ class ColoredTextField extends StatelessWidget {
           controller: controller,
           onlyDigits: onlyDigits,
           textColor: textColor,
-        );
-
-  ColoredTextField.justColor(int color)
-      : this(
-          title: "",
-          decorationColor: ColorPalette.bgColor(color),
-          controller: null,
         );
 
   final String title;

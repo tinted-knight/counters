@@ -41,3 +41,13 @@ extension CopyWith on CounterItem {
 
   CounterItem get flush => this.copyWith(value: 0);
 }
+
+extension Validation on CounterItem {
+  bool get hasInvalid => value < 0 || goal < 0 || step < 0;
+
+  bool get hasStepError => step <= 0;
+
+  bool get hasValueError => value < 0;
+
+  bool get hasGoalError => goal < 0;
+}

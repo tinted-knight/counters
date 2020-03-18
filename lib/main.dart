@@ -50,8 +50,8 @@ class CountersApp extends StatelessWidget {
                       );
                     },
                   ),
-              DetailsPage.route: (context) => BlocProvider<SingleBloc>(
-                    blocBuilder: () => SingleBloc(repo: storage),
+              DetailsPage.route: (context) => BlocProvider<DetailsBloc>(
+                    blocBuilder: () => DetailsBloc(repo: storage),
                     child: DetailsPage(),
                   ),
               CreatePage.route: (context) => BlocProvider<CreateBloc>(

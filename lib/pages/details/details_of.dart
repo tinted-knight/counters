@@ -14,6 +14,7 @@ import 'package:counter/widgets/color_picker/ColorPicker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../bloc/helper_functions.dart';
 import 'single_bloc.dart';
 import 'single_state.dart';
 
@@ -27,7 +28,7 @@ class DetailsOf extends StatefulWidget {
 }
 
 class _DetailsOfState extends State<DetailsOf> {
-  SingleBloc singleBloc;
+  DetailsBloc singleBloc;
   CountersBloc countersBloc;
   NavigatorBloc navBloc;
 
@@ -36,7 +37,7 @@ class _DetailsOfState extends State<DetailsOf> {
     super.didChangeDependencies();
 
     if (countersBloc == null) countersBloc = BlocProvider.of<CountersBloc>(context);
-    if (singleBloc == null) singleBloc = BlocProvider.of<SingleBloc>(context);
+    if (singleBloc == null) singleBloc = BlocProvider.of<DetailsBloc>(context);
     if (navBloc == null) navBloc = BlocProvider.of<NavigatorBloc>(context);
 
     singleBloc.load(widget.counter);
@@ -44,7 +45,7 @@ class _DetailsOfState extends State<DetailsOf> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocStreamBuilder<SingleState>(
+    return BlocStreamBuilder<DetailsState>(
       bloc: singleBloc,
       stateListener: (state) {
         if (state.validationError) {
@@ -75,7 +76,7 @@ class _DetailsOfState extends State<DetailsOf> {
     );
   }
 
-  LayoutBuilder _buildLayout(SingleState state) {
+  LayoutBuilder _buildLayout(DetailsState state) {
     return LayoutBuilder(
       builder: (ctx, viewport) => SingleChildScrollView(
         child: ConstrainedBox(
@@ -127,7 +128,7 @@ class _DetailsOfState extends State<DetailsOf> {
     );
   }
 
-  AppBar _appBar(SingleState state) => AppBar(
+  AppBar _appBar(DetailsState state) => AppBar(
         backgroundColor: ColorPalette.bgColor(state.counter.colorIndex),
         elevation: 4.0,
         title: TextField(

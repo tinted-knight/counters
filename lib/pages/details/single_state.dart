@@ -1,7 +1,7 @@
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:counter/model/CounterModel.dart';
 
-class SingleState extends BlocState {
+class DetailsState extends BlocState {
   final bool isLoading;
   final bool hasLoaded;
   final bool isSaving;
@@ -13,7 +13,7 @@ class SingleState extends BlocState {
   final CounterItem counter;
   final CounterItem counterWithErrors;
 
-  SingleState(
+  DetailsState(
       {this.isLoading = false,
       this.hasLoaded = false,
       this.isSaving = false,
@@ -25,25 +25,25 @@ class SingleState extends BlocState {
       this.counter,
       this.counterWithErrors});
 
-  factory SingleState.loading() => SingleState(isLoading: true);
+  factory DetailsState.loading() => DetailsState(isLoading: true);
 
-  factory SingleState.done() => SingleState(hasDone: true);
+  factory DetailsState.done() => DetailsState(hasDone: true);
 
-  SingleState canceled() => this.copyWith(hasCanceled: true);
+  DetailsState canceled() => this.copyWith(hasCanceled: true);
 
-  SingleState deleting() => this.copyWith(isDeleting: true);
+  DetailsState deleting() => this.copyWith(isDeleting: true);
 
-  factory SingleState.colorUpdated(CounterItem item) => SingleState(
+  factory DetailsState.colorUpdated(CounterItem item) => DetailsState(
         colorHasUpdated: true,
         counter: item,
       );
 
-  factory SingleState.loaded(CounterItem item) => SingleState(
+  factory DetailsState.loaded(CounterItem item) => DetailsState(
         hasLoaded: true,
         counter: item,
       );
 
-  SingleState copyWith({
+  DetailsState copyWith({
     bool isLoading,
     bool hasLoaded,
     bool isSaving,
@@ -55,7 +55,7 @@ class SingleState extends BlocState {
     CounterItem counter,
     CounterItem counterWithErrors,
   }) =>
-      SingleState(
+      DetailsState(
         isLoading: isLoading ?? this.isLoading,
         hasLoaded: hasLoaded ?? this.hasLoaded,
         isSaving: isSaving ?? this.isSaving,

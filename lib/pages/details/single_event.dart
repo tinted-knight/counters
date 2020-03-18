@@ -1,40 +1,40 @@
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:counter/model/CounterModel.dart';
 
-class SingleEvent extends BlocEvent {
-  final SingleEventType type;
+class DetailsEvent extends BlocEvent {
+  final DetailsEventType type;
   final CounterItem counter;
   final CounterItem counterWithErrors;
 
-  SingleEvent(this.type, {this.counter, this.counterWithErrors});
+  DetailsEvent(this.type, {this.counter, this.counterWithErrors});
 
-  factory SingleEvent.loaded(CounterItem item) => SingleEvent(
-        SingleEventType.loaded,
+  factory DetailsEvent.loaded(CounterItem item) => DetailsEvent(
+        DetailsEventType.loaded,
         counter: item,
       );
 
-  factory SingleEvent.loading() => SingleEvent(SingleEventType.loading);
+  factory DetailsEvent.loading() => DetailsEvent(DetailsEventType.loading);
 
-  factory SingleEvent.saving() => SingleEvent(SingleEventType.saving);
+  factory DetailsEvent.saving() => DetailsEvent(DetailsEventType.saving);
 
-  factory SingleEvent.deleting() => SingleEvent(SingleEventType.deleting);
+  factory DetailsEvent.deleting() => DetailsEvent(DetailsEventType.deleting);
 
-  factory SingleEvent.doneEditing() => SingleEvent(SingleEventType.doneEditing);
+  factory DetailsEvent.doneEditing() => DetailsEvent(DetailsEventType.doneEditing);
 
-  factory SingleEvent.canceled() => SingleEvent(SingleEventType.canceled);
+  factory DetailsEvent.canceled() => DetailsEvent(DetailsEventType.canceled);
 
-  factory SingleEvent.colorUpdated(CounterItem item) => SingleEvent(
-        SingleEventType.colorUpdated,
+  factory DetailsEvent.colorUpdated(CounterItem item) => DetailsEvent(
+        DetailsEventType.colorUpdated,
         counter: item,
       );
 
-  factory SingleEvent.validationError(CounterItem item) => SingleEvent(
-        SingleEventType.validationError,
+  factory DetailsEvent.validationError(CounterItem item) => DetailsEvent(
+        DetailsEventType.validationError,
         counterWithErrors: item,
       );
 }
 
-enum SingleEventType {
+enum DetailsEventType {
   loading,
   loaded,
   saving,

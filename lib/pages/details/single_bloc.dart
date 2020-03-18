@@ -3,40 +3,41 @@ import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/storage/interface.dart';
 import 'package:counter/pages/details/single_event.dart';
 import 'package:counter/pages/details/single_state.dart';
-import 'package:flutter/material.dart';
 
 import '../../bloc/helper_functions.dart';
+import 'details_controllers_mixin.dart';
 
-class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextControllersMixin {
-  SingleBloc({this.repo}) : super(initialState: SingleState.loading());
+class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
+    with DetailsControllersMixin {
+  DetailsBloc({this.repo}) : super(initialState: DetailsState.loading());
 
   final ILocalStorage repo;
 
   void load(CounterItem item) {
-    fire(SingleEvent.loaded(item));
+    fire(DetailsEvent.loaded(item));
     populateControllers(item);
   }
 
   void update() async {
-    if (await _update() != null) fire(SingleEvent.doneEditing());
+    if (await _update() != null) fire(DetailsEvent.doneEditing());
   }
 
   void delete(CounterItem item) async {
-    fire(SingleEvent.deleting());
+    fire(DetailsEvent.deleting());
     // todo fake
     await Future.delayed(Duration(seconds: 1));
     if (await repo.delete(item)) {
-      fire(SingleEvent.doneEditing());
+      fire(DetailsEvent.doneEditing());
     }
   }
 
   Future<CounterItem> _update({int withColor}) async {
     final updatedItem = fillFromControllers(lastState.counter).copyWith(colorIndex: withColor);
     if (!isValid(updatedItem)) {
-      fire(SingleEvent.validationError(updatedItem));
+      fire(DetailsEvent.validationError(updatedItem));
       return null;
     }
-    fire(SingleEvent.saving());
+    fire(DetailsEvent.saving());
     // todo fake
     await Future.delayed(Duration(seconds: 1));
     if (await repo.update(updatedItem)) {
@@ -47,96 +48,39 @@ class SingleBloc extends BlocEventStateBase<SingleEvent, SingleState> with TextC
 
   void applyColor(int color) async {
     final updated = await _update(withColor: color);
-    if (updated != null) fire(SingleEvent.colorUpdated(updated));
+    if (updated != null) fire(DetailsEvent.colorUpdated(updated));
   }
 
-  void cancel() => fire(SingleEvent.canceled());
+  void cancel() => fire(DetailsEvent.canceled());
 
   @override
-  Stream<SingleState> eventHandler(SingleEvent event, SingleState currentState) async* {
+  Stream<DetailsState> eventHandler(DetailsEvent event, DetailsState currentState) async* {
     switch (event.type) {
-      case SingleEventType.loading:
-        yield SingleState.loading();
+      case DetailsEventType.loading:
+        yield DetailsState.loading();
         break;
-      case SingleEventType.loaded:
-        yield SingleState.loaded(event.counter);
+      case DetailsEventType.loaded:
+        yield DetailsState.loaded(event.counter);
         break;
-      case SingleEventType.saving:
+      case DetailsEventType.saving:
         yield currentState.copyWith(isSaving: true);
         break;
-      case SingleEventType.doneEditing:
-        yield SingleState.done();
+      case DetailsEventType.doneEditing:
+        yield DetailsState.done();
         break;
-      case SingleEventType.validationError:
+      case DetailsEventType.validationError:
         yield currentState.copyWith(
             validationError: true, counterWithErrors: event.counterWithErrors);
         break;
-      case SingleEventType.canceled:
+      case DetailsEventType.canceled:
         yield currentState.canceled();
         break;
-      case SingleEventType.deleting:
+      case DetailsEventType.deleting:
         yield currentState.deleting();
         break;
-      case SingleEventType.colorUpdated:
-        yield SingleState.colorUpdated(event.counter);
+      case DetailsEventType.colorUpdated:
+        yield DetailsState.colorUpdated(event.counter);
         break;
     }
-  }
-}
-
-extension Validation on CounterItem {
-  bool get hasInvalid => value < 0 || goal < 0 || step < 0;
-
-  bool get hasStepError => step <= 0;
-
-  bool get hasValueError => value < 0;
-
-  bool get hasGoalError => goal < 0;
-}
-
-mixin TextControllersMixin on BlocEventStateBase<SingleEvent, SingleState> {
-  final valueCtrl = TextEditingController();
-  final stepCtrl = TextEditingController();
-  final goalCtrl = TextEditingController();
-  final unitCtrl = TextEditingController();
-  final titleCtrl = TextEditingController();
-
-  void populateControllers(CounterItem counter) {
-    valueCtrl.text = counter.value.toString();
-    stepCtrl.text = counter.step.toString();
-    goalCtrl.text = counter.goal.toString();
-    unitCtrl.text = counter.unit;
-    titleCtrl.text = counter.title;
-  }
-
-  CounterItem fillFromControllers(CounterItem item) => item.copyWith(
-        title: titleCtrl.text,
-        goal: intValueOf(goalCtrl.text),
-        value: intValueOf(valueCtrl.text),
-        step: intValueOf(stepCtrl.text),
-        unit: unitCtrl.text,
-      );
-
-  bool isValid(CounterItem item) {
-    if (item.hasInvalid) {
-//      if (item.value < 0) valueCtrl.text += " : e";
-//      if (item.step < 0) stepCtrl.text += " : e";
-//      if (item.goal < 0) goalCtrl.text += " : e";
-      return false;
-    }
-    return true;
-  }
-
-  int intValueOf(String s) => int.tryParse(s) ?? -1;
-
-  @override
-  void dispose() {
-    valueCtrl.dispose();
-    stepCtrl.dispose();
-    goalCtrl.dispose();
-    unitCtrl.dispose();
-    titleCtrl.dispose();
-
-    super.dispose();
   }
 }
