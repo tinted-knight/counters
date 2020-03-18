@@ -61,14 +61,6 @@ class CounterValue extends StatelessWidget {
           ),
         ],
       );
-
-  Widget _valueOld() => Text(
-        "${item.value.toString()} ${item.unit}",
-        style: kCounterValueStyle,
-        maxLines: 1,
-        softWrap: false,
-        overflow: TextOverflow.fade,
-      );
 }
 
 // style

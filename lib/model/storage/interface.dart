@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:counter/model/HistoryModel.dart';
 
 abstract class ILocalStorage<CounterItem> {

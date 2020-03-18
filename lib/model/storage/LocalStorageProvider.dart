@@ -1,6 +1,5 @@
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/HistoryModel.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'DbProvider.dart';
@@ -85,7 +84,7 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
     final database = await connection();
     final prevTime = await _getRawTime();
     await database.delete(tableTime);
-    final updated = await database.insert(tableTime, {"time": time});
+    await database.insert(tableTime, {"time": time});
     return prevTime;
   }
 }

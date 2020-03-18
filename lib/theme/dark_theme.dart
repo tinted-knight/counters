@@ -9,29 +9,20 @@ class ThemeLight {
   static const button = Color(0xff00796b);
 }
 
-var themeLight = _buildThemeData(ThemeData(
-//  fontFamily: "RobotoCondensed",
-    ));
+var themeLight = _buildThemeData(ThemeData());
 
 _buildThemeData(ThemeData baseTheme) => baseTheme.copyWith(
-    primaryColor: ThemeLight.primary,
-    accentColor: ThemeLight.accent,
-    scaffoldBackgroundColor: ThemeLight.scaffoldBgColor,
-    buttonTheme: _buildButtonTheme(baseTheme),
-    floatingActionButtonTheme: _buildFabTheme(baseTheme),
-//      textTheme: _buildTextTheme(baseTheme),
-    inputDecorationTheme: _buildInputDecorationTheme(baseTheme),
-    pageTransitionsTheme: PageTransitionsTheme(builders: {
-      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-    }),
-    textTheme: baseTheme.textTheme.copyWith(
-      headline6: baseTheme.textTheme.headline6.copyWith(color: Color(0xffff0000)),
-    ));
-
-//_buildTextTheme(ThemeData baseTheme) => baseTheme.textTheme.copyWith(
-//      body1: TextStyle(color: Color(0xff000000)),
-//    );
+      primaryColor: ThemeLight.primary,
+      accentColor: ThemeLight.accent,
+      scaffoldBackgroundColor: ThemeLight.scaffoldBgColor,
+      buttonTheme: _buildButtonTheme(baseTheme),
+      floatingActionButtonTheme: _buildFabTheme(baseTheme),
+      inputDecorationTheme: _buildInputDecorationTheme(baseTheme),
+      pageTransitionsTheme: PageTransitionsTheme(builders: {
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+      }),
+    );
 
 _buildInputDecorationTheme(ThemeData baseTheme) {
   return baseTheme.inputDecorationTheme.copyWith(

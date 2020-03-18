@@ -12,8 +12,12 @@ class CreateBloc extends BlocEventStateBase<CreateEvent, CreateState> with TextC
   final ILocalStorage repo;
 
   void create() async {
-    fire(CreateEvent.saving());
-    final newCounter = composeCounter();
+    final newCounter = composeFromControllers();
+    fire(CreateEvent.saving(newCounter));
+    if (!isValid(newCounter)) {
+      fire(CreateEvent.validationError(newCounter));
+      return null;
+    }
     await repo.add(newCounter);
     // todo fake
     await Future.delayed(Duration(seconds: 1));
@@ -32,11 +36,15 @@ class CreateBloc extends BlocEventStateBase<CreateEvent, CreateState> with TextC
       case CreateEventType.saved:
         yield CreateState.saved();
         break;
+      case CreateEventType.validationError:
+        yield CreateState.validationError(event.counterWithErrors);
+        break;
     }
   }
 }
 
 mixin TextControllersMixin on BlocEventStateBase<CreateEvent, CreateState> {
+  // todo debug to easy create a counter
   final stepCtrl = TextEditingController()..text = "42";
   final goalCtrl = TextEditingController()..text = "101";
   final unitCtrl = TextEditingController()..text = "timess";
@@ -48,7 +56,7 @@ mixin TextControllersMixin on BlocEventStateBase<CreateEvent, CreateState> {
     color = newColor;
   }
 
-  CounterItem composeCounter() => CounterItem(
+  CounterItem composeFromControllers() => CounterItem(
         title: titleCtrl.text,
         step: intValueOf(stepCtrl.text),
         goal: intValueOf(goalCtrl.text),

@@ -15,7 +15,7 @@ class NavigatorBloc extends BlocEventStateBase<NavigatorAction, dynamic> {
     if (event is NavigatorActionPop) {
       navigatorKey.currentState.pop();
     } else if (event is NavigateToHomeEvent) {
-      navigatorKey.currentState.pushNamed('/home');
+      navigatorKey.currentState.pushNamedAndRemoveUntil('/', (route) => false);
     } else if (event is NavigateToDetails) {
       navigatorKey.currentState.pushNamed(DetailsPage.route, arguments: event.item);
     } else if (event is NavigatorActionCreate) {
@@ -26,6 +26,8 @@ class NavigatorBloc extends BlocEventStateBase<NavigatorAction, dynamic> {
   void detailsOf(CounterItem item) => fire(NavigateToDetails(item));
 
   void create() => fire(NavigatorActionCreate());
+
+  void home() => fire(NavigateToHomeEvent());
 
   void pop() => fire(NavigatorActionPop());
 }

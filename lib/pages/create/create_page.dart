@@ -39,23 +39,24 @@ class CreatePage extends StatelessWidget {
         stateListener: (state) {
           if (state.hasSaved) {
             countersBloc.reload();
-            navBloc.pop();
+            navBloc.home();
+          }
+          if (state.isSaving) {
+            _showSavingDialog(context);
           }
         },
         builder: (ctx, state) {
-          if (state.isIdle) return _content(createBloc, navBloc);
+          if (state.isIdle || state.validationError || state.isSaving) {
+            return _content(state, createBloc, navBloc);
+          }
 
-          if (state.isSaving) return Center(child: Text("saving..."));
-
-          if (state.hasSaved) return Center(child: Text("saved"));
-
-          return Center(child: Text("error"));
+          return Center(child: Text("debug error"));
         },
       ),
     );
   }
 
-  Widget _content(CreateBloc createBloc, NavigatorBloc navBloc) {
+  Widget _content(CreateState state, CreateBloc createBloc, NavigatorBloc navBloc) {
     return LayoutBuilder(
         builder: (ctx, viewport) => SingleChildScrollView(
               child: ConstrainedBox(
@@ -63,9 +64,17 @@ class CreatePage extends StatelessWidget {
                 child: IntrinsicHeight(
                   child: Column(
                     children: <Widget>[
-                      PropertyRow.title("Title", createBloc.titleCtrl),
-                      PropertyRow.step("Step", createBloc.stepCtrl),
-                      PropertyRow.goal("Goal", createBloc.goalCtrl),
+                      PropertyRow.title(label: "Title", controller: createBloc.titleCtrl),
+                      PropertyRow.step(
+                        label: "Step",
+                        controller: createBloc.stepCtrl,
+                        hasError: state.counterWithErrors?.hasStepError ?? false,
+                      ),
+                      PropertyRow.goal(
+                        label: "Goal",
+                        controller: createBloc.goalCtrl,
+                        hasError: state.counterWithErrors?.hasGoalError ?? false,
+                      ),
                       PropertyRow.unit("Unit", createBloc.unitCtrl),
                       ColorPicker(
                         onColorPicked: (color) => createBloc.setColor(color),
@@ -82,5 +91,29 @@ class CreatePage extends StatelessWidget {
                 ),
               ),
             ));
+  }
+
+  void _showSavingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Dialog(
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                CircularProgressIndicator(),
+                Padding(
+                  padding: EdgeInsets.only(top: 4.0),
+                  child: Text("saving..."),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

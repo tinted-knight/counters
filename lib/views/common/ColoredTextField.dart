@@ -4,9 +4,7 @@ import 'package:flutter/services.dart';
 
 // default - dark
 const _textColorDefault = Color(0xff313131);
-const _decorationColorDefault = Color(0xffffffff);
 // light
-final _textColorForLight = Color(0xffffffff);
 final _decorationColorForLight = Color(0xff212121);
 //
 
@@ -22,13 +20,14 @@ class ColoredTextField extends StatelessWidget {
     @required this.controller,
   }) : super(key: key);
 
-  ColoredTextField.forLight({String title = "", TextEditingController controller, bool onlyDigits})
+  ColoredTextField.forLight(
+      {String title = "", TextEditingController controller, bool onlyDigits, Color textColor})
       : this(
           title: title,
           decorationColor: _decorationColorForLight,
-//          textColor: _textColorForLight,
           controller: controller,
           onlyDigits: onlyDigits,
+          textColor: textColor,
         );
 
   ColoredTextField.justColor(int color)
@@ -58,11 +57,6 @@ class ColoredTextField extends StatelessWidget {
     );
   }
 
-  BoxDecoration get _whiteDecoration => BoxDecoration(
-        color: decorationColor ?? _decorationColorDefault,
-        borderRadius: BorderRadius.circular(8.0),
-      );
-
   BoxDecoration get _neumorphicInnerDecoration => BoxDecoration(
         color: Colors.black.withOpacity(0.075),
         boxShadow: [
@@ -74,41 +68,4 @@ class ColoredTextField extends StatelessWidget {
         ],
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
       );
-
-///////////////////////////////////////////////////////////////////////
-  _testBorder() {
-    final outlineBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8.0),
-      borderSide: BorderSide(
-        color: Colors.green,
-        width: 2.0,
-        style: BorderStyle.solid,
-      ),
-    );
-
-    final underlineBorder = UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: Colors.white38,
-        width: 1.0,
-        style: BorderStyle.solid,
-      ),
-    );
-
-    return Container(
-      padding: EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 8.0),
-      decoration: BoxDecoration(
-        color: Colors.red,
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: TextField(
-        textAlignVertical: TextAlignVertical.bottom,
-        onChanged: (text) {},
-//        decoration: InputDecoration(
-//          enabledBorder: underlineBorder,
-//          focusedBorder: underlineBorder,
-//        ),
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-  }
 }

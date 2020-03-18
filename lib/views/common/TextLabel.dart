@@ -1,8 +1,6 @@
 import 'package:counter/theme/dark_theme.dart';
 import 'package:flutter/material.dart';
 
-const _kTextLabelBg = Color(0xff212121);
-
 const _kOffset = 2.0;
 const _kBlur = 2.0;
 const _kShadowLight = Color(0xAAFFFFFF);
@@ -46,13 +44,6 @@ class TextLabel extends StatelessWidget {
     ],
     borderRadius: BorderRadius.all(Radius.circular(8.0)),
   );
-
-  BoxDecoration get _darkDecoration =>
-      BoxDecoration(
-        color: _kTextLabelBg,
-        borderRadius: BorderRadius.circular(8.0),
-      );
-
 }
 
 class ExpandedLeft extends StatelessWidget {
