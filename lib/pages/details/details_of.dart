@@ -2,9 +2,7 @@ import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/model/ColorPalette.dart';
-import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
-import 'package:counter/views/details/rows/ButtonRow.dart';
 import 'package:counter/views/details/rows/GoalRow.dart';
 import 'package:counter/views/details/rows/StepRow.dart';
 import 'package:counter/views/details/rows/UnitRow.dart';
@@ -19,9 +17,7 @@ import 'single_bloc.dart';
 import 'single_state.dart';
 
 class DetailsOf extends StatefulWidget {
-  const DetailsOf(this.counter, {Key key}) : super(key: key);
-
-  final CounterItem counter;
+  const DetailsOf({Key key}) : super(key: key);
 
   @override
   _DetailsOfState createState() => _DetailsOfState();
@@ -40,7 +36,7 @@ class _DetailsOfState extends State<DetailsOf> {
     if (singleBloc == null) singleBloc = BlocProvider.of<DetailsBloc>(context);
     if (navBloc == null) navBloc = BlocProvider.of<NavigatorBloc>(context);
 
-    singleBloc.load(widget.counter);
+//    singleBloc.load(widget.counter);
   }
 
   @override
@@ -83,9 +79,9 @@ class _DetailsOfState extends State<DetailsOf> {
           constraints: BoxConstraints(minHeight: viewport.maxHeight),
           child: IntrinsicHeight(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                _appBar(state),
+                _newAppBar(state),
                 Container(
                   margin: EdgeInsets.only(top: 8.0),
                   height: 150.0,
@@ -111,15 +107,6 @@ class _DetailsOfState extends State<DetailsOf> {
                   hasError: state.counterWithErrors?.hasGoalError ?? false,
                 ),
                 UnitRow(controller: singleBloc.unitCtrl),
-                Expanded(
-                  child: ButtonRow(
-                    buttonColor: ColorPalette.bgColor(state.counter.colorIndex),
-                    isSaving: state.isSaving,
-                    onSave: () => singleBloc.update(),
-                    onCancel: () => singleBloc.cancel(),
-                    onStat: () {},
-                  ),
-                ),
               ],
             ),
           ),
@@ -128,6 +115,27 @@ class _DetailsOfState extends State<DetailsOf> {
     );
   }
 
+  AppBar _newAppBar(DetailsState state) => AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: ColorPalette.bgColor(state.counter.colorIndex),
+        elevation: 4.0,
+        title: TextField(
+          controller: singleBloc.titleCtrl,
+          style: TextStyle(color: Color(0xFFFFFFFF)),
+        ),
+        actions: <Widget>[
+          ColorActionButton(
+            inAction: false,
+            onPressed: _showColorPicker,
+          ),
+          DeleteActionButton(
+            inAction: state.isDeleting,
+            onPressed: () => singleBloc.delete(state.counter),
+          ),
+        ],
+      );
+
+  // @deprecated -> _newAppBar
   AppBar _appBar(DetailsState state) => AppBar(
         backgroundColor: ColorPalette.bgColor(state.counter.colorIndex),
         elevation: 4.0,
@@ -169,6 +177,7 @@ class _DetailsOfState extends State<DetailsOf> {
   void _showMessage(BuildContext context, String msg) {
     Scaffold.of(context).showSnackBar(
       SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
