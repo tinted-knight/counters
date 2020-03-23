@@ -31,6 +31,16 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
     }
   }
 
+  void stepUp() {
+    final updated = fillFromControllers(lastState.counter).stepUp();
+    valueCtrl.text = updated.value.toString();
+  }
+
+  void stepDown() {
+    final updated = fillFromControllers(lastState.counter).stepDown();
+    valueCtrl.text = updated?.value?.toString() ?? lastState.counter.value.toString();
+  }
+
   Future<CounterItem> _update({int withColor}) async {
     final updatedItem = fillFromControllers(lastState.counter).copyWith(colorIndex: withColor);
     if (!isValid(updatedItem)) {
@@ -51,7 +61,13 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
     if (updated != null) fire(DetailsEvent.colorUpdated(updated));
   }
 
-  void cancel() => fire(DetailsEvent.canceled());
+  void cancel() {
+    final current = fillFromControllers(lastState.counter);
+    if (current.value != lastState.counter.value) {
+      return fire(DetailsEvent.canceled(modified: true));
+    }
+    return fire(DetailsEvent.canceled());
+  }
 
   @override
   Stream<DetailsState> eventHandler(DetailsEvent event, DetailsState currentState) async* {
@@ -73,7 +89,7 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
             validationError: true, counterWithErrors: event.counterWithErrors);
         break;
       case DetailsEventType.canceled:
-        yield currentState.canceled();
+        yield currentState.canceled(event.wasModified);
         break;
       case DetailsEventType.deleting:
         yield currentState.deleting();

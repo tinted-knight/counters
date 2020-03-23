@@ -10,6 +10,7 @@ class DetailsState extends BlocState {
   final bool hasCanceled;
   final bool validationError;
   final bool colorHasUpdated;
+  final bool wasModified;
   final CounterItem counter;
   final CounterItem counterWithErrors;
 
@@ -22,6 +23,7 @@ class DetailsState extends BlocState {
       this.hasCanceled = false,
       this.validationError = false,
       this.colorHasUpdated = false,
+      this.wasModified = false,
       this.counter,
       this.counterWithErrors});
 
@@ -29,7 +31,10 @@ class DetailsState extends BlocState {
 
   factory DetailsState.done() => DetailsState(hasDone: true);
 
-  DetailsState canceled() => this.copyWith(hasCanceled: true);
+  DetailsState canceled(bool modified) => this.copyWith(
+        hasCanceled: true,
+        wasModified: modified,
+      );
 
   DetailsState deleting() => this.copyWith(isDeleting: true);
 
@@ -52,6 +57,7 @@ class DetailsState extends BlocState {
     bool hasCanceled,
     bool validationError,
     bool colorHasUpdated,
+    bool wasModified,
     CounterItem counter,
     CounterItem counterWithErrors,
   }) =>
@@ -64,6 +70,7 @@ class DetailsState extends BlocState {
         hasCanceled: hasCanceled ?? this.hasCanceled,
         validationError: validationError ?? this.validationError,
         colorHasUpdated: colorHasUpdated ?? this.colorHasUpdated,
+        wasModified: wasModified ?? this.wasModified,
         counter: counter ?? this.counter,
         counterWithErrors: counterWithErrors ?? this.counterWithErrors,
       );

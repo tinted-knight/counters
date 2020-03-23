@@ -5,8 +5,9 @@ class DetailsEvent extends BlocEvent {
   final DetailsEventType type;
   final CounterItem counter;
   final CounterItem counterWithErrors;
+  final bool wasModified;
 
-  DetailsEvent(this.type, {this.counter, this.counterWithErrors});
+  DetailsEvent(this.type, {this.counter, this.counterWithErrors, this.wasModified});
 
   factory DetailsEvent.loaded(CounterItem item) => DetailsEvent(
         DetailsEventType.loaded,
@@ -21,7 +22,10 @@ class DetailsEvent extends BlocEvent {
 
   factory DetailsEvent.doneEditing() => DetailsEvent(DetailsEventType.doneEditing);
 
-  factory DetailsEvent.canceled() => DetailsEvent(DetailsEventType.canceled);
+  factory DetailsEvent.canceled({bool modified = false}) => DetailsEvent(
+        DetailsEventType.canceled,
+        wasModified: modified,
+      );
 
   factory DetailsEvent.colorUpdated(CounterItem item) => DetailsEvent(
         DetailsEventType.colorUpdated,

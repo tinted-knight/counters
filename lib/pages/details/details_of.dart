@@ -24,7 +24,7 @@ class DetailsOf extends StatefulWidget {
 }
 
 class _DetailsOfState extends State<DetailsOf> {
-  DetailsBloc singleBloc;
+  DetailsBloc detailsBloc;
   CountersBloc countersBloc;
   NavigatorBloc navBloc;
 
@@ -33,7 +33,7 @@ class _DetailsOfState extends State<DetailsOf> {
     super.didChangeDependencies();
 
     if (countersBloc == null) countersBloc = BlocProvider.of<CountersBloc>(context);
-    if (singleBloc == null) singleBloc = BlocProvider.of<DetailsBloc>(context);
+    if (detailsBloc == null) detailsBloc = BlocProvider.of<DetailsBloc>(context);
     if (navBloc == null) navBloc = BlocProvider.of<NavigatorBloc>(context);
 
 //    singleBloc.load(widget.counter);
@@ -42,7 +42,7 @@ class _DetailsOfState extends State<DetailsOf> {
   @override
   Widget build(BuildContext context) {
     return BlocStreamBuilder<DetailsState>(
-      bloc: singleBloc,
+      bloc: detailsBloc,
       stateListener: (state) {
         if (state.validationError) {
           _showMessage(context, "validation error");
@@ -54,7 +54,8 @@ class _DetailsOfState extends State<DetailsOf> {
           return;
         }
         if (state.hasCanceled) {
-          navBloc.pop();
+          print('hasCanceled, ${state.wasModified}');
+//          navBloc.pop();
           return;
         }
         if (state.colorHasUpdated) {
@@ -88,25 +89,25 @@ class _DetailsOfState extends State<DetailsOf> {
                   child: TopRow(
                     value: state.counter.value,
                     goal: state.counter.goal,
-                    controller: singleBloc.valueCtrl,
+                    controller: detailsBloc.valueCtrl,
                     hasError: state.counterWithErrors?.hasValueError ?? false,
                     upButtonTap: () {
-                      print('upButtonTap');
+                      detailsBloc.stepUp();
                     },
                     downButtonTap: () {
-                      print('downButtonTap');
+                      detailsBloc.stepDown();
                     },
                   ),
                 ),
                 StepRow(
-                  controller: singleBloc.stepCtrl,
+                  controller: detailsBloc.stepCtrl,
                   hasError: state.counterWithErrors?.hasStepError ?? false,
                 ),
                 GoalRow(
-                  controller: singleBloc.goalCtrl,
+                  controller: detailsBloc.goalCtrl,
                   hasError: state.counterWithErrors?.hasGoalError ?? false,
                 ),
-                UnitRow(controller: singleBloc.unitCtrl),
+                UnitRow(controller: detailsBloc.unitCtrl),
               ],
             ),
           ),
@@ -120,7 +121,7 @@ class _DetailsOfState extends State<DetailsOf> {
         backgroundColor: ColorPalette.bgColor(state.counter.colorIndex),
         elevation: 4.0,
         title: TextField(
-          controller: singleBloc.titleCtrl,
+          controller: detailsBloc.titleCtrl,
           style: TextStyle(color: Color(0xFFFFFFFF)),
         ),
         actions: <Widget>[
@@ -130,17 +131,17 @@ class _DetailsOfState extends State<DetailsOf> {
           ),
           DeleteActionButton(
             inAction: state.isDeleting,
-            onPressed: () => singleBloc.delete(state.counter),
+            onPressed: () => detailsBloc.delete(state.counter),
           ),
         ],
       );
 
-  // @deprecated -> _newAppBar
+  /// @deprecated -> [_newAppBar]
   AppBar _appBar(DetailsState state) => AppBar(
         backgroundColor: ColorPalette.bgColor(state.counter.colorIndex),
         elevation: 4.0,
         title: TextField(
-          controller: singleBloc.titleCtrl,
+          controller: detailsBloc.titleCtrl,
           style: TextStyle(color: Color(0xFFFFFFFF)),
         ),
         actions: <Widget>[
@@ -150,11 +151,11 @@ class _DetailsOfState extends State<DetailsOf> {
           ),
           DeleteActionButton(
             inAction: state.isDeleting,
-            onPressed: () => singleBloc.delete(state.counter),
+            onPressed: () => detailsBloc.delete(state.counter),
           ),
           SaveActionButton(
             inAction: state.isSaving,
-            onPressed: singleBloc.update,
+            onPressed: detailsBloc.update,
           ),
         ],
       );
@@ -166,7 +167,7 @@ class _DetailsOfState extends State<DetailsOf> {
         child: ColorPicker(
           selected: ColorPalette.blue,
           onColorPicked: (newColor) {
-            singleBloc.applyColor(newColor);
+            detailsBloc.applyColor(newColor);
             Navigator.of(context).pop();
           },
         ),
