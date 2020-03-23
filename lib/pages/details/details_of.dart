@@ -55,23 +55,17 @@ class _DetailsOfState extends State<DetailsOf> {
           return;
         }
         if (state.hasCanceled) {
-          print('hasCanceled, ${state.wasModified}');
-          final result = await _showModifiedConfirmation(
-            context,
-            ColorPalette.color(state.counter.colorIndex),
-          );
-          if (result) {
-            detailsBloc.update();
-          } else {
-            navBloc.pop();
-          }
+          _goBackAndSaveIfNeeded(state);
           return;
         }
         if (state.colorHasUpdated) {
           countersBloc.singleUpdated(state.counter);
+          Navigator.of(context).pop();
+          return;
         }
         if (state.isSaving) {
           showSavingDialog(context, accent: ColorPalette.color(state.counter.colorIndex));
+          return;
         }
       },
       builder: (context, state) {
@@ -171,6 +165,22 @@ class _DetailsOfState extends State<DetailsOf> {
           ),
         ],
       );
+
+  void _goBackAndSaveIfNeeded(DetailsState state) async {
+    if (state.wasModified) {
+      final haveConfirmation = await _showModifiedConfirmation(
+        context,
+        ColorPalette.color(state.counter.colorIndex),
+      );
+      if (haveConfirmation) {
+        detailsBloc.update();
+      } else {
+        navBloc.pop();
+      }
+    } else {
+      navBloc.pop();
+    }
+  }
 
   void _showColorPicker() {
     showModalBottomSheet(

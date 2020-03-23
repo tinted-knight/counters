@@ -44,11 +44,34 @@ extension CopyWith on CounterItem {
   bool equalTo(CounterItem item) {
     if (this == item) return true;
 
+//    if (title != item.title) {
+//      print('equalTo: false, title');
+//      return false;
+//    }
+//    if (value != item.value) {
+//      print('equalTo: false, value');
+//      return false;
+//    }
+//    if (step != item.step) {
+//      print('equalTo: false, step');
+//      return false;
+//    }
+//    if (goal != item.goal) {
+//      print('equalTo: false, goal');
+//      return false;
+//    }
+//    if (unit != item.unit) {
+//      print('equalTo: false, unit');
+//      return false;
+//    }
+
     if (title != item.title ||
         value != item.value ||
         step != item.step ||
         goal != item.goal ||
-        unit != item.unit) return false;
+        unit != item.unit) {
+      return false;
+    }
 
     return true;
   }
