@@ -43,7 +43,7 @@ class _DetailsOfState extends State<DetailsOf> {
   Widget build(BuildContext context) {
     return BlocStreamBuilder<DetailsState>(
       bloc: detailsBloc,
-      stateListener: (state) {
+      stateListener: (state) async {
         if (state.validationError) {
           _showMessage(context, "validation error");
           return;
@@ -55,7 +55,15 @@ class _DetailsOfState extends State<DetailsOf> {
         }
         if (state.hasCanceled) {
           print('hasCanceled, ${state.wasModified}');
-//          navBloc.pop();
+          final result = await _showModifiedConfirmation(
+            context,
+            ColorPalette.color(state.counter.colorIndex),
+          );
+          if (result) {
+            detailsBloc.update();
+          } else {
+            navBloc.pop();
+          }
           return;
         }
         if (state.colorHasUpdated) {
@@ -171,6 +179,27 @@ class _DetailsOfState extends State<DetailsOf> {
             Navigator.of(context).pop();
           },
         ),
+      ),
+    );
+  }
+
+  Future<bool> _showModifiedConfirmation(BuildContext context, Color color) async {
+    return await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Do you want to save changes?"),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("No"),
+            textColor: color,
+            onPressed: () => Navigator.of(context).pop(false),
+          ),
+          RaisedButton(
+            child: Text("Yes"),
+            color: color,
+            onPressed: () => Navigator.of(context).pop(true),
+          ),
+        ],
       ),
     );
   }

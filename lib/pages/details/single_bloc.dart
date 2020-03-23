@@ -61,12 +61,9 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
     if (updated != null) fire(DetailsEvent.colorUpdated(updated));
   }
 
-  void cancel() {
+  void backPressed() {
     final current = fillFromControllers(lastState.counter);
-    if (current.value != lastState.counter.value) {
-      return fire(DetailsEvent.canceled(modified: true));
-    }
-    return fire(DetailsEvent.canceled());
+    return fire(DetailsEvent.canceled(modified: !lastState.counter.equalTo(current)));
   }
 
   @override
@@ -79,7 +76,7 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
         yield DetailsState.loaded(event.counter);
         break;
       case DetailsEventType.saving:
-        yield currentState.copyWith(isSaving: true);
+        yield currentState.copyWith(isSaving: true, hasCanceled: false);
         break;
       case DetailsEventType.doneEditing:
         yield DetailsState.done();

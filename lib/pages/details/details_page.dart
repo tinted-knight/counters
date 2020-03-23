@@ -37,7 +37,7 @@ class DetailsPage extends StatelessWidget {
               children: <Widget>[
                 IconButton(
                   icon: Icon(Icons.arrow_back),
-                  onPressed: () => singleBloc.cancel(),
+                  onPressed: () => singleBloc.backPressed(),
                 ),
                 IconButton(
                   icon: Icon(Icons.show_chart),

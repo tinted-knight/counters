@@ -40,6 +40,18 @@ extension CopyWith on CounterItem {
   }
 
   CounterItem get flush => this.copyWith(value: 0);
+
+  bool equalTo(CounterItem item) {
+    if (this == item) return true;
+
+    if (title != item.title ||
+        value != item.value ||
+        step != item.step ||
+        goal != item.goal ||
+        unit != item.unit) return false;
+
+    return true;
+  }
 }
 
 extension Validation on CounterItem {
