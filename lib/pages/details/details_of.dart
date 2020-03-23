@@ -133,7 +133,7 @@ class _DetailsOfState extends State<DetailsOf> {
         actions: <Widget>[
           ColorActionButton(
             inAction: false,
-            onPressed: _showColorPicker,
+            onPressed: () => _showColorPicker(state.counter.colorIndex),
           ),
           DeleteActionButton(
             inAction: state.isDeleting,
@@ -182,12 +182,12 @@ class _DetailsOfState extends State<DetailsOf> {
     }
   }
 
-  void _showColorPicker() {
+  void _showColorPicker(int selected) {
     showModalBottomSheet(
       context: context,
       builder: (context) => Container(
         child: ColorPicker(
-          selected: ColorPalette.blue,
+          selected: selected,
           onColorPicked: (newColor) {
             detailsBloc.applyColor(newColor);
             Navigator.of(context).pop();
