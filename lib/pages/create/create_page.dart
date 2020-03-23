@@ -7,6 +7,7 @@ import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/widgets/color_picker/ColorPicker.dart';
 import 'package:counter/widgets/create/ButtonRow.dart';
 import 'package:counter/widgets/create/PropertyRow.dart';
+import 'package:counter/widgets/saving_modal_dialog.dart';
 import 'package:flutter/material.dart';
 
 import '../../bloc/helper_functions.dart';
@@ -43,7 +44,7 @@ class CreatePage extends StatelessWidget {
             navBloc.home();
           }
           if (state.isSaving) {
-            _showSavingDialog(context);
+            showSavingDialog(context);
           }
         },
         builder: (ctx, state) {
@@ -92,29 +93,5 @@ class CreatePage extends StatelessWidget {
                 ),
               ),
             ));
-  }
-
-  void _showSavingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return Dialog(
-          child: Container(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                CircularProgressIndicator(),
-                Padding(
-                  padding: EdgeInsets.only(top: 4.0),
-                  child: Text("saving..."),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
   }
 }

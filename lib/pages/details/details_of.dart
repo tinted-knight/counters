@@ -9,6 +9,7 @@ import 'package:counter/views/details/rows/UnitRow.dart';
 import 'package:counter/views/details/rows/top_row/TopRow.dart';
 import 'package:counter/widgets/action_buttons.dart';
 import 'package:counter/widgets/color_picker/ColorPicker.dart';
+import 'package:counter/widgets/saving_modal_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -49,8 +50,8 @@ class _DetailsOfState extends State<DetailsOf> {
           return;
         }
         if (state.hasDone) {
-          navBloc.pop();
           countersBloc.reload();
+          navBloc.home();
           return;
         }
         if (state.hasCanceled) {
@@ -68,6 +69,9 @@ class _DetailsOfState extends State<DetailsOf> {
         }
         if (state.colorHasUpdated) {
           countersBloc.singleUpdated(state.counter);
+        }
+        if (state.isSaving) {
+          showSavingDialog(context, accent: ColorPalette.color(state.counter.colorIndex));
         }
       },
       builder: (context, state) {
