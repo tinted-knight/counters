@@ -33,6 +33,7 @@ class RoadToGoal extends StatelessWidget {
     );
   }
 
+  /// @deprecated
   BoxDecoration get _redToGreen => BoxDecoration(
         color: roadToGoal >= 100 ? _green : _red,
         borderRadius: BorderRadius.circular(4.0),

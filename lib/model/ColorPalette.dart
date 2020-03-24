@@ -31,6 +31,7 @@ class ColorPalette {
 
   static Color color(int value) => palette[value];
 
+  /// @deprecated -> [color]
   static Color bgColor(int value) => palette[value];
 }
 
