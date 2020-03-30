@@ -49,14 +49,21 @@ class _CounterValueIncrementState extends State<CounterValueIncrement>
         widget.onTap();
         controller.forward();
       },
-      child: _coloredValue(_valueNew()),
+      child: animatedValue(
+        Column(
+          children: <Widget>[
+            valueNew,
+            stepValue,
+          ],
+        ),
+      ),
     );
   }
 
-  Widget _coloredValue(Widget child) {
+  Widget animatedValue(Widget value) {
     return AnimatedBuilder(
       animation: greenAnimation,
-      builder: (context, ccc) => Container(
+      builder: (context, child) => Container(
         alignment: Alignment.center,
         width: 80.0,
         decoration: BoxDecoration(
@@ -68,24 +75,33 @@ class _CounterValueIncrementState extends State<CounterValueIncrement>
         ),
         padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
         margin: EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
-        child: ccc,
+        child: child,
       ),
-      child: child,
+      child: value,
     );
   }
 
-  Widget _valueNew() => Padding(
+  Widget get valueNew => Padding(
         padding: const EdgeInsets.only(right: 4.0, left: 4.0),
         child: Text(
-          "+ ${widget.item.value.toString()}",
-          style: kCounterValueStyle,
+          widget.item.value.toString(),
+          style: _kCounterValueStyle,
         ),
+      );
+
+  Widget get stepValue => Text(
+        "+ ${widget.item.step}",
+        style: _kCounterStepStyle,
       );
 }
 
 // style
-const kCounterValueStyle = TextStyle(
+const _kCounterValueStyle = TextStyle(
   color: Colors.white,
   fontFamily: "RobotoCondensed",
 );
-const kCounterUnitStyle = kCounterValueStyle;
+const _kCounterStepStyle = TextStyle(
+  color: Color(0x77FFFFFF),
+  fontFamily: "RobotoCondensed",
+  fontSize: 10,
+);

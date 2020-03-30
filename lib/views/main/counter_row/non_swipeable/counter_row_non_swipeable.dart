@@ -1,4 +1,3 @@
-import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/theme/dark_theme.dart';
 import 'package:counter/views/main/counter_row/non_swipeable/counter_value_ns.dart';
@@ -41,21 +40,26 @@ class CounterRowNonSwipeable extends StatelessWidget {
   Widget get rowContent => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          IconButton(
-            onPressed: onDecrement,
-            color: ColorPalette.color(item.colorIndex),
-            tooltip: "Step down",
-            icon: Icon(Icons.remove_circle),
-          ),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
+              padding: const EdgeInsets.only(left: 32.0, right: 16.0),
               child: CounterTitle(item.title),
             ),
           ),
           CounterIcon(item.isGoalReached),
           CounterValueIncrement(item, onTap: onIncrement),
         ],
+      );
+
+  /// @deprecated
+  Widget get removeIcon => IconButton(
+        onPressed: onDecrement,
+//            color: ColorPalette.color(item.colorIndex),
+        tooltip: "Step down",
+        icon: Icon(
+          Icons.remove_circle_outline,
+//              color: ColorPalette.color(item.colorIndex),
+        ),
       );
 
   BoxDecoration get _neumorphicDecoration => BoxDecoration(
