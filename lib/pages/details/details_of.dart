@@ -124,11 +124,25 @@ class _DetailsOfState extends State<DetailsOf> {
 
   AppBar _newAppBar(DetailsState state) => AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: ColorPalette.bgColor(state.counter.colorIndex),
+        backgroundColor: ColorPalette.color(state.counter.colorIndex),
         elevation: 4.0,
-        title: TextField(
-          controller: detailsBloc.titleCtrl,
-          style: TextStyle(color: Color(0xFFFFFFFF)),
+        title: Container(
+          decoration: BoxDecoration(
+//            color: ColorPalette.color(state.counter.colorIndex),
+            color: Colors.black.withOpacity(0.075),
+            boxShadow: [
+              BoxShadow(
+                color: ColorPalette.darker(state.counter.colorIndex),
+                offset: Offset(2, 2),
+                blurRadius: 2,
+              ),
+            ],
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          ),
+          child: TextField(
+            controller: detailsBloc.titleCtrl,
+            style: TextStyle(color: Color(0xFFFFFFFF)),
+          ),
         ),
         actions: <Widget>[
           ColorActionButton(
