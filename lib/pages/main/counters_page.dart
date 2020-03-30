@@ -114,9 +114,21 @@ class CountersPage extends StatelessWidget {
             actionsIconTheme: Theme.of(context).iconTheme.copyWith(
                   color: Color(0xff313131),
                 ),
-            title: Text(
-              title,
-              style: TextStyle(color: Color(0xff313131)),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  title,
+                  style: TextStyle(color: Color(0xff313131)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Text(
+                    "(or not if don't want to 🐶, just keep calm)",
+                    style: TextStyle(color: Color(0x77313131), fontSize: 10),
+                  ),
+                ),
+              ],
             ),
             backgroundColor: Colors.transparent,
             elevation: 0.0,
