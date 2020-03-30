@@ -46,9 +46,6 @@ class ColorPalette {
   static Color color(int value) => palette[value];
 
   static Color darker(int value) => _dark_palette[value];
-
-  /// @deprecated -> [color]
-  static Color bgColor(int value) => palette[value];
 }
 
 final colors = {"blue": Color(0xff2C98F0)};

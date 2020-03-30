@@ -156,30 +156,6 @@ class _DetailsOfState extends State<DetailsOf> {
         ],
       );
 
-  /// @deprecated -> [_newAppBar]
-  AppBar _appBar(DetailsState state) => AppBar(
-        backgroundColor: ColorPalette.bgColor(state.counter.colorIndex),
-        elevation: 4.0,
-        title: TextField(
-          controller: detailsBloc.titleCtrl,
-          style: TextStyle(color: Color(0xFFFFFFFF)),
-        ),
-        actions: <Widget>[
-          ColorActionButton(
-            inAction: false,
-            onPressed: _showColorPicker,
-          ),
-          DeleteActionButton(
-            inAction: state.isDeleting,
-            onPressed: () => detailsBloc.delete(state.counter),
-          ),
-          SaveActionButton(
-            inAction: state.isSaving,
-            onPressed: detailsBloc.update,
-          ),
-        ],
-      );
-
   void _goBackAndSaveIfNeeded(DetailsState state) async {
     if (state.wasModified) {
       final haveConfirmation = await _showModifiedConfirmation(
