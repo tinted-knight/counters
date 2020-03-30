@@ -97,12 +97,9 @@ class _DetailsOfState extends State<DetailsOf> {
                     goal: state.counter.goal,
                     controller: detailsBloc.valueCtrl,
                     hasError: state.counterWithErrors?.hasValueError ?? false,
-                    upButtonTap: () {
-                      detailsBloc.stepUp();
-                    },
-                    downButtonTap: () {
-                      detailsBloc.stepDown();
-                    },
+                    upButtonTap: detailsBloc.stepUp,
+                    downButtonTap: detailsBloc.stepDown,
+                    resetButtonTap: detailsBloc.resetValue,
                   ),
                 ),
                 StepRow(

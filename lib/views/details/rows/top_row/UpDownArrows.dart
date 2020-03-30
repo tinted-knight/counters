@@ -4,11 +4,13 @@ class UpDownArrows extends StatelessWidget {
   const UpDownArrows({
     this.upButtonTap,
     this.downButtonTap,
+    this.resetButtonTap,
     Key key,
   }) : super(key: key);
 
   final Function upButtonTap;
   final Function downButtonTap;
+  final Function resetButtonTap;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,18 @@ class UpDownArrows extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Icon(Icons.keyboard_arrow_up),
+            ),
+          ),
+        ),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            customBorder: CircleBorder(),
+            splashColor: Colors.black.withOpacity(0.25),
+            onTap: resetButtonTap,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(Icons.autorenew),
             ),
           ),
         ),

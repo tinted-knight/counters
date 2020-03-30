@@ -41,6 +41,8 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
     valueCtrl.text = updated?.value?.toString() ?? lastState.counter.value.toString();
   }
 
+  void resetValue() => valueCtrl.text = "0";
+
   Future<CounterItem> _update({int withColor}) async {
     final updatedItem = fillFromControllers(lastState.counter).copyWith(colorIndex: withColor);
     if (!isValid(updatedItem)) {

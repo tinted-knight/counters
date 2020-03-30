@@ -13,6 +13,7 @@ class TopRow extends StatelessWidget {
     this.controller,
     this.upButtonTap,
     this.downButtonTap,
+    this.resetButtonTap,
     this.hasError = false,
   }) : super(key: key);
 
@@ -21,6 +22,7 @@ class TopRow extends StatelessWidget {
   final TextEditingController controller;
   final Function upButtonTap;
   final Function downButtonTap;
+  final Function resetButtonTap;
   final bool hasError;
 
   @override
@@ -43,7 +45,11 @@ class TopRow extends StatelessWidget {
                   textColor: hasError ? Colors.red : null,
                 ),
               ),
-              UpDownArrows(upButtonTap: upButtonTap, downButtonTap: downButtonTap),
+              UpDownArrows(
+                upButtonTap: upButtonTap,
+                downButtonTap: downButtonTap,
+                resetButtonTap: resetButtonTap,
+              ),
             ],
           ),
         ),
