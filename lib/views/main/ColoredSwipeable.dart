@@ -18,8 +18,7 @@ class ColoredSwipeable extends StatefulWidget {
   _ColoredSwipeableState createState() => _ColoredSwipeableState();
 }
 
-class _ColoredSwipeableState extends State<ColoredSwipeable>
-    with SingleTickerProviderStateMixin {
+class _ColoredSwipeableState extends State<ColoredSwipeable> with SingleTickerProviderStateMixin {
   Color color;
 
   int _value = 255;
@@ -27,11 +26,12 @@ class _ColoredSwipeableState extends State<ColoredSwipeable>
   final _distanceLimit = 50;
   final _velocityLimit = 500.0;
 
-  final _alpha = 50;
+  final _alpha = 0;
 
   AnimationController _colorController;
   Animation<Color> _currentAnimation;
   Animation<Color> _greenAnimation;
+  Animation<Color> _superGreenAnimation;
   Animation<Color> _redFlashAnimation;
 
   @override
@@ -45,12 +45,17 @@ class _ColoredSwipeableState extends State<ColoredSwipeable>
 
     _greenAnimation = ColorTween(
       begin: Color.fromARGB(_alpha, 255, 255, 255),
-      end: Color.fromARGB(_alpha, 0, 255, 0),
+      end: Color.fromARGB(255, 0, 255, 0),
+    ).animate(_colorController);
+
+    _superGreenAnimation = ColorTween(
+      begin: Color.fromARGB(0, 0, 255, 0),
+      end: Color.fromARGB(255, 0, 255, 0),
     ).animate(_colorController);
 
     _redFlashAnimation = ColorTween(
-      begin: Color.fromARGB(_alpha, 255, 0, 0),
-      end: Color.fromARGB(_alpha, 255, 255, 255),
+      begin: Color.fromARGB(0, 255, 0, 0),
+      end: Color.fromARGB(255, 255, 0, 0),
     ).animate(_colorController);
 
     _currentAnimation = _greenAnimation;
@@ -79,7 +84,12 @@ class _ColoredSwipeableState extends State<ColoredSwipeable>
 
   void _swipeCounted() {
     widget.onSwiped();
-    _colorController.reverse();
+    _colorController.reset();
+    _currentAnimation = _superGreenAnimation;
+    _colorController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) _resetToGreen();
+    });
+    _colorController.forward();
   }
 
   void _dragUpdate(DragUpdateDetails details) {
@@ -97,8 +107,7 @@ class _ColoredSwipeableState extends State<ColoredSwipeable>
     // if there is enough velocity in user's swipe
     // or swipe distance was long enough
     // then considering that swipe was successful
-    if (details.velocity.pixelsPerSecond.dx >= _velocityLimit ||
-        _value <= _distanceLimit) {
+    if (details.velocity.pixelsPerSecond.dx >= _velocityLimit || _value <= _distanceLimit) {
       _swipeCounted();
     } else {
       _swipeNotCounted();
@@ -122,13 +131,20 @@ class _ColoredSwipeableState extends State<ColoredSwipeable>
           return Stack(
             children: <Widget>[
               widget.child,
-              Positioned.fill(
+              Positioned(
+                bottom: 0.0,
+                left: 0.0,
+                right: 0.0,
                 child: Container(
                   padding: EdgeInsets.all(16.0),
                   margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  height: 8.0,
                   decoration: BoxDecoration(
                     color: _currentAnimation.value,
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(8.0),
+                      bottomLeft: Radius.circular(8.0),
+                    ),
                   ),
                 ),
               ),
