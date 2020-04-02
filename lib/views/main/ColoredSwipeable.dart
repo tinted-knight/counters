@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 typedef OnSwiped = Function();
 
@@ -22,11 +23,12 @@ class _ColoredSwipeableState extends State<ColoredSwipeable> with SingleTickerPr
   Color color;
 
   int _value = 255;
+  bool _vibrated = false;
 
   final _distanceLimit = 50;
   final _velocityLimit = 500.0;
 
-  final _alpha = 0;
+  final _alpha = 50;
 
   AnimationController _colorController;
   Animation<Color> _currentAnimation;
@@ -45,7 +47,7 @@ class _ColoredSwipeableState extends State<ColoredSwipeable> with SingleTickerPr
 
     _greenAnimation = ColorTween(
       begin: Color.fromARGB(_alpha, 255, 255, 255),
-      end: Color.fromARGB(255, 0, 255, 0),
+      end: Color.fromARGB(_alpha, 0, 255, 0),
     ).animate(_colorController);
 
     _superGreenAnimation = ColorTween(
@@ -87,7 +89,12 @@ class _ColoredSwipeableState extends State<ColoredSwipeable> with SingleTickerPr
     _colorController.reset();
     _currentAnimation = _superGreenAnimation;
     _colorController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) _resetToGreen();
+      if (status == AnimationStatus.completed) {
+        _colorController.reverse();
+      }
+      if (status == AnimationStatus.dismissed) {
+        _resetToGreen();
+      }
     });
     _colorController.forward();
   }
@@ -98,8 +105,11 @@ class _ColoredSwipeableState extends State<ColoredSwipeable> with SingleTickerPr
     final newValue = _value - delta > 0 ? _value -= delta : _value = 0;
     final target = -_value == 0 ? 0.9 : 1 - newValue / 255;
     _colorController.value = target;
+    final bool needtoVibrate = newValue <= _distanceLimit;
+    if (needtoVibrate && !_vibrated) HapticFeedback.selectionClick();
     setState(() {
       _value = newValue;
+      _vibrated = needtoVibrate;
     });
   }
 
@@ -131,27 +141,42 @@ class _ColoredSwipeableState extends State<ColoredSwipeable> with SingleTickerPr
           return Stack(
             children: <Widget>[
               widget.child,
-              Positioned(
-                bottom: 0.0,
-                left: 0.0,
-                right: 0.0,
-                child: Container(
-                  padding: EdgeInsets.all(16.0),
-                  margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                  height: 8.0,
-                  decoration: BoxDecoration(
-                    color: _currentAnimation.value,
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(8.0),
-                      bottomLeft: Radius.circular(8.0),
-                    ),
-                  ),
-                ),
-              ),
+              filled,
             ],
           );
         },
       ),
     );
   }
+
+  /// green fills all the row
+  Widget get filled => Positioned.fill(
+        child: Container(
+          padding: EdgeInsets.all(16.0),
+          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          decoration: BoxDecoration(
+            color: _currentAnimation.value,
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          ),
+        ),
+      );
+
+  /// green stripe at the bottom of the row
+  Widget get stripe => Positioned.fill(
+        bottom: 0.0,
+        left: 0.0,
+        right: 0.0,
+        child: Container(
+          padding: EdgeInsets.all(16.0),
+          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          height: 8.0,
+          decoration: BoxDecoration(
+            color: _currentAnimation.value,
+            borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(8.0),
+              bottomLeft: Radius.circular(8.0),
+            ),
+          ),
+        ),
+      );
 }

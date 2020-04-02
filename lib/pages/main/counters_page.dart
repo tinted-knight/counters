@@ -7,6 +7,7 @@ import 'package:counter/views/main/ColoredSwipeable.dart';
 import 'package:counter/views/main/counter_row/CounterRow.dart';
 import 'package:counter/views/main/counter_row/non_swipeable/counter_row_non_swipeable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'counters_bloc.dart';
 import 'counters_state.dart';
@@ -55,6 +56,7 @@ class CountersPage extends StatelessWidget {
                               onSwiped: () => countersBloc.stepUp(index),
                             )
                           : _nonSwipeable(
+                              context,
                               counter: state.counters[index],
                               onTap: () => navBloc.detailsOf(state.counters[index]),
                               onIncrement: () => countersBloc.stepUp(index),
@@ -96,12 +98,15 @@ class CountersPage extends StatelessWidget {
         child: CounterRow(counter),
       );
 
-  Widget _nonSwipeable(
+  Widget _nonSwipeable(BuildContext context,
       {CounterItem counter, Function onTap, Function onIncrement, Function onDecrement}) {
     return CounterRowNonSwipeable(
       counter,
       onTap: onTap,
-      onIncrement: onIncrement,
+      onIncrement: () {
+        HapticFeedback.selectionClick();
+        onIncrement();
+      },
       onDecrement: onDecrement,
     );
   }
