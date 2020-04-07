@@ -5,12 +5,13 @@ class IconButtonIndicator extends StatelessWidget {
     Key key,
     this.inAction = false,
     this.onPressed,
+    this.color = Colors.white,
   }) : super(key: key);
 
   final bool inAction;
   final Function onPressed;
 
-  final Color color = Colors.white;
+  final Color color;
   final IconData iconData = Icons.error;
   final String label = "Error";
 
@@ -27,7 +28,7 @@ class IconButtonIndicator extends StatelessWidget {
                 child: CircularProgressIndicator(strokeWidth: 2.0),
               ),
             )
-          : Icon(iconData, semanticLabel: label),
+          : Icon(iconData, semanticLabel: label, color: color),
       onPressed: onPressed ?? () {},
     );
   }

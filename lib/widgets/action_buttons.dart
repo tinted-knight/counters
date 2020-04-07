@@ -10,7 +10,7 @@ class DeleteActionButton extends IconButtonIndicator {
         );
 
   @override
-  Color get color => Colors.white;
+  Color get color => Colors.black54;
 
   @override
   IconData get iconData => Icons.delete;
@@ -37,14 +37,12 @@ class SaveActionButton extends IconButtonIndicator {
 }
 
 class ColorActionButton extends IconButtonIndicator {
-  ColorActionButton({bool inAction, Function onPressed})
+  ColorActionButton({bool inAction, Function onPressed, Color color})
       : super(
           inAction: inAction,
           onPressed: onPressed,
+          color: color ?? Colors.black54,
         );
-
-  @override
-  Color get color => Colors.white;
 
   @override
   IconData get iconData => Icons.color_lens;

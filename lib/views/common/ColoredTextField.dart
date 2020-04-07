@@ -17,8 +17,10 @@ class ColoredTextField extends StatelessWidget {
     this.textColor,
     this.onlyDigits = false,
     @required this.controller,
+    this.textAlign,
   }) : super(key: key);
 
+  ///@deprecated looks like easy to refactor to get rid of [ColoredTextField.forLight()]
   ColoredTextField.forLight(
       {String title = "", TextEditingController controller, bool onlyDigits, Color textColor})
       : this(
@@ -33,6 +35,7 @@ class ColoredTextField extends StatelessWidget {
   final Color decorationColor;
   final Color textColor;
   final bool onlyDigits;
+  final TextAlign textAlign;
 
   final TextEditingController controller;
 
@@ -44,7 +47,7 @@ class ColoredTextField extends StatelessWidget {
         keyboardType: onlyDigits ? TextInputType.number : TextInputType.text,
         controller: controller,
         style: TextStyle(color: textColor ?? _textColorDefault),
-        textAlign: TextAlign.center,
+        textAlign: textAlign ?? TextAlign.center,
       ),
     );
   }

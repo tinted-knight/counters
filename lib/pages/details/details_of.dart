@@ -3,6 +3,7 @@ import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
+import 'package:counter/theme/dark_theme.dart';
 import 'package:counter/views/details/rows/GoalRow.dart';
 import 'package:counter/views/details/rows/StepRow.dart';
 import 'package:counter/views/details/rows/UnitRow.dart';
@@ -88,7 +89,7 @@ class _DetailsOfState extends State<DetailsOf> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                _newAppBar(state),
+                _coloredTitleAppBar(state),
                 Container(
                   margin: EdgeInsets.only(top: 8.0),
                   height: 150.0,
@@ -119,13 +120,49 @@ class _DetailsOfState extends State<DetailsOf> {
     );
   }
 
+  ///@galileo
+  AppBar _coloredTitleAppBar(DetailsState state) => AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: ThemeLight.scaffoldBgColor,
+        elevation: 0.0,
+        title: Container(
+          padding: EdgeInsets.only(left: 8.0),
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.075),
+            boxShadow: [
+              BoxShadow(
+                color: ColorPalette.darker(state.counter.colorIndex),
+                blurRadius: 1,
+              ),
+            ],
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          ),
+          child: TextField(
+            decoration: InputDecoration(),
+            controller: detailsBloc.titleCtrl,
+            style: TextStyle(color: Color(0xFFFFFFFF)),
+          ),
+        ),
+        actions: <Widget>[
+          ColorActionButton(
+            inAction: false,
+            onPressed: () => _showColorPicker(state.counter.colorIndex),
+//            color: ColorPalette.color(state.counter.colorIndex),
+          ),
+          DeleteActionButton(
+            inAction: state.isDeleting,
+            onPressed: () => detailsBloc.delete(state.counter),
+          ),
+        ],
+      );
+
+  ///@deprecated in favour of [_coloredTitleAppBar]
   AppBar _newAppBar(DetailsState state) => AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: ColorPalette.color(state.counter.colorIndex),
         elevation: 4.0,
         title: Container(
           decoration: BoxDecoration(
-//            color: ColorPalette.color(state.counter.colorIndex),
             color: Colors.black.withOpacity(0.075),
             boxShadow: [
               BoxShadow(
@@ -137,6 +174,7 @@ class _DetailsOfState extends State<DetailsOf> {
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
           ),
           child: TextField(
+            decoration: InputDecoration(),
             controller: detailsBloc.titleCtrl,
             style: TextStyle(color: Color(0xFFFFFFFF)),
           ),

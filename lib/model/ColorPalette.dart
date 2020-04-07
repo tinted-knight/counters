@@ -30,7 +30,7 @@ class ColorPalette {
 
   static const _dark_palette = [
     Color(0xFF42A5F5),
-    Color(0xffFF5722),
+    Color(0xFFEF5350),
     Color(0xffFFA000),
     Color(0xff388E3C),
     Color(0xffD81B60),
@@ -48,4 +48,5 @@ class ColorPalette {
   static Color darker(int value) => _dark_palette[value];
 }
 
+///@deprecated
 final colors = {"blue": Color(0xff2C98F0)};
