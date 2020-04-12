@@ -10,8 +10,7 @@ class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
   final ILocalStorage repo;
 
   @override
-  Stream<StatState> eventHandler(
-      StatEvent event, StatState currentState) async* {
+  Stream<StatState> eventHandler(StatEvent event, StatState currentState) async* {
     switch (event.type) {
       case StatEventType.loading:
         yield StatState.loading();
@@ -28,5 +27,9 @@ class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
   void load(CounterItem counter) async {
     final stat = await repo.getHistoryFor(counter: counter);
     fire(StatEvent.loaded(stat));
+  }
+
+  void updateValue(CounterItem counter, String value) {
+    // @tbd
   }
 }
