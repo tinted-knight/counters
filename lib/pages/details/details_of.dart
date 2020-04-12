@@ -138,7 +138,7 @@ class _DetailsOfState extends State<DetailsOf> {
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
           ),
           child: TextField(
-            decoration: InputDecoration(),
+            decoration: InputDecoration(icon: Icon(Icons.edit, color: Colors.white)),
             controller: detailsBloc.titleCtrl,
             style: TextStyle(color: Color(0xFFFFFFFF)),
           ),

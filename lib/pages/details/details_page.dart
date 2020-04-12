@@ -1,3 +1,4 @@
+import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/model/ColorPalette.dart';
@@ -15,6 +16,7 @@ class DetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final CounterItem counter = ModalRoute.of(context).settings.arguments;
     final DetailsBloc detailsBloc = BlocProvider.of<DetailsBloc>(context);
+    final NavigatorBloc navBloc = BlocProvider.of<NavigatorBloc>(context);
 
     detailsBloc.load(counter);
 
@@ -47,7 +49,7 @@ class DetailsPage extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.show_chart),
                     tooltip: "History",
-                    onPressed: () {},
+                    onPressed: () => navBloc.statOf(counter),
                   ),
                 ],
               ),

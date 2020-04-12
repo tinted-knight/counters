@@ -9,6 +9,8 @@ import 'package:counter/pages/details/details_page.dart';
 import 'package:counter/pages/details/single_bloc.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/pages/splash/splash_page.dart';
+import 'package:counter/pages/stat/stat_bloc.dart';
+import 'package:counter/pages/stat/stat_page.dart';
 import 'package:counter/theme/dark_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -58,10 +60,10 @@ class CountersApp extends StatelessWidget {
                     blocBuilder: () => CreateBloc(storage),
                     child: CreatePage(),
                   ),
-//            ScreenHistory.route: (context) => BlocProvider<HistoryBloc>(
-//                  blocBuilder: () => HistoryBloc(storage),
-//                  child: ScreenHistory(),
-//                ),
+              StatPage.route: (context) => BlocProvider<StatBloc>(
+                    blocBuilder: () => StatBloc(storage),
+                    child: StatPage(),
+                  ),
             },
           ),
         ),

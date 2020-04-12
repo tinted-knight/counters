@@ -24,3 +24,9 @@ class HistoryModel {
 const colCounterId = "counter_id";
 const colDate = "date";
 const colValue = "value";
+
+extension DateString on HistoryModel {
+  String get dateString => DateTime.fromMillisecondsSinceEpoch(date).toString();
+
+  String get valueString => value.toString();
+}

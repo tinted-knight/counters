@@ -2,6 +2,7 @@ import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/create/create_page.dart';
 import 'package:counter/pages/details/details_page.dart';
+import 'package:counter/pages/stat/stat_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,10 +21,14 @@ class NavigatorBloc extends BlocEventStateBase<NavigatorAction, dynamic> {
       navigatorKey.currentState.pushNamed(DetailsPage.route, arguments: event.item);
     } else if (event is NavigatorActionCreate) {
       navigatorKey.currentState.pushNamed(CreatePage.route);
+    } else if (event is NavigateToStat) {
+      navigatorKey.currentState.pushNamed(StatPage.route, arguments: event.item);
     }
   }
 
   void detailsOf(CounterItem item) => fire(NavigateToDetails(item));
+
+  void statOf(CounterItem item) => fire(NavigateToStat(item));
 
   void create() => fire(NavigatorActionCreate());
 
@@ -46,6 +51,12 @@ class NavigateToHomeEvent extends NavigatorAction {}
 
 class NavigateToDetails extends NavigatorAction {
   NavigateToDetails(this.item);
+
+  final CounterItem item;
+}
+
+class NavigateToStat extends NavigatorAction {
+  NavigateToStat(this.item);
 
   final CounterItem item;
 }
