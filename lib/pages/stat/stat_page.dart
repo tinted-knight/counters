@@ -4,6 +4,7 @@ import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/stat/stat_bloc.dart';
 import 'package:counter/pages/stat/stat_state.dart';
+import 'package:counter/views/details/chart_01.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/HistoryModel.dart';
@@ -62,9 +63,7 @@ class StatPage extends StatelessWidget {
                     ),
 //              itemBuilder: (context, index) => listTile(stat[index], counter),
                   ),
-                  Center(
-                    child: Text("here will be chart (probably)"),
-                  ),
+                  Chart01(counter: counter, stat: stat),
                 ],
               );
             }
@@ -81,8 +80,8 @@ class StatPage extends StatelessWidget {
                 onPressed: () {},
               ),
               IconButton(
-                icon: Icon(Icons.show_chart),
-                tooltip: "History",
+                icon: Icon(Icons.delete_sweep),
+                tooltip: "Clear history",
                 onPressed: () {},
               ),
             ],
