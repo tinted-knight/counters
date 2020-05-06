@@ -4,7 +4,7 @@ import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/stat/stat_bloc.dart';
 import 'package:counter/pages/stat/stat_state.dart';
-import 'package:counter/views/details/chart_01.dart';
+import 'package:counter/views/details/chart_bezier.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/HistoryModel.dart';
@@ -35,11 +35,11 @@ class StatPage extends StatelessWidget {
                     tabs: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("Simple list"),
+                        child: Text("Chart"),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("Chart"),
+                        child: Text("Simple list"),
                       ),
                     ],
                     indicatorColor: Colors.white,
@@ -62,7 +62,11 @@ class StatPage extends StatelessWidget {
               final stat = state.stat;
               return TabBarView(
                 children: [
-                  Chart01(counter: counter, stat: stat),
+//                  Chart01(counter: counter, stat: stat),
+                  BezierStatChart(
+                    values: stat,
+                    lineColor: counter.colorValue,
+                  ),
                   ListView.builder(
                     itemCount: stat.length,
                     itemBuilder: (context, index) => listTile(

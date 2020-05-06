@@ -1,6 +1,8 @@
 import 'package:counter/widgets/color_picker/ColorPicker.dart';
 import 'package:flutter/material.dart';
 
+import 'CounterModel.dart';
+
 class ColorPalette {
   ColorPalette._();
 
@@ -50,3 +52,7 @@ class ColorPalette {
 
 ///@deprecated
 final colors = {"blue": Color(0xff2C98F0)};
+
+extension ColorValue on CounterItem {
+  Color get colorValue => ColorPalette.color(colorIndex);
+}
