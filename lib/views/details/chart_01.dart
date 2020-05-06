@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/HistoryModel.dart';
@@ -62,7 +64,7 @@ class Chart01 extends StatelessWidget {
         x: value,
         barRods: [
           BarChartRodData(
-            y: stat[_barCount - value].doubleValue,
+            y: min(stat[_barCount - value].value.toDouble(), counter.goal.toDouble()),
             color: ColorPalette.color(counter.colorIndex),
           )
         ],
@@ -76,7 +78,5 @@ class Chart01 extends StatelessWidget {
 }
 
 extension Double on HistoryModel {
-  double get doubleValue => value.toDouble();
-
   int get isZero => value == 0 ? 1 : 0;
 }
