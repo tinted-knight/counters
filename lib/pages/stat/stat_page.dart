@@ -32,7 +32,16 @@ class StatPage extends StatelessWidget {
                 children: <Widget>[
                   Expanded(child: Container()),
                   TabBar(
-                    tabs: <Widget>[Text("Simple list"), Text("Chart")],
+                    tabs: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Simple list"),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("Chart"),
+                      ),
+                    ],
                     indicatorColor: Colors.white,
                   ),
                 ],
@@ -53,6 +62,7 @@ class StatPage extends StatelessWidget {
               final stat = state.stat;
               return TabBarView(
                 children: [
+                  Chart01(counter: counter, stat: stat),
                   ListView.builder(
                     itemCount: stat.length,
                     itemBuilder: (context, index) => listTile(
@@ -63,7 +73,6 @@ class StatPage extends StatelessWidget {
                     ),
 //              itemBuilder: (context, index) => listTile(stat[index], counter),
                   ),
-                  Chart01(counter: counter, stat: stat),
                 ],
               );
             }
