@@ -1,3 +1,4 @@
+import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/model/ColorPalette.dart';
@@ -15,6 +16,8 @@ class StatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("StatPage::build");
+
+    final navBloc = BlocProvider.of<NavigatorBloc>(context);
 
     final CounterItem counter = ModalRoute.of(context).settings.arguments;
     final StatBloc statBloc = BlocProvider.of<StatBloc>(context);
@@ -51,6 +54,9 @@ class StatPage extends StatelessWidget {
         ),
         body: BlocStreamBuilder<StatState>(
           bloc: statBloc,
+          stateListener: (state) {
+            if (state.hasCanceled) navBloc.pop();
+          },
           builder: (context, state) {
             if (state.isLoading) {
               return Center(child: Text("loading"));
@@ -90,7 +96,7 @@ class StatPage extends StatelessWidget {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.arrow_back),
-                onPressed: () {},
+                onPressed: () => statBloc.backPressed(),
               ),
               IconButton(
                 icon: Icon(Icons.delete_sweep),

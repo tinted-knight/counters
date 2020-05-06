@@ -11,6 +11,8 @@ class StatEvent extends BlocEvent {
 
   factory StatEvent.empty() => StatEvent(StatEventType.empty);
 
+  factory StatEvent.back() => StatEvent(StatEventType.back);
+
   factory StatEvent.loaded(List<HistoryModel> items) => StatEvent(
         StatEventType.loaded,
         stat: items,
@@ -21,4 +23,5 @@ enum StatEventType {
   loading,
   loaded,
   empty,
+  back,
 }

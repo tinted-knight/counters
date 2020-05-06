@@ -21,6 +21,9 @@ class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
       case StatEventType.empty:
         yield StatState.empty();
         break;
+      case StatEventType.back:
+        yield StatState.back();
+        break;
     }
   }
 
@@ -31,5 +34,9 @@ class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
 
   void updateValue(CounterItem counter, String value) {
     // @tbd
+  }
+
+  void backPressed() {
+    fire(StatEvent.back());
   }
 }
