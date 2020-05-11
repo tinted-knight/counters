@@ -33,7 +33,7 @@ class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
   }
 
   void updateValue(CounterItem counter, String value) {
-    // @tbd
+    print('StatBloc.updateValue: ${counter.title}, $value');
   }
 
   void backPressed() {

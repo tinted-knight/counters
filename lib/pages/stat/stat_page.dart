@@ -6,11 +6,13 @@ import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/stat/stat_bloc.dart';
 import 'package:counter/pages/stat/stat_state.dart';
 import 'package:counter/views/details/chart_bezier.dart';
+import 'package:counter/views/stat/stat_list_tile.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/HistoryModel.dart';
+import 'input_dialog_mixin.dart';
 
-class StatPage extends StatelessWidget {
+class StatPage extends StatelessWidget with InputDialogMixin {
   static const route = "/stat";
 
   @override
@@ -65,125 +67,52 @@ class StatPage extends StatelessWidget {
               return Center(child: Text("empty :("));
             }
             if (state.hasLoaded) {
-              final stat = state.stat;
-              return TabBarView(
-                children: [
-//                  Chart01(counter: counter, stat: stat),
-                  BezierStatChart(
-                    values: stat,
-                    lineColor: counter.colorValue,
-                  ),
-                  ListView.builder(
-                    itemCount: stat.length,
-                    itemBuilder: (context, index) => listTile(
-                      context,
-                      stat[index],
-                      counter,
-                      (value) => statBloc.updateValue(counter, value),
-                    ),
-//              itemBuilder: (context, index) => listTile(stat[index], counter),
-                  ),
-                ],
-              );
+              return renderStateLoaded(state.stat, counter, statBloc);
             }
 
             return Center(child: Text("last hope"));
           },
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () => statBloc.backPressed(),
-              ),
-              IconButton(
-                icon: Icon(Icons.delete_sweep),
-                tooltip: "Clear history",
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ),
+        bottomNavigationBar: buildBottomAppBar(statBloc),
       ),
     );
   }
 
-  Widget listTile(BuildContext context, HistoryModel entry, CounterItem counter,
-      Function(String) onValueChanged) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      entry.valueString,
-                      style: TextStyle(
-                        color: entry.value > counter.goal
-                            ? Colors.green
-                            : entry.value == counter.goal ? Colors.blue : Colors.red,
-                      ),
-                    ),
-                    Text(entry.dateString),
-                  ],
-                ),
-              ),
-              IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () async {
-                  final newValue = await inputDialog(context, entry);
-                  onValueChanged(newValue);
-                },
-                color: Colors.black54,
-              ),
-              IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () {},
-                color: Colors.black54,
-              ),
-            ],
+  BottomAppBar buildBottomAppBar(StatBloc statBloc) {
+    return BottomAppBar(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => statBloc.backPressed(),
           ),
-        ),
-        Divider(),
-      ],
-    );
-  }
-
-  Future<String> inputDialog(BuildContext context, HistoryModel entry) async {
-    String newValue;
-    return showDialog<String>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text("it is title"),
-        content: TextField(
-          autofocus: true,
-          decoration: InputDecoration(
-            labelText: "Current value",
-            hintText: entry.valueString,
-          ),
-          onChanged: (value) {
-            newValue = value;
-          },
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text("cancel"),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          FlatButton(
-            child: Text("submit"),
-            onPressed: () => Navigator.of(context).pop(newValue),
+          IconButton(
+            icon: Icon(Icons.delete_sweep),
+            tooltip: "Clear history",
+            onPressed: () {},
           ),
         ],
       ),
     );
   }
+
+  Widget renderStateLoaded(List<HistoryModel> values, CounterItem counter, StatBloc statBloc) =>
+      TabBarView(
+        children: [
+          BezierStatChart(
+            values: values,
+            lineColor: counter.colorValue,
+          ),
+          ListView.builder(
+            itemCount: values.length,
+            itemBuilder: (context, index) => StatListTile(
+              entry: values[index],
+              counter: counter,
+              onValueChanged: (value) => statBloc.updateValue(counter, value),
+              onEditTap: (entry) => inputDialog(context, entry),
+            ),
+          ),
+        ],
+      );
 }
