@@ -110,15 +110,6 @@ class StatPage extends StatelessWidget {
     );
   }
 
-  Widget listTile2(HistoryModel entry, CounterItem counter) => ListTile(
-        title: Text(entry.valueString),
-        subtitle: Text(entry.dateString),
-        trailing: IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.delete),
-        ),
-      );
-
   Widget listTile(BuildContext context, HistoryModel entry, CounterItem counter,
       Function(String) onValueChanged) {
     return Column(

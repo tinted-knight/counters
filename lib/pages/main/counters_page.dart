@@ -40,14 +40,12 @@ class _CountersPageState extends State<CountersPage> {
           // TODO: Handle this case.
           break;
         case ScrollDirection.forward:
-          print('forward');
           if (!_isVisible)
             setState(() {
               _isVisible = true;
             });
           break;
         case ScrollDirection.reverse:
-          print('reverse');
           if (_isVisible)
             setState(() {
               _isVisible = false;
@@ -60,7 +58,6 @@ class _CountersPageState extends State<CountersPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('main::build');
     final countersBloc = BlocProvider.of<CountersBloc>(context);
     final navBloc = BlocProvider.of<NavigatorBloc>(context);
     final appBloc = BlocProvider.of<AppBloc>(context);
