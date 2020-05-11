@@ -28,32 +28,7 @@ class StatPage extends StatelessWidget with InputDialogMixin {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
-          child: Container(
-            color: ColorPalette.color(counter.colorIndex),
-            child: SafeArea(
-              child: Column(
-                children: <Widget>[
-                  Expanded(child: Container()),
-                  TabBar(
-                    tabs: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Chart"),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Simple list"),
-                      ),
-                    ],
-                    indicatorColor: Colors.white,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        appBar: buildTabBar(counter),
         body: BlocStreamBuilder<StatState>(
           bloc: statBloc,
           stateListener: (state) {
@@ -76,6 +51,35 @@ class StatPage extends StatelessWidget with InputDialogMixin {
         bottomNavigationBar: buildBottomAppBar(statBloc),
       ),
     );
+  }
+
+  PreferredSize buildTabBar(CounterItem counter) {
+    return PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: Container(
+          color: ColorPalette.color(counter.colorIndex),
+          child: SafeArea(
+            child: Column(
+              children: <Widget>[
+                Expanded(child: Container()),
+                TabBar(
+                  tabs: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Chart"),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Simple list"),
+                    ),
+                  ],
+                  indicatorColor: Colors.white,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
   }
 
   BottomAppBar buildBottomAppBar(StatBloc statBloc) {
