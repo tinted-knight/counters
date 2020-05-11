@@ -7,6 +7,7 @@ import 'package:counter/pages/stat/stat_bloc.dart';
 import 'package:counter/pages/stat/stat_state.dart';
 import 'package:counter/views/details/chart_bezier.dart';
 import 'package:counter/views/stat/stat_list_tile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/HistoryModel.dart';
@@ -58,8 +59,7 @@ class StatPage extends StatelessWidget with InputDialogMixin {
     );
   }
 
-  PreferredSize buildTabBar(CounterItem counter) {
-    return PreferredSize(
+  PreferredSize buildTabBar(CounterItem counter) => PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: Container(
           color: ColorPalette.color(counter.colorIndex),
@@ -85,26 +85,29 @@ class StatPage extends StatelessWidget with InputDialogMixin {
           ),
         ),
       );
-  }
 
-  BottomAppBar buildBottomAppBar(StatBloc statBloc) {
-    return BottomAppBar(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () => statBloc.backPressed(),
-          ),
-          IconButton(
-            icon: Icon(Icons.delete_sweep),
-            tooltip: "Clear history",
-            onPressed: () {},
-          ),
-        ],
-      ),
-    );
-  }
+  BottomAppBar buildBottomAppBar(StatBloc statBloc) => BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () => statBloc.backPressed(),
+            ),
+            Expanded(child: SizedBox()),
+            IconButton(
+              icon: Icon(Icons.add),
+              tooltip: "Add missing value",
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(Icons.delete_sweep),
+              tooltip: "Clear history",
+              onPressed: () {},
+            ),
+          ],
+        ),
+      );
 
   Widget renderStateLoaded(List<HistoryModel> values, CounterItem counter, StatBloc statBloc) =>
       TabBarView(
@@ -119,7 +122,11 @@ class StatPage extends StatelessWidget with InputDialogMixin {
               entry: values[index],
               counter: counter,
               onValueChanged: (value) => statBloc.updateValue(values[index], value),
-              onEditTap: (entry) => inputDialog(context, entry),
+              onEditTap: (statEntry) => inputDialog(
+                context,
+                entry: statEntry,
+                counter: counter,
+              ),
             ),
           ),
         ],

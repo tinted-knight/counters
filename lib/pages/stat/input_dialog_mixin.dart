@@ -1,18 +1,20 @@
+import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/HistoryModel.dart';
 import 'package:flutter/material.dart';
 
 mixin InputDialogMixin on StatelessWidget {
-  Future<String> inputDialog(BuildContext context, HistoryModel entry) async {
+  Future<String> inputDialog(BuildContext context,
+      {HistoryModel entry, CounterItem counter}) async {
     String newValue;
     return showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text("it is title"),
+        title: Text(counter.title),
         content: TextField(
           autofocus: true,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
-            labelText: "Current value",
+            labelText: "Daily goal: ${counter.goal}",
             hintText: entry.valueString,
           ),
           onChanged: (value) {
@@ -24,7 +26,7 @@ mixin InputDialogMixin on StatelessWidget {
             child: Text("Cancel"),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          FlatButton(
+          RaisedButton(
             child: Text("Submit"),
             onPressed: () => Navigator.of(context).pop(newValue),
           ),
