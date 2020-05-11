@@ -30,3 +30,12 @@ extension DateString on HistoryModel {
 
   String get valueString => value.toString();
 }
+
+extension CopyWith on HistoryModel {
+  HistoryModel copyWith({int value, int date}) => HistoryModel(
+        id: this.id,
+        counterId: this.counterId,
+        date: date ?? this.date,
+        value: value ?? this.value,
+      );
+}

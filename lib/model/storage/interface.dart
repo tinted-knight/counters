@@ -11,6 +11,8 @@ abstract class ILocalStorage<CounterItem> {
 
   Future<bool> updateHistory(CounterItem item, String timestamp);
 
+  Future<bool> updateExistingHistoryItem(HistoryModel item);
+
   Future<List<HistoryModel>> getHistoryFor({CounterItem counter});
 
   Future<DateTime> getTime();

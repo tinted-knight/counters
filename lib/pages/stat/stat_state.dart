@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class StatState extends BlocState {
   StatState({
     @required this.isLoading,
+    this.isUpdating = false,
     this.hasLoaded = false,
     this.isEmpty = false,
     this.hasCanceled = false,
@@ -12,6 +13,7 @@ class StatState extends BlocState {
   });
 
   final bool isLoading;
+  final bool isUpdating;
   final bool hasLoaded;
   final bool isEmpty;
   final bool hasCanceled;
@@ -26,6 +28,12 @@ class StatState extends BlocState {
   factory StatState.loaded(List<HistoryModel> items) => StatState(
         isLoading: false,
         hasLoaded: true,
+        stat: items,
+      );
+
+  factory StatState.updating(List<HistoryModel> items) => StatState(
+        isLoading: false,
+        isUpdating: true,
         stat: items,
       );
 }

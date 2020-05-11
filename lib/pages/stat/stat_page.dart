@@ -41,7 +41,12 @@ class StatPage extends StatelessWidget with InputDialogMixin {
             if (state.isEmpty) {
               return Center(child: Text("empty :("));
             }
+            if (state.isUpdating) {
+              print('StatPage.build: updating');
+              return Center(child: Text("updating"));
+            }
             if (state.hasLoaded) {
+              print('StatPage.build: loaded');
               return renderStateLoaded(state.stat, counter, statBloc);
             }
 
@@ -113,7 +118,7 @@ class StatPage extends StatelessWidget with InputDialogMixin {
             itemBuilder: (context, index) => StatListTile(
               entry: values[index],
               counter: counter,
-              onValueChanged: (value) => statBloc.updateValue(counter, value),
+              onValueChanged: (value) => statBloc.updateValue(values[index], value),
               onEditTap: (entry) => inputDialog(context, entry),
             ),
           ),
