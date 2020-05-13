@@ -28,12 +28,17 @@ class _CounterValueIncrementState extends State<CounterValueIncrement>
       if (status == AnimationStatus.completed) controller.reverse();
     });
 
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
     greenAnimation = ColorTween(
-      begin: ColorPalette.color(widget.item.colorIndex),
+      begin: widget.item.colorValue,
       end: Color.fromARGB(255, 0, 255, 0),
     ).animate(controller);
 
-    super.initState();
+    super.didChangeDependencies();
   }
 
   @override

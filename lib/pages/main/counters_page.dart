@@ -142,6 +142,7 @@ class _CountersPageState extends State<CountersPage> {
             },
           ),
         ),
+//@deprecated wide "New counter" button at the bottom of the screen
 //          Row(
 //            mainAxisAlignment: MainAxisAlignment.center,
 //            children: <Widget>[

@@ -57,7 +57,6 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
   }
 
   void _loadCounters() async {
-    print('countersBloc::load');
     fire(CountersEvent.start());
     // todo fake
     await Future.delayed(Duration(seconds: 1));
