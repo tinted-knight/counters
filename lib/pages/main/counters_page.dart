@@ -72,7 +72,7 @@ class _CountersPageState extends State<CountersPage> {
       floatingActionButton: _isVisible
           ? FloatingActionButton(
               onPressed: () => navBloc.create(),
-              child: Icon(Icons.add),
+              child: Icon(Icons.add, color: Color(0xFF212121)),
             )
           : null,
     );
@@ -89,15 +89,17 @@ class _CountersPageState extends State<CountersPage> {
             floating: false,
             pinned: true,
             snap: false,
+            backgroundColor: ThemeLight.appbarColor,
+            elevation: 2.0,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
+              background: Image.asset("assets/chart03_1.png", fit: BoxFit.cover),
               title: Text(
                 widget.title,
                 style: TextStyle(color: Color(0xff313131)),
+//                style: TextStyle(color: Color(0xffffffff)),
               ),
             ),
-            backgroundColor: ThemeLight.appbarColor,
-            elevation: 0.0,
           )
         ];
       },

@@ -4,8 +4,8 @@ import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/pages/create/create_state.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
+import 'package:counter/theme/dark_theme.dart';
 import 'package:counter/widgets/color_picker/ColorPicker.dart';
-import 'package:counter/widgets/create/ButtonRow.dart';
 import 'package:counter/widgets/create/PropertyRow.dart';
 import 'package:counter/widgets/saving_modal_dialog.dart';
 import 'package:flutter/material.dart';
@@ -18,23 +18,34 @@ class CreatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('create::build');
     final createBloc = BlocProvider.of<CreateBloc>(context);
     final countersBloc = BlocProvider.of<CountersBloc>(context);
     final navBloc = BlocProvider.of<NavigatorBloc>(context);
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: ThemeLight.scaffoldBgColor,
         elevation: 0.0,
+        automaticallyImplyLeading: false,
         title: Text("Create counter", style: TextStyle(color: Color(0xff313131))),
         iconTheme: IconThemeData(color: Color(0xff313131)),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.help_outline),
-            onPressed: () {},
-          )
-        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton.extended(
+        label: Text("Save", style: TextStyle(color: Color(0xff212121))),
+        icon: Icon(Icons.save, color: Color(0xff212121)),
+        onPressed: () => createBloc.create(),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () => navBloc.pop(),
+            ),
+          ],
+        ),
       ),
       body: BlocStreamBuilder<CreateState>(
         bloc: createBloc,
@@ -82,12 +93,12 @@ class CreatePage extends StatelessWidget {
                         onColorPicked: (color) => createBloc.setColor(color),
                         selected: ColorPalette.blue,
                       ),
-                      Expanded(
-                        child: CreateButtonRow(
-                          onCancel: () => navBloc.pop(),
-                          onCreate: () => createBloc.create(),
-                        ),
-                      ),
+//                      Expanded(
+//                        child: CreateButtonRow(
+//                          onCancel: () => navBloc.pop(),
+//                          onCreate: () => createBloc.create(),
+//                        ),
+//                      ),
                     ],
                   ),
                 ),
