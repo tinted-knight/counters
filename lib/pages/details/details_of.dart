@@ -75,12 +75,12 @@ class _DetailsOfState extends State<DetailsOf> {
         }
         if (state.hasDone) return Container();
 
-        return _buildLayout(state);
+        return stateLoaded(state);
       },
     );
   }
 
-  LayoutBuilder _buildLayout(DetailsState state) {
+  LayoutBuilder stateLoaded(DetailsState state) {
     return LayoutBuilder(
       builder: (ctx, viewport) => SingleChildScrollView(
         child: ConstrainedBox(
@@ -124,30 +124,18 @@ class _DetailsOfState extends State<DetailsOf> {
   AppBar _coloredTitleAppBar(DetailsState state) => AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: ThemeLight.scaffoldBgColor,
-        elevation: 0.0,
-        title: Container(
-          padding: EdgeInsets.only(left: 8.0),
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.075),
-            boxShadow: [
-              BoxShadow(
-                color: ColorPalette.darker(state.counter.colorIndex),
-                blurRadius: 1,
-              ),
-            ],
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-          ),
-          child: TextField(
-            decoration: InputDecoration(icon: Icon(Icons.edit, color: Colors.white)),
-            controller: detailsBloc.titleCtrl,
-            style: TextStyle(color: Color(0xFFFFFFFF)),
-          ),
+        elevation: 1.0,
+        title: TextField(
+          decoration: InputDecoration(icon: Icon(Icons.edit)),
+          controller: detailsBloc.titleCtrl,
+          style: TextStyle(fontFamily: "RobotoCondensed", fontSize: 20.0),
+//            style: TextStyle(color: Color(0xFFFFFFFF)),
         ),
         actions: <Widget>[
           ColorActionButton(
             inAction: false,
             onPressed: () => _showColorPicker(state.counter.colorIndex),
-//            color: ColorPalette.color(state.counter.colorIndex),
+            color: state.counter.colorValue,
           ),
           DeleteActionButton(
             inAction: state.isDeleting,

@@ -25,38 +25,42 @@ class DetailsPage extends StatelessWidget {
       builder: (context, state) {
         if (state.isLoading) return Center(child: CircularProgressIndicator());
 
-        return WillPopScope(
-          onWillPop: () async {
-            detailsBloc.backPressed();
-            return false;
-          },
-          child: Scaffold(
-            body: DetailsOf(),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: ColorPalette.color(state?.counter?.colorIndex ?? counter.colorIndex),
-              child: Icon(Icons.save),
-              onPressed: () => detailsBloc.update(),
-            ),
-            bottomNavigationBar: BottomAppBar(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () => detailsBloc.backPressed(),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.show_chart),
-                    tooltip: "History",
-                    onPressed: () => navBloc.statOf(counter),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
+        return stateLoaded(detailsBloc, state, counter, navBloc);
       },
     );
   }
+
+  WillPopScope stateLoaded(DetailsBloc detailsBloc, DetailsState state, CounterItem counter,
+          NavigatorBloc navBloc) =>
+      WillPopScope(
+        onWillPop: () async {
+          detailsBloc.backPressed();
+          return false;
+        },
+        child: Scaffold(
+          body: DetailsOf(),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: ColorPalette.color(state?.counter?.colorIndex ?? counter.colorIndex),
+            child: Icon(Icons.save),
+            onPressed: () => detailsBloc.update(),
+          ),
+          bottomNavigationBar: BottomAppBar(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () => detailsBloc.backPressed(),
+                ),
+                IconButton(
+                  icon: Icon(Icons.show_chart),
+                  tooltip: "History",
+                  onPressed: () => navBloc.statOf(counter),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 }

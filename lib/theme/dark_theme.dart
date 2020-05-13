@@ -5,7 +5,8 @@ class ThemeLight {
 
   static const primary = Color(0xff212121);
 //  static const accent = Color(0xff757575);
-  static const accent = Colors.deepOrangeAccent;
+//  static const accent = Colors.deepOrangeAccent;
+  static const accent = Colors.black;
   static const scaffoldBgColor = Color(0xFFEFEEEE);
   static const button = Color(0xff00796b);
   static const appbarColor = Color(0xFFEFEEEE);
