@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import '../CounterIcon.dart';
 import '../CounterTitle.dart';
 
-const _kOffset = 3.0;
-const _kBlur = 3.0;
-const _kShadowLight = Color(0xAAFFFFFF);
-const _kShadowDark = Color(0xAAD1CDC7);
+const _kOffset = 1.0;
+const _kBlur = 1.5;
+const _kShadowLight = Color(0xffFFFFFF);
+const _kShadowDark = Color(0xffD1CDC7);
 
 class CounterRowNonSwipeable extends StatelessWidget {
   const CounterRowNonSwipeable(

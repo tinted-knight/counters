@@ -57,8 +57,8 @@ class ColoredTextField extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.white,
-            offset: Offset(2, 2),
-            blurRadius: 2,
+            offset: Offset(1, 1),
+            blurRadius: 1,
           ),
         ],
         borderRadius: BorderRadius.all(Radius.circular(8.0)),

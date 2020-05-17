@@ -1,10 +1,10 @@
 import 'package:counter/theme/dark_theme.dart';
 import 'package:flutter/material.dart';
 
-const _kOffset = 2.0;
-const _kBlur = 2.0;
-const _kShadowLight = Color(0xAAFFFFFF);
-const _kShadowDark = Color(0xAAD1CDC7);
+const _kOffset = 1.0;
+const _kBlur = 1.5;
+const _kShadowLight = Color(0xffFFFFFF);
+const _kShadowDark = Color(0xffD1CDC7);
 
 
 class TextLabel extends StatelessWidget {
