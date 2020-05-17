@@ -94,11 +94,27 @@ class _CountersPageState extends State<CountersPage> {
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
               background: Image.asset("assets/chart03_1.png", fit: BoxFit.cover),
-              title: Text(
-                widget.title,
-                style: TextStyle(color: Color(0xff313131)),
-//                style: TextStyle(color: Color(0xffffffff)),
+              title: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(children: [
+                  TextSpan(
+                    text: "Try to keep up the rythm",
+                    style: TextStyle(color: Color(0xff313131)),
+                  ),
+                  TextSpan(text: "\n"),
+                  TextSpan(
+                    text: "Or not. Don't worry - be puppy 🐶",
+                    style: TextStyle(
+                      color: Color(0xff313131),
+                      fontSize: 10.0,
+                    ),
+                  )
+                ]),
               ),
+//              title: Text(
+//                widget.title,
+//                style: TextStyle(color: Color(0xff313131)),
+//              ),
             ),
           )
         ];

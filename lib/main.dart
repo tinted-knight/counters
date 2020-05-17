@@ -47,7 +47,7 @@ class CountersApp extends StatelessWidget {
                       if (state.isLoading) return SplashPage();
 
                       return CountersPage(
-                        title: "Try to keep up the rythm",
+                        title: "Try to keep up the rythm always",
                         isSwipeable: state.isSwipeable,
                       );
                     },
