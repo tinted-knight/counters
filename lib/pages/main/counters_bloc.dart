@@ -59,7 +59,7 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
   void _loadCounters() async {
     fire(CountersEvent.start());
     // todo fake
-    await Future.delayed(Duration(seconds: 1));
+//    await Future.delayed(Duration(seconds: 1));
 
     final values = await repo.getAll();
     if (values != null && values.isNotEmpty) {

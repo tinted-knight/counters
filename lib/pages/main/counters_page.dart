@@ -144,25 +144,6 @@ class _CountersPageState extends State<CountersPage> {
             },
           ),
         ),
-//@deprecated wide "New counter" button at the bottom of the screen
-//          Row(
-//            mainAxisAlignment: MainAxisAlignment.center,
-//            children: <Widget>[
-//              Expanded(
-//                child: Container(
-//                  height: 60.0,
-//                  child: RaisedButton.icon(
-//                    shape: RoundedRectangleBorder(),
-//                    color: Color(0xff00796b),
-//                    colorBrightness: Brightness.dark,
-//                    onPressed: () => navBloc.create(),
-//                    icon: Icon(Icons.add),
-//                    label: Text("Create"),
-//                  ),
-//                ),
-//              ),
-//            ],
-//          ),
       ],
     );
   }

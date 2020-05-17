@@ -50,9 +50,6 @@ class ColorPalette {
   static Color darker(int value) => _dark_palette[value];
 }
 
-///@deprecated
-final colors = {"blue": Color(0xff2C98F0)};
-
 extension ColorValue on CounterItem {
   Color get colorValue => ColorPalette.color(colorIndex);
 }

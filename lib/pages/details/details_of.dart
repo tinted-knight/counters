@@ -89,7 +89,7 @@ class _DetailsOfState extends State<DetailsOf> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                _coloredTitleAppBar(state),
+                _appBar(state),
                 Container(
                   margin: EdgeInsets.only(top: 8.0),
                   height: 150.0,
@@ -120,8 +120,7 @@ class _DetailsOfState extends State<DetailsOf> {
     );
   }
 
-  ///@galileo
-  AppBar _coloredTitleAppBar(DetailsState state) => AppBar(
+  AppBar _appBar(DetailsState state) => AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: ThemeLight.scaffoldBgColor,
         elevation: 1.0,
@@ -144,40 +143,6 @@ class _DetailsOfState extends State<DetailsOf> {
         ],
       );
 
-  ///@deprecated in favour of [_coloredTitleAppBar]
-  AppBar _newAppBar(DetailsState state) => AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: ColorPalette.color(state.counter.colorIndex),
-        elevation: 4.0,
-        title: Container(
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.075),
-            boxShadow: [
-              BoxShadow(
-                color: ColorPalette.darker(state.counter.colorIndex),
-                offset: Offset(2, 2),
-                blurRadius: 2,
-              ),
-            ],
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-          ),
-          child: TextField(
-            decoration: InputDecoration(),
-            controller: detailsBloc.titleCtrl,
-            style: TextStyle(color: Color(0xFFFFFFFF)),
-          ),
-        ),
-        actions: <Widget>[
-          ColorActionButton(
-            inAction: false,
-            onPressed: () => _showColorPicker(state.counter.colorIndex),
-          ),
-          DeleteActionButton(
-            inAction: state.isDeleting,
-            onPressed: () => detailsBloc.delete(state.counter),
-          ),
-        ],
-      );
 
   void _goBackAndSaveIfNeeded(DetailsState state) async {
     if (state.wasModified) {

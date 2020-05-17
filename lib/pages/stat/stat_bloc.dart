@@ -55,7 +55,7 @@ class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
       final updatedItem = item.copyWith(value: intValueOf(value));
       await repo.updateExistingHistoryItem(updatedItem);
       //@achtung
-      Future.delayed(Duration(seconds: 1));
+      Future.delayed(Duration(milliseconds: 500));
       fire(StatEvent.updated(updatedItem));
     }
   }

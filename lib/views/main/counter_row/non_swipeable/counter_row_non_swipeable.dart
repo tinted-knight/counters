@@ -51,17 +51,6 @@ class CounterRowNonSwipeable extends StatelessWidget {
         ],
       );
 
-  /// @deprecated
-  Widget get removeIcon => IconButton(
-        onPressed: onDecrement,
-//            color: ColorPalette.color(item.colorIndex),
-        tooltip: "Step down",
-        icon: Icon(
-          Icons.remove_circle_outline,
-//              color: ColorPalette.color(item.colorIndex),
-        ),
-      );
-
   BoxDecoration get _neumorphicDecoration => BoxDecoration(
         color: ThemeLight.scaffoldBgColor,
         boxShadow: [
