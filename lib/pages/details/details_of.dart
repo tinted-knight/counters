@@ -189,6 +189,7 @@ class _DetailsOfState extends State<DetailsOf> {
           RaisedButton(
             child: Text("Yes"),
             color: color,
+            textColor: Color(0xffffffff),
             onPressed: () => Navigator.of(context).pop(true),
           ),
         ],
