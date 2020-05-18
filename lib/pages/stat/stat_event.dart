@@ -1,12 +1,14 @@
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:counter/model/HistoryModel.dart';
+import 'package:counter/pages/stat/stat_state.dart';
 
 class StatEvent extends BlocEvent {
-  StatEvent(this.type, {this.stat, this.updatedItem});
+  StatEvent(this.type, {this.stat, this.updatedItem, this.missingValue});
 
   final StatEventType type;
   final List<HistoryModel> stat;
   final HistoryModel updatedItem;
+  final ExistingItem missingValue;
 
   factory StatEvent.loading() => StatEvent(StatEventType.loading);
 
@@ -25,6 +27,11 @@ class StatEvent extends BlocEvent {
         StatEventType.loaded,
         stat: items,
       );
+
+  factory StatEvent.itemExists(ExistingItem value) => StatEvent(
+        StatEventType.itemExists,
+        missingValue: value,
+      );
 }
 
 enum StatEventType {
@@ -34,4 +41,5 @@ enum StatEventType {
   back,
   updating,
   updated,
+  itemExists,
 }

@@ -15,15 +15,12 @@ class AppBloc extends BlocEventStateBase<AppEvent, AppState> {
     final value = !lastState.isSwipeable;
     fire(AppEvent.loading());
     await sp.setBool("is_swipeable", value);
-    // todo fake
-    await Future.delayed(Duration(seconds: 1));
     fire(AppEvent.loaded(value));
   }
 
   void _loadPrefs() async {
     sp = await SharedPreferences.getInstance();
     final bool isSwipeable = sp.get("is_swipeable") ?? false;
-    await Future.delayed(Duration(seconds: 1));
     fire(AppEvent.loaded(isSwipeable));
   }
 

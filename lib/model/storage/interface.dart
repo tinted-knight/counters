@@ -9,7 +9,7 @@ abstract class ILocalStorage<CounterItem> {
 
   Future<bool> delete(CounterItem item);
 
-  Future<bool> updateHistory(CounterItem item, String timestamp);
+  Future<bool> updateHistory(CounterItem item, int timestamp);
 
   Future<bool> updateExistingHistoryItem(HistoryModel item);
 

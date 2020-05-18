@@ -98,7 +98,7 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
   }
 
   Future<void> _saveToHistory(List<CounterItem> counters, int time) async {
-    counters.forEach((counter) async => await repo.updateHistory(counter, time.toString()));
+    counters.forEach((counter) async => await repo.updateHistory(counter, time));
   }
 
   Future<void> _saveUpdated(List<CounterItem> counters) async {

@@ -47,7 +47,7 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
   }
 
   @override
-  Future<bool> updateHistory(CounterItem item, String timestamp) async {
+  Future<bool> updateHistory(CounterItem item, int timestamp) async {
     final value = {
       colCounterId: item.id.toString(),
       colDate: timestamp,

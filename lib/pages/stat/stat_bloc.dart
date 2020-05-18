@@ -5,6 +5,8 @@ import 'package:counter/model/storage/interface.dart';
 import 'package:counter/pages/stat/stat_event.dart';
 import 'package:counter/pages/stat/stat_state.dart';
 
+import '../../bloc/helper_functions.dart';
+
 class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
   StatBloc(this.repo) : super(initialState: StatState.loading());
 
@@ -39,6 +41,9 @@ class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
         }).toList();
         yield StatState.loaded(updatedList);
         break;
+      case StatEventType.itemExists:
+        yield StatState.itemExists(currentState.stat, event.missingValue);
+        break;
     }
   }
 
@@ -54,10 +59,37 @@ class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
       fire(StatEvent.updating());
       final updatedItem = item.copyWith(value: intValueOf(value));
       await repo.updateExistingHistoryItem(updatedItem);
-      //@achtung
-      Future.delayed(Duration(milliseconds: 500));
       fire(StatEvent.updated(updatedItem));
     }
+  }
+
+  HistoryModel checkExistence(DateTime dateTime) {
+    return lastState.stat.firstWhere(
+      (el) {
+        final elDate = DateTime.fromMillisecondsSinceEpoch(el.date);
+        return (elDate.year == dateTime.year &&
+            elDate.month == dateTime.month &&
+            elDate.day == dateTime.day);
+      },
+      orElse: () => null,
+    );
+  }
+
+  void addMissingValue({CounterItem counter, String value, DateTime dateTime}) async {
+    final item = checkExistence(dateTime);
+    if (item != null) {
+      fire(StatEvent.itemExists(ExistingItem(item, value)));
+    } else {
+      _addValue(counter, value, dateTime);
+    }
+  }
+
+  void _addValue(CounterItem counter, String value, DateTime dateTime) async {
+    final result = await repo.updateHistory(
+      counter.copyWith(value: intValueOf(value)),
+      dateTime.millisecondsSinceEpoch,
+    );
+    if (result) load(counter);
   }
 
   int intValueOf(String s) => int.tryParse(s) ?? -1;

@@ -1,10 +1,10 @@
 import 'package:counter/model/CounterModel.dart';
-import 'package:counter/model/HistoryModel.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/ColorPalette.dart';
+
 mixin InputDialogMixin on StatelessWidget {
-  Future<String> inputDialog(BuildContext context,
-      {HistoryModel entry, CounterItem counter}) async {
+  Future<String> inputDialog(BuildContext context, {String hint, CounterItem counter}) async {
     String newValue;
     return showDialog<String>(
       context: context,
@@ -15,7 +15,7 @@ mixin InputDialogMixin on StatelessWidget {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             labelText: "Daily goal: ${counter.goal}",
-            hintText: entry.valueString,
+            hintText: hint,
           ),
           onChanged: (value) {
             newValue = value;
@@ -28,6 +28,8 @@ mixin InputDialogMixin on StatelessWidget {
           ),
           RaisedButton(
             child: Text("Submit"),
+            color: counter.colorValue,
+            textColor: Color(0xffffffff),
             onPressed: () => Navigator.of(context).pop(newValue),
           ),
         ],

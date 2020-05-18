@@ -32,8 +32,15 @@ class StatPage extends StatelessWidget with InputDialogMixin {
         appBar: buildTabBar(counter),
         body: BlocStreamBuilder<StatState>(
           bloc: statBloc,
-          stateListener: (state) {
+          stateListener: (state) async {
             if (state.hasCanceled) navBloc.pop();
+
+            if (state.itemExists) {
+              final confirmed = await _showConfirmation(context, counter.colorValue);
+              if (confirmed) {
+                statBloc.updateValue(state.missingValue.item, state.missingValue.value);
+              }
+            }
           },
           builder: (context, state) {
             if (state.isLoading) {
@@ -54,7 +61,7 @@ class StatPage extends StatelessWidget with InputDialogMixin {
             return Center(child: Text("last hope"));
           },
         ),
-        bottomNavigationBar: buildBottomAppBar(statBloc),
+        bottomNavigationBar: buildBottomAppBar(context, statBloc, counter),
       ),
     );
   }
@@ -86,7 +93,8 @@ class StatPage extends StatelessWidget with InputDialogMixin {
         ),
       );
 
-  BottomAppBar buildBottomAppBar(StatBloc statBloc) => BottomAppBar(
+  BottomAppBar buildBottomAppBar(BuildContext context, StatBloc statBloc, CounterItem counter) =>
+      BottomAppBar(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -98,7 +106,7 @@ class StatPage extends StatelessWidget with InputDialogMixin {
             IconButton(
               icon: Icon(Icons.add),
               tooltip: "Add missing value",
-              onPressed: () {},
+              onPressed: () => _showDatePicker(context, statBloc, counter),
             ),
             IconButton(
               icon: Icon(Icons.delete_sweep),
@@ -108,6 +116,50 @@ class StatPage extends StatelessWidget with InputDialogMixin {
           ],
         ),
       );
+
+  Future<bool> _showConfirmation(BuildContext context, Color color) async {
+    return await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Do you want to save changes?"),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("No"),
+            textColor: color,
+            onPressed: () => Navigator.of(context).pop(false),
+          ),
+          RaisedButton(
+            child: Text("Yes"),
+            color: color,
+            textColor: Color(0xffffffff),
+            onPressed: () => Navigator.of(context).pop(true),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _showDatePicker(BuildContext context, StatBloc statBloc, CounterItem counter) async {
+    final dateTime = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1970),
+      lastDate: DateTime(2042),
+    );
+    if (dateTime != null) {
+      final value = await inputDialog(context, hint: "", counter: counter);
+      if (value != null) {
+//        final exists = statBloc.checkExistence(dateTime);
+//        if (!exists) {
+        statBloc.addMissingValue(
+          counter: counter,
+          value: value,
+          dateTime: dateTime,
+        );
+//        }
+      }
+    }
+  }
 
   Widget renderStateLoaded(List<HistoryModel> values, CounterItem counter, StatBloc statBloc) =>
       TabBarView(
@@ -124,7 +176,7 @@ class StatPage extends StatelessWidget with InputDialogMixin {
               onValueChanged: (value) => statBloc.updateValue(values[index], value),
               onEditTap: (statEntry) => inputDialog(
                 context,
-                entry: statEntry,
+                hint: statEntry.valueString,
                 counter: counter,
               ),
             ),
