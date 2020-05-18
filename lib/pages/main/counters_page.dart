@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:counter/bloc/app_bloc.dart';
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
@@ -31,9 +33,14 @@ class _CountersPageState extends State<CountersPage> {
 
   final _scrollController = ScrollController();
 
+  String _appBarImage;
+
   @override
   void initState() {
     super.initState();
+
+    _appBarImage = appBarBgImages[Random().nextInt(appBarBgImages.length)];
+
     _scrollController.addListener(() {
       switch (_scrollController.position.userScrollDirection) {
         case ScrollDirection.idle:
@@ -63,11 +70,6 @@ class _CountersPageState extends State<CountersPage> {
     final appBloc = BlocProvider.of<AppBloc>(context);
 
     return Scaffold(
-//      appBar: _appBar(
-//        context,
-//        appBloc,
-//        onCreate: () => navBloc.create(),
-//      ),
       body: withSliverAppBar(appBloc, navBloc, countersBloc),
       floatingActionButton: _isVisible
           ? FloatingActionButton(
@@ -85,7 +87,7 @@ class _CountersPageState extends State<CountersPage> {
       headerSliverBuilder: (context, innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
-            expandedHeight: 150.0,
+            expandedHeight: 120.0,
             floating: false,
             pinned: true,
             snap: false,
@@ -93,7 +95,12 @@ class _CountersPageState extends State<CountersPage> {
             elevation: 2.0,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
-              background: Image.asset("assets/chart03_1.png", fit: BoxFit.cover),
+              background: Image.asset(
+                "assets/images/$_appBarImage",
+                repeat: ImageRepeat.repeat,
+                colorBlendMode: BlendMode.darken,
+                color: ThemeLight.scaffoldBgColor,
+              ),
               title: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(children: [
@@ -111,10 +118,6 @@ class _CountersPageState extends State<CountersPage> {
                   )
                 ]),
               ),
-//              title: Text(
-//                widget.title,
-//                style: TextStyle(color: Color(0xff313131)),
-//              ),
             ),
           )
         ];
@@ -182,52 +185,4 @@ class _CountersPageState extends State<CountersPage> {
       onDecrement: onDecrement,
     );
   }
-
-  Widget _appBar(BuildContext context, AppBloc appBloc, {Function onCreate}) => PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 16.0),
-          child: AppBar(
-            actionsIconTheme: Theme.of(context).iconTheme.copyWith(
-                  color: Color(0xff313131),
-                ),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  widget.title,
-                  style: TextStyle(color: Color(0xff313131)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: Text(
-                    "(or not if you don't want to 🐶, just keep calm)",
-                    style: TextStyle(color: Color(0x77313131), fontSize: 10),
-                  ),
-                ),
-              ],
-            ),
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            actions: <Widget>[
-              IconButton(
-                tooltip: "Switch swipeable",
-                icon: Icon(widget.isSwipeable ? Icons.remove : Icons.add),
-                onPressed: appBloc.switchSwipeable,
-              ),
-//              IconButton(
-//                tooltip: "Gimme some heeeelp",
-//                icon: Icon(Icons.help_outline, semanticLabel: "Quick help"),
-//                onPressed: () {},
-//              ),
-              IconButton(
-                tooltip: "Create counter",
-                color: Colors.redAccent,
-                icon: Icon(Icons.add_box),
-                onPressed: onCreate,
-              ),
-            ],
-          ),
-        ),
-      );
 }
