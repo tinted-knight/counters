@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../model/ColorPalette.dart';
 
-mixin InputDialogMixin on StatelessWidget {
+mixin InputDialogMixin {
   Future<String> inputDialog(BuildContext context, {String hint, CounterItem counter}) async {
     String newValue;
     return showDialog<String>(

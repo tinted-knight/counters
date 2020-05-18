@@ -11,9 +11,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/HistoryModel.dart';
+import '../common/confirmation_dialog_mixin.dart';
 import 'input_dialog_mixin.dart';
 
-class StatPage extends StatelessWidget with InputDialogMixin {
+class StatPage extends StatelessWidget with InputDialogMixin, ConfirmationDialogMixin {
   static const route = "/stat";
 
   @override
@@ -36,7 +37,11 @@ class StatPage extends StatelessWidget with InputDialogMixin {
             if (state.hasCanceled) navBloc.pop();
 
             if (state.itemExists) {
-              final confirmed = await _showConfirmation(context, counter.colorValue);
+              final confirmed = await yesNoDialog(
+                context,
+                color: counter.colorValue,
+                message: "The item already exists. Do you want to update it's value?",
+              );
               if (confirmed) {
                 statBloc.updateValue(state.missingValue.item, state.missingValue.value);
               }
@@ -116,28 +121,6 @@ class StatPage extends StatelessWidget with InputDialogMixin {
           ],
         ),
       );
-
-  Future<bool> _showConfirmation(BuildContext context, Color color) async {
-    return await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("Do you want to save changes?"),
-        actions: <Widget>[
-          FlatButton(
-            child: Text("No"),
-            textColor: color,
-            onPressed: () => Navigator.of(context).pop(false),
-          ),
-          RaisedButton(
-            child: Text("Yes"),
-            color: color,
-            textColor: Color(0xffffffff),
-            onPressed: () => Navigator.of(context).pop(true),
-          ),
-        ],
-      ),
-    );
-  }
 
   _showDatePicker(BuildContext context, StatBloc statBloc, CounterItem counter) async {
     final dateTime = await showDatePicker(

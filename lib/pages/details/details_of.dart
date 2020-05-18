@@ -15,6 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../bloc/helper_functions.dart';
+import '../common/confirmation_dialog_mixin.dart';
 import 'single_bloc.dart';
 import 'single_state.dart';
 
@@ -25,7 +26,7 @@ class DetailsOf extends StatefulWidget {
   _DetailsOfState createState() => _DetailsOfState();
 }
 
-class _DetailsOfState extends State<DetailsOf> {
+class _DetailsOfState extends State<DetailsOf> with ConfirmationDialogMixin {
   DetailsBloc detailsBloc;
   CountersBloc countersBloc;
   NavigatorBloc navBloc;
@@ -143,13 +144,9 @@ class _DetailsOfState extends State<DetailsOf> {
         ],
       );
 
-
   void _goBackAndSaveIfNeeded(DetailsState state) async {
     if (state.wasModified) {
-      final haveConfirmation = await _showModifiedConfirmation(
-        context,
-        ColorPalette.color(state.counter.colorIndex),
-      );
+      final haveConfirmation = await yesNoDialog(context, color: state.counter.colorValue);
       if (haveConfirmation) {
         detailsBloc.update();
       } else {
@@ -171,28 +168,6 @@ class _DetailsOfState extends State<DetailsOf> {
             Navigator.of(context).pop();
           },
         ),
-      ),
-    );
-  }
-
-  Future<bool> _showModifiedConfirmation(BuildContext context, Color color) async {
-    return await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("Do you want to save changes?"),
-        actions: <Widget>[
-          FlatButton(
-            child: Text("No"),
-            textColor: color,
-            onPressed: () => Navigator.of(context).pop(false),
-          ),
-          RaisedButton(
-            child: Text("Yes"),
-            color: color,
-            textColor: Color(0xffffffff),
-            onPressed: () => Navigator.of(context).pop(true),
-          ),
-        ],
       ),
     );
   }
