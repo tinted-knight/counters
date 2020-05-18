@@ -50,7 +50,7 @@ _buildFabTheme(ThemeData baseTheme) {
 }
 
 const appBarBgImages = [
-  "pixeal_heart.png",
+  "pixel_heart.png",
   "canadian_dollar.png",
   "let_there_be_sun.png",
 ];
