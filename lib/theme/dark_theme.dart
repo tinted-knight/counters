@@ -53,4 +53,6 @@ const appBarBgImages = [
   "pixel_heart.png",
   "canadian_dollar.png",
   "let_there_be_sun.png",
+  "subtle_stripes.png",
+  "fabric_plaid.png",
 ];
