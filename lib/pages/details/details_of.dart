@@ -8,9 +8,10 @@ import 'package:counter/views/details/rows/StepRow.dart';
 import 'package:counter/views/details/rows/UnitRow.dart';
 import 'package:counter/views/details/rows/top_row/TopRow.dart';
 import 'package:counter/widgets/action_buttons.dart';
-import 'package:counter/widgets/color_picker/ColorPicker.dart';
 import 'package:counter/widgets/debug_error_message.dart';
 import 'package:counter/widgets/dialogs/saving_modal_dialog.dart';
+import 'package:counter/widgets/dialogs/show_color_picker.dart';
+import 'package:counter/widgets/dialogs/show_snackbar.dart';
 import 'package:counter/widgets/dialogs/yes_no_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class DetailsOf extends StatelessWidget {
       bloc: detailsBloc,
       oneShotListener: (state) async {
         if (state is DetailsStateValidationError) {
-          _showMessage(context, msg: "validation error");
+          showTextSnack(context, msg: "validation error");
           return;
         }
         if (state is DetailsStateDone) {
@@ -73,7 +74,6 @@ class DetailsOf extends StatelessWidget {
     DetailsBloc detailsBloc,
   }) {
     final validationError = state is DetailsStateValidationError;
-    print('_DetailsOfState.stateLoaded, $validationError');
 
     return LayoutBuilder(
       builder: (ctx, viewport) => SingleChildScrollView(
@@ -127,10 +127,10 @@ class DetailsOf extends StatelessWidget {
         actions: <Widget>[
           ColorActionButton(
             inAction: false,
-            onPressed: () => _showColorPicker(
+            onPressed: () => showColorPicker(
               context,
-              selected: state.counter.colorIndex,
-              detailsBloc: detailsBloc,
+              currentColorIndex: state.counter.colorIndex,
+              onColorPicked: (newColor) => detailsBloc.applyColor(newColor),
             ),
             color: state.counter.colorValue,
           ),
@@ -157,34 +157,5 @@ class DetailsOf extends StatelessWidget {
     } else {
       navBloc.pop();
     }
-  }
-
-  void _showColorPicker(BuildContext context, {int selected, DetailsBloc detailsBloc}) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => Container(
-        child: ColorPicker(
-          selected: selected,
-          onColorPicked: (newColor) {
-            detailsBloc.applyColor(newColor);
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
-    );
-  }
-
-  void _showMessage(BuildContext context, {String msg}) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        behavior: SnackBarBehavior.floating,
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(msg),
-          ],
-        ),
-      ),
-    );
   }
 }
