@@ -2,8 +2,8 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:counter/model/HistoryModel.dart';
 import 'package:flutter/material.dart';
 
-class BarChart02 extends StatelessWidget {
-  const BarChart02(
+class BarChart extends StatelessWidget {
+  const BarChart(
     this.values, {
     Key key,
     this.barColor = Colors.blue,
@@ -26,7 +26,7 @@ class BarChart02 extends StatelessWidget {
 
     return charts.BarChart(
       series,
-      // todo dedug
+      // todo debug
       animate: false,
       domainAxis: charts.OrdinalAxisSpec(
         viewport: charts.OrdinalViewport(values[0].dateString, 7),

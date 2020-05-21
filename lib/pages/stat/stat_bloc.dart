@@ -49,6 +49,10 @@ class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
 
   void load(CounterItem counter) async {
     final stat = await repo.getHistoryFor(counter: counter);
+    if (stat == null || stat.isEmpty) {
+      fire(StatEvent.empty());
+      return;
+    }
     fire(StatEvent.loaded(stat));
   }
 

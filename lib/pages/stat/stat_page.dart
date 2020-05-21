@@ -5,7 +5,7 @@ import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/stat/stat_bloc.dart';
 import 'package:counter/pages/stat/stat_state.dart';
-import 'package:counter/views/stat/chart02.dart';
+import 'package:counter/views/stat/bar_chart.dart';
 import 'package:counter/views/stat/stat_list_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,11 +55,9 @@ class StatPage extends StatelessWidget with InputDialogMixin, ConfirmationDialog
               return Center(child: Text("empty :("));
             }
             if (state.isUpdating) {
-              print('StatPage.build: updating');
               return Center(child: Text("updating"));
             }
             if (state.hasLoaded) {
-              print('StatPage.build: loaded');
               return renderStateLoaded(state.stat, counter, statBloc);
             }
 
@@ -74,7 +72,7 @@ class StatPage extends StatelessWidget with InputDialogMixin, ConfirmationDialog
   PreferredSize buildTabBar(CounterItem counter) => PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: Container(
-          color: ColorPalette.color(counter.colorIndex),
+//          color: ColorPalette.color(counter.colorIndex),
           child: SafeArea(
             child: Column(
               children: <Widget>[
@@ -87,15 +85,32 @@ class StatPage extends StatelessWidget with InputDialogMixin, ConfirmationDialog
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Simple list"),
+                      child: Text("List"),
                     ),
                   ],
-                  indicatorColor: Colors.white,
+                  labelColor: Color(0xff212121),
+                  indicator: _neumorphicInnerDecoration,
+//                  indicator: BoxDecoration(
+//                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+//                    color: counter.colorValue,
+//                  ),
                 ),
               ],
             ),
           ),
         ),
+      );
+
+  BoxDecoration get _neumorphicInnerDecoration => BoxDecoration(
+        color: Colors.black.withOpacity(0.075),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white,
+            offset: Offset(1, 1),
+            blurRadius: 1,
+          ),
+        ],
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
       );
 
   BottomAppBar buildBottomAppBar(BuildContext context, StatBloc statBloc, CounterItem counter) =>
@@ -132,8 +147,6 @@ class StatPage extends StatelessWidget with InputDialogMixin, ConfirmationDialog
     if (dateTime != null) {
       final value = await inputDialog(context, hint: "", counter: counter);
       if (value != null) {
-//        final exists = statBloc.checkExistence(dateTime);
-//        if (!exists) {
         statBloc.addMissingValue(
           counter: counter,
           value: value,
@@ -152,7 +165,7 @@ class StatPage extends StatelessWidget with InputDialogMixin, ConfirmationDialog
 //            values: values,
 //            lineColor: counter.colorValue,
 //          ),
-          BarChart02(values, barColor: counter.colorValue),
+          BarChart(values, barColor: counter.colorValue),
           ListView.builder(
             itemCount: values.length,
             itemBuilder: (context, index) => StatListTile(

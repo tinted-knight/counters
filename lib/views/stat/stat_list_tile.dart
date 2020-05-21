@@ -53,11 +53,11 @@ class StatListTile extends StatelessWidget {
                 },
                 color: Colors.black54,
               ),
-              IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () {},
-                color: Colors.black54,
-              ),
+//              IconButton(
+//                icon: Icon(Icons.delete),
+//                onPressed: () {},
+//                color: Colors.black54,
+//              ),
             ],
           ),
         ),
