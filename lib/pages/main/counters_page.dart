@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:counter/bloc/app_bloc.dart';
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
@@ -39,7 +37,7 @@ class _CountersPageState extends State<CountersPage> {
   void initState() {
     super.initState();
 
-    _appBarImage = appBarBgImages[Random().nextInt(appBarBgImages.length)];
+    _appBarImage = appBarBgImages[1];
 
     _scrollController.addListener(() {
       switch (_scrollController.position.userScrollDirection) {
@@ -97,7 +95,6 @@ class _CountersPageState extends State<CountersPage> {
               centerTitle: true,
               background: Image.asset(
                 "assets/images/$_appBarImage",
-                repeat: ImageRepeat.repeat,
                 colorBlendMode: BlendMode.darken,
                 color: ThemeLight.scaffoldBgColor,
               ),
@@ -110,7 +107,7 @@ class _CountersPageState extends State<CountersPage> {
                   ),
                   TextSpan(text: "\n"),
                   TextSpan(
-                    text: "Or not. Don't worry - be puppy 🐶",
+                    text: "Or not. Don't worry - be puppy",
                     style: TextStyle(
                       color: Color(0xff313131),
                       fontSize: 10.0,
@@ -119,7 +116,7 @@ class _CountersPageState extends State<CountersPage> {
                 ]),
               ),
             ),
-          )
+          ),
         ];
       },
       body: counters(countersBloc, navBloc),
@@ -185,4 +182,25 @@ class _CountersPageState extends State<CountersPage> {
       onDecrement: onDecrement,
     );
   }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate(this._appBar);
+
+  final AppBar _appBar;
+  final _statusBarHeight = 24.0;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return _appBar;
+  }
+
+  @override
+  double get maxExtent => _appBar.preferredSize.height + _statusBarHeight;
+
+  @override
+  double get minExtent => _appBar.preferredSize.height + _statusBarHeight;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => false;
 }
