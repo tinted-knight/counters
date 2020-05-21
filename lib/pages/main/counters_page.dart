@@ -130,13 +130,13 @@ class _CountersPageState extends State<CountersPage> {
           child: BlocStreamBuilder<CounterState>(
             bloc: countersBloc,
             builder: (context, state) {
-              if (state.isLoading) {
+              if (state is CounterStateLoading) {
                 return Center(child: CircularProgressIndicator());
               }
-              if (state.hasFailed) {
+              if (state is CounterStateFailed) {
                 return Center(child: Text("failed"));
               }
-              if (state.isLoaded) {
+              if (state is CounterStateLoaded) {
                 return ListView.builder(
                   itemCount: state.counters.length,
                   itemBuilder: (context, index) {
