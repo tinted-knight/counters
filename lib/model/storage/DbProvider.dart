@@ -52,28 +52,36 @@ class DbProvider {
             " color_index INTEGER"
             ")");
         await db.insert(tableCounters, {
-          "title": "Aquadetrim",
-          "value": "1000",
-          "goal": "4000",
-          "step": "500",
-          "unit": "ME",
+          "title": "Pet the puppy",
+          "value": "0",
+          "goal": "30",
+          "step": "3",
+          "unit": "times",
           "color_index": "0",
         });
         await db.insert(tableCounters, {
-          "title": "Приседания",
-          "value": "30",
-          "goal": "100",
-          "step": "15",
+          "title": "Pet the kitty",
+          "value": "0",
+          "goal": "30",
+          "step": "3",
           "unit": "times",
           "color_index": "1",
         });
         await db.insert(tableCounters, {
-          "title": "Отжимания",
-          "value": "20",
-          "goal": "50",
-          "step": "10",
+          "title": "Play with parrot",
+          "value": "0",
+          "goal": "3",
+          "step": "1",
           "unit": "times",
           "color_index": "2",
+        });
+        await db.insert(tableCounters, {
+          "title": "Add new counter",
+          "value": "0",
+          "goal": "3",
+          "step": "1",
+          "unit": "unit",
+          "color_index": "3",
         });
       },
     );
