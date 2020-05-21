@@ -1,8 +1,6 @@
 import 'package:counter/model/CounterModel.dart';
 import 'package:flutter/material.dart';
 
-import '../../bloc/helper_functions.dart';
-
 mixin DetailsControllersMixin {
   final valueCtrl = TextEditingController();
   final stepCtrl = TextEditingController();

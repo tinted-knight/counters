@@ -1,8 +1,8 @@
 import 'package:counter/views/common/ColoredTextField.dart';
 import 'package:flutter/material.dart';
 
-import '../../views/common/ExpandedRight.dart';
-import '../../views/common/TextLabel.dart';
+import 'TextLabel.dart';
+import 'expanded_widgets.dart';
 
 enum ValueType { str, int, color }
 
@@ -64,7 +64,7 @@ class PropertyRow extends StatelessWidget {
         children: <Widget>[
           ExpandedLeft(child: TextLabel(label)),
           ExpandedRight(
-            child: ColoredTextField.forLight(
+            child: ColoredTextField(
               controller: controller,
               onlyDigits: onlyDigits,
               textColor: hasError ? Colors.red : null,

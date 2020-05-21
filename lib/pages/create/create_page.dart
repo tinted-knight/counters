@@ -5,12 +5,12 @@ import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/pages/create/create_state.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/theme/dark_theme.dart';
+import 'package:counter/views/common/PropertyRow.dart';
 import 'package:counter/widgets/color_picker/ColorPicker.dart';
-import 'package:counter/widgets/create/PropertyRow.dart';
-import 'package:counter/widgets/saving_modal_dialog.dart';
+import 'package:counter/widgets/dialogs/saving_modal_dialog.dart';
 import 'package:flutter/material.dart';
 
-import '../../bloc/helper_functions.dart';
+import '../../model/CounterModel.dart';
 import 'create_bloc.dart';
 
 class CreatePage extends StatelessWidget {
@@ -60,7 +60,7 @@ class CreatePage extends StatelessWidget {
         },
         builder: (ctx, state) {
           if (state.isIdle || state.validationError || state.isSaving) {
-            return _content(state, createBloc, navBloc);
+            return renderState(state, createBloc, navBloc);
           }
 
           return Center(child: Text("debug error"));
@@ -69,7 +69,7 @@ class CreatePage extends StatelessWidget {
     );
   }
 
-  Widget _content(CreateState state, CreateBloc createBloc, NavigatorBloc navBloc) {
+  Widget renderState(CreateState state, CreateBloc createBloc, NavigatorBloc navBloc) {
     return LayoutBuilder(
         builder: (ctx, viewport) => SingleChildScrollView(
               child: ConstrainedBox(
@@ -93,12 +93,6 @@ class CreatePage extends StatelessWidget {
                         onColorPicked: (color) => createBloc.setColor(color),
                         selected: ColorPalette.blue,
                       ),
-//                      Expanded(
-//                        child: CreateButtonRow(
-//                          onCancel: () => navBloc.pop(),
-//                          onCreate: () => createBloc.create(),
-//                        ),
-//                      ),
                     ],
                   ),
                 ),

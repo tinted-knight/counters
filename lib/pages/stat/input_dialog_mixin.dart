@@ -1,8 +1,6 @@
 import 'package:counter/model/CounterModel.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/ColorPalette.dart';
-
 mixin InputDialogMixin {
   Future<String> inputDialog(BuildContext context, {String hint, CounterItem counter}) async {
     String newValue;

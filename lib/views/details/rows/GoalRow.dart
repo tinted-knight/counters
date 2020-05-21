@@ -1,5 +1,5 @@
 import 'package:counter/views/common/ColoredTextField.dart';
-import 'package:counter/views/common/ExpandedRight.dart';
+import 'package:counter/views/common/expanded_widgets.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/TextLabel.dart';

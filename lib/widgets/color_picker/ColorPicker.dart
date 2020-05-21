@@ -36,19 +36,17 @@ class _ColorPickerState extends State<ColorPicker> {
       padding: EdgeInsets.only(right: 8.0, left: 8.0),
       child: Wrap(
         alignment: WrapAlignment.start,
-        children: squares(),
+        children: colors
+            .map((color) => ColoredSquare(
+                  color: color,
+                  isSelected: selected == color,
+                  onTap: () {
+                    setState(() => selected = color);
+                    widget.onColorPicked(selected);
+                  },
+                ))
+            .toList(),
       ),
     );
   }
-
-  List<Widget> squares() => colors
-      .map((color) => ColoredSquare(
-            color: color,
-            isSelected: selected == color,
-            onTap: () {
-              setState(() => selected = color);
-              widget.onColorPicked(selected);
-            },
-          ))
-      .toList();
 }

@@ -4,7 +4,6 @@ import 'package:counter/model/storage/interface.dart';
 import 'package:counter/pages/details/single_event.dart';
 import 'package:counter/pages/details/single_state.dart';
 
-import '../../bloc/helper_functions.dart';
 import 'details_controllers_mixin.dart';
 
 class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>

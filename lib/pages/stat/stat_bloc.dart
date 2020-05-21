@@ -5,8 +5,6 @@ import 'package:counter/model/storage/interface.dart';
 import 'package:counter/pages/stat/stat_event.dart';
 import 'package:counter/pages/stat/stat_state.dart';
 
-import '../../bloc/helper_functions.dart';
-
 class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
   StatBloc(this.repo) : super(initialState: StatState.loading());
 
@@ -28,11 +26,9 @@ class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
         yield StatState.back();
         break;
       case StatEventType.updating:
-        print('StatBloc.eventHandler: updating');
         yield StatState.updating(currentState.stat);
         break;
       case StatEventType.updated:
-        print('StatBloc.eventHandler: updated, ${event.updatedItem.value}');
         final updatedList = currentState.stat.map((e) {
           if (e.id == event.updatedItem.id) {
             return event.updatedItem;

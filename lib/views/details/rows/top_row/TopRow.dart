@@ -1,9 +1,10 @@
 import 'package:counter/views/common/ColoredTextField.dart';
+import 'package:counter/views/common/expanded_widgets.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/TextLabel.dart';
+import '../up_down_row/UpDownArrows.dart';
 import 'RoadToGoal.dart';
-import 'UpDownArrows.dart';
 
 class TopRow extends StatelessWidget {
   const TopRow({

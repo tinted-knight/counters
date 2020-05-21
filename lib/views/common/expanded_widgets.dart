@@ -15,3 +15,19 @@ class ExpandedRight extends StatelessWidget {
     );
   }
 }
+
+class ExpandedLeft extends StatelessWidget {
+  const ExpandedLeft({Key key, this.child}) : super(key: key);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.fromLTRB(16.0, 4.0, 8.0, 4.0),
+        child: child,
+      ),
+    );
+  }
+}

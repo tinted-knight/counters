@@ -183,24 +183,3 @@ class _CountersPageState extends State<CountersPage> {
     );
   }
 }
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this._appBar);
-
-  final AppBar _appBar;
-  final _statusBarHeight = 24.0;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return _appBar;
-  }
-
-  @override
-  double get maxExtent => _appBar.preferredSize.height + _statusBarHeight;
-
-  @override
-  double get minExtent => _appBar.preferredSize.height + _statusBarHeight;
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => false;
-}

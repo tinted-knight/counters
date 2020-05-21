@@ -2,8 +2,6 @@ import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:flutter/material.dart';
 
-import '../../bloc/helper_functions.dart';
-
 mixin CreateControllersMixin {
   // todo debug to easy create a counter
   final stepCtrl = TextEditingController()..text = "42";

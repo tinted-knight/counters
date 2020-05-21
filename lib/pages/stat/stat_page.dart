@@ -1,20 +1,19 @@
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
-import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/stat/stat_bloc.dart';
 import 'package:counter/pages/stat/stat_state.dart';
 import 'package:counter/views/stat/bar_chart.dart';
 import 'package:counter/views/stat/stat_list_tile.dart';
+import 'package:counter/widgets/dialogs/input_dialog.dart';
+import 'package:counter/widgets/dialogs/yes_no_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/HistoryModel.dart';
-import '../common/confirmation_dialog_mixin.dart';
-import 'input_dialog_mixin.dart';
 
-class StatPage extends StatelessWidget with InputDialogMixin, ConfirmationDialogMixin {
+class StatPage extends StatelessWidget {
   static const route = "/stat";
 
   @override

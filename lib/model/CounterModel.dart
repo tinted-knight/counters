@@ -51,3 +51,87 @@ class CounterItem {
           colorIndex: map[_colColorIndex],
         );
 }
+
+extension ColorValue on CounterItem {
+  Color get colorValue => ColorPalette.color(colorIndex);
+}
+
+extension CopyWith on CounterItem {
+  CounterItem copyWith({
+    String title,
+    int goal,
+    int value,
+    int step,
+    String unit,
+    int colorIndex,
+  }) {
+    return CounterItem(
+      id: this.id,
+      title: title ?? this.title,
+      goal: goal ?? this.goal,
+      value: value ?? this.value,
+      step: step ?? this.step,
+      unit: unit ?? this.unit,
+      colorIndex: colorIndex ?? this.colorIndex,
+    );
+  }
+
+  CounterItem stepUp() {
+    print("stepUp: ${this.value} + ${this.step}");
+    return this.copyWith(value: this.value + this.step);
+  }
+
+  CounterItem stepDown() {
+    final newValue = this.value - this.step;
+    print("stepDown: $newValue = ${this.value} - ${this.step}");
+    if (newValue >= 0) return this.copyWith(value: newValue);
+    return null;
+  }
+
+  CounterItem get flush => this.copyWith(value: 0);
+
+  bool equalTo(CounterItem item) {
+    if (this == item) return true;
+
+//    if (title != item.title) {
+//      print('equalTo: false, title');
+//      return false;
+//    }
+//    if (value != item.value) {
+//      print('equalTo: false, value');
+//      return false;
+//    }
+//    if (step != item.step) {
+//      print('equalTo: false, step');
+//      return false;
+//    }
+//    if (goal != item.goal) {
+//      print('equalTo: false, goal');
+//      return false;
+//    }
+//    if (unit != item.unit) {
+//      print('equalTo: false, unit');
+//      return false;
+//    }
+
+    if (title != item.title ||
+        value != item.value ||
+        step != item.step ||
+        goal != item.goal ||
+        unit != item.unit) {
+      return false;
+    }
+
+    return true;
+  }
+}
+
+extension Validation on CounterItem {
+  bool get hasInvalid => value < 0 || goal < 0 || step < 0;
+
+  bool get hasStepError => step <= 0;
+
+  bool get hasValueError => value < 0;
+
+  bool get hasGoalError => goal < 0;
+}
