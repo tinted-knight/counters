@@ -1,10 +1,10 @@
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
-import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/details/single_bloc.dart';
 import 'package:counter/pages/details/single_state.dart';
+import 'package:counter/widgets/debug_error_message.dart';
 import 'package:flutter/material.dart';
 
 import 'details_of.dart';
@@ -23,9 +23,11 @@ class DetailsPage extends StatelessWidget {
     return BlocStreamBuilder<DetailsState>(
       bloc: detailsBloc,
       builder: (context, state) {
-        if (state.isLoading) return Center(child: CircularProgressIndicator());
+        if (state is DetailsStateLoading) return Center(child: CircularProgressIndicator());
 
-        return stateLoaded(detailsBloc, state, counter, navBloc);
+        if (state is DetailsStateLoaded) return stateLoaded(detailsBloc, state, counter, navBloc);
+
+        return YouShouldNotSeeThis();
 
         //!deprecated
 //        return WillPopScope(
@@ -39,13 +41,13 @@ class DetailsPage extends StatelessWidget {
     );
   }
 
-  Widget stateLoaded(DetailsBloc detailsBloc, DetailsState state, CounterItem counter,
+  Widget stateLoaded(DetailsBloc detailsBloc, DetailsStateLoaded state, CounterItem counter,
           NavigatorBloc navBloc) =>
       Scaffold(
         body: DetailsOf(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
-          backgroundColor: ColorPalette.color(state?.counter?.colorIndex ?? counter.colorIndex),
+          backgroundColor: state.counter.colorValue ?? counter.colorValue,
           child: Icon(Icons.save),
           onPressed: () => detailsBloc.update(),
         ),

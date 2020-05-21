@@ -31,25 +31,28 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
   }
 
   void stepUp() {
-    final updated = fillFromControllers(lastState.counter).stepUp();
+    final updated = fillFromControllers((lastState as DetailsStateLoaded).counter).stepUp();
     valueCtrl.text = updated.value.toString();
   }
 
   void stepDown() {
-    final updated = fillFromControllers(lastState.counter).stepDown();
-    valueCtrl.text = updated?.value?.toString() ?? lastState.counter.value.toString();
+    final last = lastState as DetailsStateLoaded;
+    final updated = fillFromControllers(last.counter).stepDown();
+    valueCtrl.text = updated?.value?.toString() ?? last.counter.value.toString();
   }
 
   void resetValue() => valueCtrl.text = "0";
 
   Future<CounterItem> _update({int withColor}) async {
-    final updatedItem = fillFromControllers(lastState.counter).copyWith(colorIndex: withColor);
+    print('DetailsBloc._update');
+    final last = lastState as DetailsStateLoaded;
+    final updatedItem = fillFromControllers(last.counter).copyWith(colorIndex: withColor);
     if (!isValid(updatedItem)) {
       fire(DetailsEvent.validationError(updatedItem));
       return null;
     }
     fire(DetailsEvent.saving());
-    // todo fake
+    // !achtung fake
     await Future.delayed(Duration(seconds: 1));
     if (await repo.update(updatedItem)) {
       return updatedItem;
@@ -63,8 +66,13 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
   }
 
   void backPressed() {
-    final current = fillFromControllers(lastState.counter);
-    return fire(DetailsEvent.canceled(modified: !lastState.counter.equalTo(current)));
+    if (lastState is DetailsStateLoaded) {
+      final inState = (lastState as DetailsStateLoaded).counter;
+      final current = fillFromControllers(inState);
+      return fire(DetailsEvent.canceled(modified: !inState.equalTo(current)));
+    } else {
+      return fire(DetailsEvent.canceled(modified: false));
+    }
   }
 
   @override
@@ -77,20 +85,22 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
         yield DetailsState.loaded(event.counter);
         break;
       case DetailsEventType.saving:
-        yield currentState.copyWith(isSaving: true, hasCanceled: false);
+        yield DetailsState.saving((currentState as DetailsStateLoaded).counter);
         break;
       case DetailsEventType.doneEditing:
         yield DetailsState.done();
         break;
       case DetailsEventType.validationError:
-        yield currentState.copyWith(
-            validationError: true, counterWithErrors: event.counterWithErrors);
+        yield DetailsState.validationError(event.counterWithErrors);
         break;
       case DetailsEventType.canceled:
-        yield currentState.canceled(event.wasModified);
+        yield DetailsState.canceled(
+          (currentState as DetailsStateLoaded).counter,
+          event.wasModified,
+        );
         break;
       case DetailsEventType.deleting:
-        yield currentState.deleting();
+        yield DetailsState.deleting((currentState as DetailsStateLoaded).counter);
         break;
       case DetailsEventType.colorUpdated:
         yield DetailsState.colorUpdated(event.counter);
