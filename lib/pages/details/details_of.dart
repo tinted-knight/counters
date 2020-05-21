@@ -46,7 +46,7 @@ class _DetailsOfState extends State<DetailsOf> with ConfirmationDialogMixin {
   Widget build(BuildContext context) {
     return BlocStreamBuilder<DetailsState>(
       bloc: detailsBloc,
-      stateListener: (state) async {
+      oneShotListener: (state) async {
         if (state.validationError) {
           _showMessage(context, "validation error");
           return;

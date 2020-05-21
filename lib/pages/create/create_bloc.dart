@@ -11,13 +11,13 @@ class CreateBloc extends BlocEventStateBase<CreateEvent, CreateState> with Creat
 
   void create() async {
     final newCounter = composeFromControllers();
-    fire(CreateEvent.saving(newCounter));
     if (!isValid(newCounter)) {
       fire(CreateEvent.validationError(newCounter));
-      return null;
+      return;
     }
+    fire(CreateEvent.saving(newCounter));
     await repo.add(newCounter);
-    // todo fake
+    // !achtung fake
     await Future.delayed(Duration(seconds: 1));
     fire(CreateEvent.saved());
   }

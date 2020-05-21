@@ -49,17 +49,19 @@ class CreatePage extends StatelessWidget {
       ),
       body: BlocStreamBuilder<CreateState>(
         bloc: createBloc,
-        stateListener: (state) {
-          if (state.hasSaved) {
+        oneShotListener: (state) {
+          if (state is CreateStateSaved) {
             countersBloc.reload();
             navBloc.home();
           }
-          if (state.isSaving) {
+          if (state is CreateStateSaving) {
             showSavingDialog(context);
           }
         },
         builder: (ctx, state) {
-          if (state.isIdle || state.validationError || state.isSaving) {
+          if (state is CreateStateIdle ||
+              state is CreateStateValidationError ||
+              state is CreateStateSaving) {
             return renderState(state, createBloc, navBloc);
           }
 
@@ -70,6 +72,10 @@ class CreatePage extends StatelessWidget {
   }
 
   Widget renderState(CreateState state, CreateBloc createBloc, NavigatorBloc navBloc) {
+    CounterItem counterWithErrors;
+    if (state is CreateStateValidationError) {
+      counterWithErrors = state.counterWithErrors;
+    }
     return LayoutBuilder(
         builder: (ctx, viewport) => SingleChildScrollView(
               child: ConstrainedBox(
@@ -81,12 +87,12 @@ class CreatePage extends StatelessWidget {
                       PropertyRow.step(
                         label: "Step",
                         controller: createBloc.stepCtrl,
-                        hasError: state.counterWithErrors?.hasStepError ?? false,
+                        hasError: counterWithErrors?.hasStepError ?? false,
                       ),
                       PropertyRow.goal(
                         label: "Goal",
                         controller: createBloc.goalCtrl,
-                        hasError: state.counterWithErrors?.hasGoalError ?? false,
+                        hasError: counterWithErrors?.hasGoalError ?? false,
                       ),
                       PropertyRow.unit("Unit", createBloc.unitCtrl),
                       ColorPicker(

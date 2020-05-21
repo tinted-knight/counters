@@ -1,31 +1,30 @@
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:counter/model/CounterModel.dart';
-import 'package:flutter/material.dart';
 
 class CreateState extends BlocState {
-  final bool isIdle;
-  final bool isSaving;
-  final bool hasSaved;
-  final bool validationError;
-  final CounterItem counterWithErrors;
+  CreateState();
 
-  CreateState({
-    @required this.isIdle,
-    this.isSaving = false,
-    this.hasSaved = false,
-    this.validationError = false,
-    this.counterWithErrors,
-  });
+  factory CreateState.idle() => CreateStateIdle();
 
-  factory CreateState.idle() => CreateState(isIdle: true);
+  factory CreateState.saving() => CreateStateSaving();
 
-  factory CreateState.saving() => CreateState(isIdle: false, isSaving: true);
+  factory CreateState.saved() => CreateStateSaved();
 
-  factory CreateState.saved() => CreateState(isIdle: false, hasSaved: true);
-
-  factory CreateState.validationError(CounterItem item) => CreateState(
-        isIdle: false,
+  factory CreateState.validationError(CounterItem item) => CreateStateValidationError(
         validationError: true,
         counterWithErrors: item,
       );
+}
+
+class CreateStateIdle extends CreateState {}
+
+class CreateStateSaving extends CreateState {}
+
+class CreateStateSaved extends CreateState {}
+
+class CreateStateValidationError extends CreateState {
+  final bool validationError;
+  final CounterItem counterWithErrors;
+
+  CreateStateValidationError({this.validationError, this.counterWithErrors});
 }

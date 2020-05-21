@@ -10,15 +10,14 @@ class BlocStreamBuilder<BlocState> extends StatelessWidget {
     Key key,
     @required this.builder,
     @required this.bloc,
-    this.stateListener,
+    this.oneShotListener,
   })  : assert(builder != null),
         assert(bloc != null),
         super(key: key);
 
   final BlocEventStateBase<BlocEvent, BlocState> bloc;
   final AsyncBlocStateBuilder<BlocState> builder;
-  //todo rename to `oneShotListener`
-  final StreamListener<BlocState> stateListener;
+  final StreamListener<BlocState> oneShotListener;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class BlocStreamBuilder<BlocState> extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<BlocState> snapshot) {
         return builder(context, snapshot.data);
       },
-      navListener: stateListener,
+      navListener: oneShotListener,
     );
   }
 }

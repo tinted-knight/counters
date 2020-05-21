@@ -32,7 +32,7 @@ class StatPage extends StatelessWidget {
         appBar: buildTabBar(counter),
         body: BlocStreamBuilder<StatState>(
           bloc: statBloc,
-          stateListener: (state) async {
+          oneShotListener: (state) async {
             if (state.hasCanceled) navBloc.pop();
 
             if (state.itemExists) {
