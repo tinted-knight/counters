@@ -28,6 +28,11 @@ const colValue = "value";
 extension DateString on HistoryModel {
   String get dateString => DateTime.fromMillisecondsSinceEpoch(date).toString();
 
+  String get dateForChart {
+    final d = DateTime.fromMillisecondsSinceEpoch(date);
+    return "${d.day}.${d.month}";
+  }
+
   String get valueString => value.toString();
 }
 

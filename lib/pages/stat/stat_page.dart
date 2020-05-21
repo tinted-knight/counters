@@ -5,7 +5,7 @@ import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/stat/stat_bloc.dart';
 import 'package:counter/pages/stat/stat_state.dart';
-import 'package:counter/views/details/chart_bezier.dart';
+import 'package:counter/views/stat/chart02.dart';
 import 'package:counter/views/stat/stat_list_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -147,10 +147,12 @@ class StatPage extends StatelessWidget with InputDialogMixin, ConfirmationDialog
   Widget renderStateLoaded(List<HistoryModel> values, CounterItem counter, StatBloc statBloc) =>
       TabBarView(
         children: [
-          BezierStatChart(
-            values: values,
-            lineColor: counter.colorValue,
-          ),
+          // !deprecated
+//          BezierStatChart(
+//            values: values,
+//            lineColor: counter.colorValue,
+//          ),
+          BarChart02(values, barColor: counter.colorValue),
           ListView.builder(
             itemCount: values.length,
             itemBuilder: (context, index) => StatListTile(

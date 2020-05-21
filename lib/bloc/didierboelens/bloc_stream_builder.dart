@@ -17,6 +17,7 @@ class BlocStreamBuilder<BlocState> extends StatelessWidget {
 
   final BlocEventStateBase<BlocEvent, BlocState> bloc;
   final AsyncBlocStateBuilder<BlocState> builder;
+  //todo rename to `oneShotListener`
   final StreamListener<BlocState> stateListener;
 
   @override

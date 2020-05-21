@@ -20,7 +20,7 @@ class ColoredTextField extends StatelessWidget {
     this.textAlign,
   }) : super(key: key);
 
-  ///@deprecated looks like easy to refactor to get rid of [ColoredTextField.forLight()]
+  //!deprecated looks like easy to refactor to get rid of [ColoredTextField.forLight()]
   ColoredTextField.forLight(
       {String title = "", TextEditingController controller, bool onlyDigits, Color textColor})
       : this(

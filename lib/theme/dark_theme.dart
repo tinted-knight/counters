@@ -23,7 +23,7 @@ _buildThemeData(ThemeData baseTheme) => baseTheme.copyWith(
       buttonTheme: _buildButtonTheme(baseTheme),
       floatingActionButtonTheme: _buildFabTheme(baseTheme),
       inputDecorationTheme: _buildInputDecorationTheme(baseTheme),
-// @note back gesture on Cupertino transition does not work with WillPopSope widget
+// !note back gesture on Cupertino transition does not work with WillPopSope widget
 //      pageTransitionsTheme: PageTransitionsTheme(builders: {
 //        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
 //        TargetPlatform.android: CupertinoPageTransitionsBuilder(),

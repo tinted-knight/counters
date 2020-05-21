@@ -62,7 +62,7 @@ class CounterRow extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
       );
 
-  /// @galileo
+  // !galileo
   BoxDecoration get _neumorphicInnerDecoration => BoxDecoration(
         color: Colors.black.withOpacity(0.075),
         boxShadow: [
