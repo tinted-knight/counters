@@ -28,6 +28,7 @@ class ColorPalette {
     Color(0xff546e7a),
   ];
 
+  // !experiment
   static const _dark_palette = [
     Color(0xFF42A5F5),
     Color(0xFFEF5350),
@@ -45,5 +46,6 @@ class ColorPalette {
 
   static Color color(int value) => palette[value];
 
+  // !experiment
   static Color darker(int value) => _dark_palette[value];
 }
