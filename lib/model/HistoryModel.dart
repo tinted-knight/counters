@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class HistoryModel {
   HistoryModel({this.id, this.counterId, this.date, this.value});
 
@@ -26,12 +28,13 @@ const colDate = "date";
 const colValue = "value";
 
 extension DateString on HistoryModel {
-  String get dateString => DateTime.fromMillisecondsSinceEpoch(date).toString();
+  String get dateString => DateFormat("dd MMM").format(
+        DateTime.fromMillisecondsSinceEpoch(date),
+      );
 
-  String get dateForChart {
-    final d = DateTime.fromMillisecondsSinceEpoch(date);
-    return "${d.day}.${d.month}";
-  }
+  String get dateForChart => DateFormat("dd MMM").format(
+    DateTime.fromMillisecondsSinceEpoch(date),
+  );
 
   String get valueString => value.toString();
 }

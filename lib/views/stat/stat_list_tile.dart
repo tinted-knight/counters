@@ -51,7 +51,6 @@ class StatListTile extends StatelessWidget {
                   final newValue = await onEditTap(entry);
                   onValueChanged(newValue);
                 },
-                color: Colors.black54,
               ),
 //              IconButton(
 //                icon: Icon(Icons.delete),
