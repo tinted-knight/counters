@@ -120,7 +120,11 @@ class DetailsOf extends StatelessWidget {
         backgroundColor: ThemeLight.scaffoldBgColor,
         elevation: 1.0,
         title: TextField(
-          decoration: InputDecoration(icon: Icon(Icons.edit)),
+          decoration: InputDecoration(
+              icon: Icon(
+            Icons.edit,
+            color: ThemeLight.iconPrimary,
+          )),
           controller: detailsBloc.titleCtrl,
           style: TextStyle(fontFamily: "RobotoCondensed", fontSize: 20.0),
         ),

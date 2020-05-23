@@ -33,11 +33,13 @@ class _CountersPageState extends State<CountersPage> {
 
   String _appBarImage;
 
+  static const double _appBarHeightModifier = 5.0;
+
   @override
   void initState() {
     super.initState();
 
-    _appBarImage = appBarBgImages[1];
+    _appBarImage = appBarBgImages[0];
 
     _scrollController.addListener(() {
       switch (_scrollController.position.userScrollDirection) {
@@ -72,7 +74,10 @@ class _CountersPageState extends State<CountersPage> {
       floatingActionButton: _isVisible
           ? FloatingActionButton(
               onPressed: () => navBloc.create(),
-              child: Icon(Icons.add, color: Color(0xFF212121)),
+              child: Icon(
+                Icons.add,
+                color: ThemeLight.iconPrimary,
+              ),
             )
           : null,
     );
@@ -85,7 +90,7 @@ class _CountersPageState extends State<CountersPage> {
       headerSliverBuilder: (context, innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
-            expandedHeight: 120.0,
+            expandedHeight: MediaQuery.of(context).size.height / _appBarHeightModifier,
             floating: false,
             pinned: true,
             snap: false,

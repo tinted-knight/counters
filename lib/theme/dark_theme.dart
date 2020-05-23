@@ -4,10 +4,8 @@ class ThemeLight {
   ThemeLight._();
 
   static const primary = Color(0xff212121);
-
-//  static const accent = Color(0xff757575);
-//  static const accent = Colors.deepOrangeAccent;
-//  static const accent = Color(0xff313131);
+  static const iconPrimary = Color(0xff414141);
+  static const iconReverse = Color(0xff00ff00);
   static const accent = Color(0xFFFFFFFF);
   static const scaffoldBgColor = Color(0xFFEFEEEE);
   static const button = Color(0xff00796b);
@@ -22,6 +20,8 @@ _buildThemeData(ThemeData baseTheme) => baseTheme.copyWith(
       scaffoldBackgroundColor: ThemeLight.scaffoldBgColor,
       buttonTheme: _buildButtonTheme(baseTheme),
       floatingActionButtonTheme: _buildFabTheme(baseTheme),
+      iconTheme: _buildIconTheme(baseTheme),
+      primaryIconTheme: _buildIconTheme(baseTheme),
       inputDecorationTheme: _buildInputDecorationTheme(baseTheme),
 // !note back gesture on Cupertino transition does not work with WillPopSope widget
       pageTransitionsTheme: PageTransitionsTheme(builders: {
@@ -49,7 +49,13 @@ _buildFabTheme(ThemeData baseTheme) {
   );
 }
 
+_buildIconTheme(ThemeData baseTheme) {
+  return baseTheme.iconTheme.copyWith(
+    color: ThemeLight.iconPrimary,
+  );
+}
+
 const appBarBgImages = [
-  "top01.png",
-  "top02.png",
+  "top03.png",
+  "top04.png",
 ];

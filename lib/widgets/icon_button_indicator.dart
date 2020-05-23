@@ -5,7 +5,7 @@ class IconButtonIndicator extends StatelessWidget {
     Key key,
     this.inAction = false,
     this.onPressed,
-    this.color = Colors.white,
+    this.color,
   }) : super(key: key);
 
   final bool inAction;

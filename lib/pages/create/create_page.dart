@@ -28,12 +28,14 @@ class CreatePage extends StatelessWidget {
         elevation: 0.0,
         automaticallyImplyLeading: false,
         title: Text("Create counter", style: TextStyle(color: Color(0xff313131))),
-        iconTheme: IconThemeData(color: Color(0xff313131)),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton.extended(
         label: Text("Save", style: TextStyle(color: Color(0xff212121))),
-        icon: Icon(Icons.save, color: Color(0xff212121)),
+        icon: Icon(
+          Icons.save,
+          color: ThemeLight.iconPrimary,
+        ),
         onPressed: () => createBloc.create(),
       ),
       bottomNavigationBar: BottomAppBar(
