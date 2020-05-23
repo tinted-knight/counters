@@ -75,7 +75,7 @@ class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
     );
   }
 
-  void addMissingValue({CounterItem counter, String value, DateTime dateTime}) async {
+  void addMissingValue(CounterItem counter, String value, DateTime dateTime) async {
     final item = checkExistence(dateTime);
     if (item != null) {
       fire(StatEvent.itemExists(ExistingItem(item, value)));
