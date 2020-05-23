@@ -40,7 +40,7 @@ class DetailsOf extends StatelessWidget {
           return;
         }
         if (state is DetailsStateCanceled) {
-          _goBackAndSaveIfNeeded(context, state: state);
+          _goBackAndSaveIfNeeded(context, state: state, detailsBloc: detailsBloc, navBloc: navBloc);
           return;
         }
         if (state is DetailsStateColorUpdated) {

@@ -8,7 +8,7 @@ class DetailsState extends BlocState {
 
   factory DetailsState.saving(CounterItem item) => DetailsStateSaving(item);
 
-  factory DetailsState.done() => DetailsStateDone();
+  factory DetailsState.done(CounterItem item) => DetailsStateDone(item);
 
   factory DetailsState.canceled(CounterItem item, bool modified) => DetailsStateCanceled(
         counter: item,
@@ -26,12 +26,14 @@ class DetailsState extends BlocState {
 
 class DetailsStateLoading extends DetailsState {}
 
-class DetailsStateDone extends DetailsState {}
-
 class DetailsStateLoaded extends DetailsState {
   final CounterItem counter;
 
   DetailsStateLoaded(this.counter);
+}
+
+class DetailsStateDone extends DetailsStateLoaded {
+  DetailsStateDone(CounterItem counter) : super(counter);
 }
 
 class DetailsStateSaving extends DetailsStateLoaded {

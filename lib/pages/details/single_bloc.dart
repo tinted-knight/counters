@@ -85,26 +85,30 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
         yield DetailsState.loaded(event.counter);
         break;
       case DetailsEventType.saving:
-        yield DetailsState.saving((currentState as DetailsStateLoaded).counter);
+        yield DetailsState.saving(currentState.asLoaded.counter);
         break;
       case DetailsEventType.doneEditing:
-        yield DetailsState.done();
+        yield DetailsState.done(currentState.asLoaded.counter);
         break;
       case DetailsEventType.validationError:
         yield DetailsState.validationError(event.counterWithErrors);
         break;
       case DetailsEventType.canceled:
         yield DetailsState.canceled(
-          (currentState as DetailsStateLoaded).counter,
+          currentState.asLoaded.counter,
           event.wasModified,
         );
         break;
       case DetailsEventType.deleting:
-        yield DetailsState.deleting((currentState as DetailsStateLoaded).counter);
+        yield DetailsState.deleting(currentState.asLoaded.counter);
         break;
       case DetailsEventType.colorUpdated:
         yield DetailsState.colorUpdated(event.counter);
         break;
     }
   }
+}
+
+extension AsLoaded on DetailsState {
+  DetailsStateLoaded get asLoaded => this as DetailsStateLoaded;
 }
