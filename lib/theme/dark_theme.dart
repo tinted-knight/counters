@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ThemeLight {
@@ -26,7 +27,7 @@ _buildThemeData(ThemeData baseTheme) => baseTheme.copyWith(
 // !note back gesture on Cupertino transition does not work with WillPopSope widget
       pageTransitionsTheme: PageTransitionsTheme(builders: {
         TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.android: ZoomPageTransitionsBuilder(),
       }),
     );
 
