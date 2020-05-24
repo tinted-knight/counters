@@ -25,10 +25,8 @@ _buildThemeData(ThemeData baseTheme) => baseTheme.copyWith(
       inputDecorationTheme: _buildInputDecorationTheme(baseTheme),
 // !note back gesture on Cupertino transition does not work with WillPopSope widget
       pageTransitionsTheme: PageTransitionsTheme(builders: {
-        TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
-        TargetPlatform.android: ZoomPageTransitionsBuilder(),
-//        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-//        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
       }),
     );
 

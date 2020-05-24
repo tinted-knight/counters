@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:counter/bloc/app_bloc.dart';
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
@@ -73,40 +72,14 @@ class _CountersPageState extends State<CountersPage> {
     return Scaffold(
       body: withSliverAppBar(appBloc, navBloc, countersBloc),
       floatingActionButton: _isVisible
-          ? OpenContainer(
-              transitionType: ContainerTransitionType.fadeThrough,
-              openBuilder: (BuildContext context, VoidCallback _) {
-                return navBloc.buildPageCreate();
-              },
-              closedElevation: 6.0,
-              closedShape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(56.0 / 2),
-                ),
+          ? FloatingActionButton(
+              onPressed: () => navBloc.create(),
+              child: Icon(
+                Icons.add,
+                color: ThemeLight.iconPrimary,
               ),
-              closedColor: Theme.of(context).colorScheme.secondary,
-              closedBuilder: (BuildContext context, VoidCallback openContainer) {
-                return SizedBox(
-                  height: 56.0,
-                  width: 56.0,
-                  child: Center(
-                    child: Icon(
-                      Icons.add,
-                      color: Theme.of(context).colorScheme.onSecondary,
-                    ),
-                  ),
-                );
-              },
             )
           : null,
-//          ? FloatingActionButton(
-//              onPressed: () => navBloc.create(),
-//              child: Icon(
-//                Icons.add,
-//                color: ThemeLight.iconPrimary,
-//              ),
-//            )
-//          : null,
     );
   }
 
@@ -178,19 +151,12 @@ class _CountersPageState extends State<CountersPage> {
                             onTap: () => navBloc.detailsOf(state.counters[index]),
                             onSwiped: () => countersBloc.stepUp(index),
                           )
-                        : OpenContainer(
-                            transitionType: ContainerTransitionType.fadeThrough,
-                            closedColor: ThemeLight.scaffoldBgColor,
-                            closedShape: Border(),
-                            closedElevation: 0.0,
-                            openBuilder: (BuildContext context, VoidCallback _) =>
-                                navBloc.buildPageDetailsOf(state.counters[index]),
-                            closedBuilder: (BuildContext context, VoidCallback openContainer) =>
-                                _nonSwipeable(context,
-                                    counter: state.counters[index],
-//                                    onTap: () => navBloc.detailsOf(state.counters[index]),
-                                    onIncrement: () => countersBloc.stepUp(index),
-                                    onDecrement: () => countersBloc.stepDown(index)),
+                        : _nonSwipeable(
+                            context,
+                            counter: state.counters[index],
+                            onTap: () => navBloc.detailsOf(state.counters[index]),
+                            onIncrement: () => countersBloc.stepUp(index),
+                            onDecrement: () => countersBloc.stepDown(index),
                           );
                   },
                 );

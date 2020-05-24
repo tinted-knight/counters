@@ -3,6 +3,10 @@ import 'package:counter/bloc/app_state.dart';
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
+import 'package:counter/pages/create/create_bloc.dart';
+import 'package:counter/pages/create/create_page.dart';
+import 'package:counter/pages/details/details_page.dart';
+import 'package:counter/pages/details/single_bloc.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/pages/splash/splash_page.dart';
 import 'package:counter/pages/stat/stat_bloc.dart';
@@ -22,7 +26,7 @@ class CountersApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final navBloc = NavigatorBloc(navigatorKey: _navigatorKey, storage: storage);
+    final navBloc = NavigatorBloc(navigatorKey: _navigatorKey);
     final appBloc = AppBloc();
 
     return BlocProvider(
@@ -48,14 +52,14 @@ class CountersApp extends StatelessWidget {
                       );
                     },
                   ),
-//              DetailsPage.route: (context) => BlocProvider<DetailsBloc>(
-//                    blocBuilder: () => DetailsBloc(repo: storage),
-//                    child: DetailsPage(),
-//                  ),
-//              CreatePage.route: (context) => BlocProvider<CreateBloc>(
-//                    blocBuilder: () => CreateBloc(storage),
-//                    child: CreatePage(),
-//                  ),
+              DetailsPage.route: (context) => BlocProvider<DetailsBloc>(
+                    blocBuilder: () => DetailsBloc(repo: storage),
+                    child: DetailsPage(),
+                  ),
+              CreatePage.route: (context) => BlocProvider<CreateBloc>(
+                    blocBuilder: () => CreateBloc(storage),
+                    child: CreatePage(),
+                  ),
               StatPage.route: (context) => BlocProvider<StatBloc>(
                     blocBuilder: () => StatBloc(storage),
                     child: StatPage(),

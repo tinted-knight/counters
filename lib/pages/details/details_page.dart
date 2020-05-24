@@ -12,13 +12,9 @@ import 'details_of.dart';
 class DetailsPage extends StatelessWidget {
   static const route = "/details";
 
-  final CounterItem counter;
-
-  const DetailsPage({Key key, this.counter}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-//    final CounterItem counter = ModalRoute.of(context).settings.arguments;
+    final CounterItem counter = ModalRoute.of(context).settings.arguments;
     final DetailsBloc detailsBloc = BlocProvider.of<DetailsBloc>(context);
     final NavigatorBloc navBloc = BlocProvider.of<NavigatorBloc>(context);
 
