@@ -41,7 +41,7 @@ class PropertyRow extends StatelessWidget {
           hasError: hasError,
         );
 
-  const PropertyRow.unit(String label, TextEditingController controller)
+  const PropertyRow.unit({String label, TextEditingController controller})
       : this(
           label,
           type: ValueType.str,

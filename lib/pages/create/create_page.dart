@@ -1,12 +1,14 @@
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
+import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/pages/create/create_state.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/theme/dark_theme.dart';
 import 'package:counter/views/common/PropertyRow.dart';
 import 'package:counter/widgets/color_picker/ColorPicker.dart';
+import 'package:counter/widgets/debug_error_message.dart';
 import 'package:counter/widgets/dialogs/saving_modal_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -21,20 +23,23 @@ class CreatePage extends StatelessWidget {
     final createBloc = BlocProvider.of<CreateBloc>(context);
     final countersBloc = BlocProvider.of<CountersBloc>(context);
     final navBloc = BlocProvider.of<NavigatorBloc>(context);
+    final lz = AppLocalization.of(context);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ThemeLight.scaffoldBgColor,
         elevation: 0.0,
         automaticallyImplyLeading: false,
-        title: Text("Create counter", style: TextStyle(color: Color(0xff313131))),
+        title: Text(lz.createCounter, style: TextStyle(color: Color(0xff313131))),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton.extended(
-        label: Text("Save", style: TextStyle(color: Color(0xff212121))),
+        label: Text(lz.save, style: TextStyle(color: Color(0xff212121))),
+        tooltip: lz.save,
         icon: Icon(
           Icons.save,
           color: ThemeLight.iconPrimary,
+          semanticLabel: lz.save,
         ),
         onPressed: () => createBloc.create(),
       ),
@@ -43,7 +48,7 @@ class CreatePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: Icon(Icons.arrow_back, semanticLabel: lz.back),
               onPressed: () => navBloc.pop(),
             ),
           ],
@@ -64,16 +69,21 @@ class CreatePage extends StatelessWidget {
           if (state is CreateStateIdle ||
               state is CreateStateValidationError ||
               state is CreateStateSaving) {
-            return renderState(state, createBloc, navBloc);
+            return renderState(state, createBloc, navBloc, lz);
           }
 
-          return Center(child: Text("debug error"));
+          return YouShouldNotSeeThis();
         },
       ),
     );
   }
 
-  Widget renderState(CreateState state, CreateBloc createBloc, NavigatorBloc navBloc) {
+  Widget renderState(
+    CreateState state,
+    CreateBloc createBloc,
+    NavigatorBloc navBloc,
+    AppLocalization lz,
+  ) {
     CounterItem counterWithErrors;
     if (state is CreateStateValidationError) {
       counterWithErrors = state.counterWithErrors;
@@ -85,18 +95,21 @@ class CreatePage extends StatelessWidget {
                 child: IntrinsicHeight(
                   child: Column(
                     children: <Widget>[
-                      PropertyRow.title(label: "Title", controller: createBloc.titleCtrl),
+                      PropertyRow.title(label: lz.title, controller: createBloc.titleCtrl),
                       PropertyRow.step(
-                        label: "Step",
+                        label: lz.step,
                         controller: createBloc.stepCtrl,
                         hasError: counterWithErrors?.hasStepError ?? false,
                       ),
                       PropertyRow.goal(
-                        label: "Goal",
+                        label: lz.goal,
                         controller: createBloc.goalCtrl,
                         hasError: counterWithErrors?.hasGoalError ?? false,
                       ),
-                      PropertyRow.unit("Unit", createBloc.unitCtrl),
+                      PropertyRow.unit(
+                        label: lz.unit,
+                        controller: createBloc.unitCtrl,
+                      ),
                       ColorPicker(
                         onColorPicked: (color) => createBloc.setColor(color),
                         selected: ColorPalette.blue,

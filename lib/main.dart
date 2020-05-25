@@ -3,6 +3,7 @@ import 'package:counter/bloc/app_state.dart';
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
+import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/pages/create/create_bloc.dart';
 import 'package:counter/pages/create/create_page.dart';
 import 'package:counter/pages/details/details_page.dart';
@@ -13,6 +14,7 @@ import 'package:counter/pages/stat/stat_bloc.dart';
 import 'package:counter/pages/stat/stat_page.dart';
 import 'package:counter/theme/dark_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'model/storage/LocalStorageProvider.dart';
 import 'pages/main/counters_page.dart';
@@ -36,8 +38,17 @@ class CountersApp extends StatelessWidget {
         child: BlocProvider(
           blocBuilder: () => CountersBloc(repo: storage),
           child: MaterialApp(
+            onGenerateTitle: (context) => AppLocalization.of(context).appTitle,
+            localizationsDelegates: [
+              AppLocalizationsDelegate(),
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: [
+              Locale('en', ''),
+              Locale('ru', ''),
+            ],
             navigatorKey: _navigatorKey,
-            title: 'Counters',
             theme: themeLight,
             initialRoute: CountersPage.route,
             routes: {

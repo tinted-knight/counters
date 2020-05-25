@@ -1,6 +1,7 @@
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
+import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/theme/dark_theme.dart';
 import 'package:counter/views/details/rows/GoalRow.dart';
@@ -114,36 +115,41 @@ class DetailsOf extends StatelessWidget {
     );
   }
 
-  AppBar _appBar(BuildContext context, {DetailsStateLoaded state, DetailsBloc detailsBloc}) =>
-      AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: ThemeLight.scaffoldBgColor,
-        elevation: 1.0,
-        title: TextField(
-          decoration: InputDecoration(
-              icon: Icon(
-            Icons.edit,
-            color: ThemeLight.iconPrimary,
-          )),
-          controller: detailsBloc.titleCtrl,
-          style: TextStyle(fontFamily: "RobotoCondensed", fontSize: 20.0),
+  AppBar _appBar(BuildContext context, {DetailsStateLoaded state, DetailsBloc detailsBloc}) {
+    final lz = AppLocalization.of(context);
+    return AppBar(
+      automaticallyImplyLeading: false,
+      backgroundColor: ThemeLight.scaffoldBgColor,
+      elevation: 1.0,
+      title: TextField(
+        decoration: InputDecoration(
+            icon: Icon(
+          Icons.edit,
+          color: ThemeLight.iconPrimary,
+          semanticLabel: lz.editTitle,
+        )),
+        controller: detailsBloc.titleCtrl,
+        style: TextStyle(fontFamily: "RobotoCondensed", fontSize: 20.0),
+      ),
+      actions: <Widget>[
+        ColorActionButton(
+          inAction: false,
+          onPressed: () => showColorPicker(
+            context,
+            currentColorIndex: state.counter.colorIndex,
+            onColorPicked: (newColor) => detailsBloc.applyColor(newColor),
+          ),
+          color: state.counter.colorValue,
+          semanticLabel: lz.pickColor,
         ),
-        actions: <Widget>[
-          ColorActionButton(
-            inAction: false,
-            onPressed: () => showColorPicker(
-              context,
-              currentColorIndex: state.counter.colorIndex,
-              onColorPicked: (newColor) => detailsBloc.applyColor(newColor),
-            ),
-            color: state.counter.colorValue,
-          ),
-          DeleteActionButton(
-            inAction: state is DetailsStateDeleting,
-            onPressed: () => detailsBloc.delete(state.counter),
-          ),
-        ],
-      );
+        DeleteActionButton(
+          inAction: state is DetailsStateDeleting,
+          onPressed: () => detailsBloc.delete(state.counter),
+          semanticLabel: lz.delete,
+        ),
+      ],
+    );
+  }
 
   void _goBackAndSaveIfNeeded(
     BuildContext context, {

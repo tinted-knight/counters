@@ -1,6 +1,7 @@
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
+import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/stat/stat_bloc.dart';
 import 'package:counter/pages/stat/stat_state.dart';
@@ -21,8 +22,8 @@ class StatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lz = AppLocalization.of(context);
     final navBloc = BlocProvider.of<NavigatorBloc>(context);
-
     final CounterItem counter = ModalRoute.of(context).settings.arguments;
     final StatBloc statBloc = BlocProvider.of<StatBloc>(context);
     statBloc.load(counter);
@@ -30,7 +31,7 @@ class StatPage extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: buildTabBar(),
+        appBar: buildTabBar(chart: lz.chart, list: lz.list),
         body: BlocStreamBuilder<StatState>(
           bloc: statBloc,
           oneShotListener: (state) async {
@@ -40,7 +41,7 @@ class StatPage extends StatelessWidget {
               final confirmed = await yesNoDialog(
                 context,
                 color: counter.colorValue,
-                message: "The item already exists. Do you want to update it's value?",
+                message: lz.itemAlreadyExists,
               );
               if (confirmed) {
                 statBloc.updateValue(state.missingValue.item, state.missingValue.value);
@@ -52,7 +53,7 @@ class StatPage extends StatelessWidget {
               return Center(child: Text("loading"));
             }
             if (state.isEmpty) {
-              return Center(child: Text("empty :("));
+              return EmptyChart();
             }
             if (state.isUpdating) {
               return Center(child: Text("updating"));
@@ -72,7 +73,7 @@ class StatPage extends StatelessWidget {
     );
   }
 
-  PreferredSize buildTabBar() => PreferredSize(
+  PreferredSize buildTabBar({String chart, String list}) => PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 8.0),
@@ -84,11 +85,11 @@ class StatPage extends StatelessWidget {
                   tabs: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Chart"),
+                      child: Text(chart),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("List"),
+                      child: Text(list),
                     ),
                   ],
                   labelColor: Color(0xff212121),
@@ -127,4 +128,26 @@ class StatPage extends StatelessWidget {
           ],
         ),
       );
+}
+
+class EmptyChart extends StatelessWidget {
+  const EmptyChart({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final lz = AppLocalization.of(context);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Text(
+          lz.emptyChart,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16.0),
+        ),
+      ),
+    );
+  }
 }

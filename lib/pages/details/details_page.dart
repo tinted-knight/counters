@@ -1,6 +1,7 @@
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
+import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/details/single_bloc.dart';
 import 'package:counter/pages/details/single_state.dart';
@@ -17,6 +18,7 @@ class DetailsPage extends StatelessWidget {
     final CounterItem counter = ModalRoute.of(context).settings.arguments;
     final DetailsBloc detailsBloc = BlocProvider.of<DetailsBloc>(context);
     final NavigatorBloc navBloc = BlocProvider.of<NavigatorBloc>(context);
+    final lz = AppLocalization.of(context);
 
     detailsBloc.load(counter);
 
@@ -25,7 +27,8 @@ class DetailsPage extends StatelessWidget {
       builder: (context, state) {
         if (state is DetailsStateLoading) return Center(child: CircularProgressIndicator());
 
-        if (state is DetailsStateLoaded) return stateLoaded(detailsBloc, state, counter, navBloc);
+        if (state is DetailsStateLoaded)
+          return stateLoaded(detailsBloc, state, counter, navBloc, lz);
 
         return YouShouldNotSeeThis();
 
@@ -42,11 +45,12 @@ class DetailsPage extends StatelessWidget {
   }
 
   Widget stateLoaded(DetailsBloc detailsBloc, DetailsStateLoaded state, CounterItem counter,
-          NavigatorBloc navBloc) =>
+          NavigatorBloc navBloc, AppLocalization lz) =>
       Scaffold(
         body: DetailsOf(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
+          tooltip: lz.save,
           backgroundColor: state.counter.colorValue ?? counter.colorValue,
           child: Icon(Icons.save),
           onPressed: () => detailsBloc.update(),
@@ -56,12 +60,13 @@ class DetailsPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               IconButton(
+                tooltip: lz.cancel,
                 icon: Icon(Icons.arrow_back),
                 onPressed: () => detailsBloc.backPressed(),
               ),
               IconButton(
                 icon: Icon(Icons.show_chart),
-                tooltip: "History",
+                tooltip: lz.stat,
                 onPressed: () => navBloc.statOf(counter),
               ),
             ],

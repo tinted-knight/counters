@@ -1,3 +1,4 @@
+import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/views/common/ColoredTextField.dart';
 import 'package:counter/views/common/expanded_widgets.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +17,13 @@ class GoalRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lz = AppLocalization.of(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        ExpandedLeft(child: TextLabel("Goal")),
+        ExpandedLeft(child: TextLabel(lz.goal)),
         ExpandedRight(
           child: ColoredTextField(
             controller: controller,

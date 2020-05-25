@@ -2,6 +2,7 @@ import 'package:counter/bloc/app_bloc.dart';
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
+import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/theme/dark_theme.dart';
 import 'package:counter/views/main/ColoredSwipeable.dart';
@@ -57,7 +58,6 @@ class _CountersPageState extends State<CountersPage> {
             setState(() {
               _isVisible = false;
             });
-
           break;
       }
     });
@@ -85,6 +85,8 @@ class _CountersPageState extends State<CountersPage> {
 
   NestedScrollView withSliverAppBar(
       AppBloc appBloc, NavigatorBloc navBloc, CountersBloc countersBloc) {
+    final lz = AppLocalization.of(context);
+
     return NestedScrollView(
       controller: _scrollController,
       headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -107,12 +109,12 @@ class _CountersPageState extends State<CountersPage> {
                 textAlign: TextAlign.center,
                 text: TextSpan(children: [
                   TextSpan(
-                    text: "Try to keep up the rythm",
+                    text: lz.motivational1,
                     style: TextStyle(color: Color(0xff313131)),
                   ),
                   TextSpan(text: "\n"),
                   TextSpan(
-                    text: "Or not. Don't worry - be puppy",
+                    text: lz.motivational2,
                     style: TextStyle(
                       color: Color(0xff313131),
                       fontSize: 10.0,

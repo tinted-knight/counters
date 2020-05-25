@@ -1,3 +1,4 @@
+import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/views/common/ColoredTextField.dart';
 import 'package:counter/views/common/expanded_widgets.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class TopRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final roadToGoal = ((value / goal) * 100).floor();
+    final lz = AppLocalization.of(context);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,7 +40,7 @@ class TopRow extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              ExpandedLeft(child: TextLabel("Today", centered: true)),
+              ExpandedLeft(child: TextLabel(lz.today, centered: true)),
               ExpandedLeft(
                 child: ColoredTextField(
                   controller: controller,

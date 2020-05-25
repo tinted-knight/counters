@@ -6,6 +6,7 @@ class IconButtonIndicator extends StatelessWidget {
     this.inAction = false,
     this.onPressed,
     this.color,
+    this.label = "Error"
   }) : super(key: key);
 
   final bool inAction;
@@ -13,11 +14,12 @@ class IconButtonIndicator extends StatelessWidget {
 
   final Color color;
   final IconData iconData = Icons.error;
-  final String label = "Error";
+  final String label;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      tooltip: label,
       icon: inAction
           ? Container(
               width: 24.0,
