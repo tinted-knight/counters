@@ -5,8 +5,8 @@ import 'package:counter/model/storage/interface.dart';
 import 'package:counter/pages/chart/chart_event.dart';
 import 'package:counter/pages/chart/chart_state.dart';
 
-class StatBloc extends BlocEventStateBase<ChartEvent, ChartState> {
-  StatBloc(this.repo) : super(initialState: ChartState.loading());
+class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
+  ChartBloc(this.repo) : super(initialState: ChartState.loading());
 
   final ILocalStorage repo;
 
@@ -43,7 +43,21 @@ class StatBloc extends BlocEventStateBase<ChartEvent, ChartState> {
     }
   }
 
-  void load(CounterItem counter) async {
+  void load(CounterItem counter, {bool force = false}) async {
+//    if (!force && lastState != null && lastState.stat != null && lastState.stat.length > 0) {
+//      fire(ChartEvent.loaded(lastState.stat));
+//    }
+    // returning existing data if we are not forced to reload
+    if (!force && lastState != null) {
+      if (lastState.isEmpty) {
+        fire(ChartEvent.empty());
+        return;
+      }
+      if (lastState.hasLoaded) {
+        fire(ChartEvent.loaded(lastState.stat));
+        return;
+      }
+    }
     final stat = await repo.getHistoryFor(counter: counter);
     if (stat == null || stat.isEmpty) {
       fire(ChartEvent.empty());
@@ -89,7 +103,7 @@ class StatBloc extends BlocEventStateBase<ChartEvent, ChartState> {
       counter.copyWith(value: intValueOf(value)),
       dateTime.millisecondsSinceEpoch,
     );
-    if (result) load(counter);
+    if (result) load(counter, force: true);
   }
 
   int intValueOf(String s) => int.tryParse(s) ?? -1;

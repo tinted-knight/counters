@@ -7,6 +7,7 @@ import 'package:counter/theme/neumorphicDecoration.dart';
 import 'package:counter/views/stat/bar_chart.dart';
 import 'package:counter/views/stat/chart_bottom_appBar.dart';
 import 'package:counter/views/stat/stat_list_tile.dart';
+import 'package:counter/widgets/debug_error_message.dart';
 import 'package:counter/widgets/dialogs/input_dialog.dart';
 import 'package:counter/widgets/dialogs/show_date_picker.dart';
 import 'package:counter/widgets/dialogs/yes_no_dialog.dart';
@@ -25,15 +26,15 @@ class ChartPage extends StatelessWidget {
     final lz = AppLocalization.of(context);
     final navBloc = BlocProvider.of<NavigatorBloc>(context);
     final CounterItem counter = ModalRoute.of(context).settings.arguments;
-    final StatBloc statBloc = BlocProvider.of<StatBloc>(context);
-    statBloc.load(counter);
+    final ChartBloc chartBloc = BlocProvider.of<ChartBloc>(context);
+    chartBloc.load(counter);
 
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: buildTabBar(chart: lz.chart, list: lz.list),
         body: BlocStreamBuilder<ChartState>(
-          bloc: statBloc,
+          bloc: chartBloc,
           oneShotListener: (state) async {
             if (state.hasCanceled) navBloc.pop();
 
@@ -44,27 +45,27 @@ class ChartPage extends StatelessWidget {
                 message: lz.itemAlreadyExists,
               );
               if (confirmed) {
-                statBloc.updateValue(state.missingValue.item, state.missingValue.value);
+                chartBloc.updateValue(state.missingValue.item, state.missingValue.value);
               }
             }
           },
           builder: (context, state) {
             if (state.hasCanceled) return Container();
 
-            if (state.isLoading) return Center(child: Text("loading"));
+            if (state.isLoading || state.isUpdating) {
+              return Center(child: CircularProgressIndicator());
+            }
 
             if (state.isEmpty) return EmptyChart();
 
-            if (state.isUpdating) return Center(child: Text("updating"));
+            if (state.hasLoaded) return renderStateLoaded(state.stat, counter, chartBloc);
 
-            if (state.hasLoaded) return renderStateLoaded(state.stat, counter, statBloc);
-
-            return Center(child: Text("last hope"));
+            return Center(child: YouShouldNotSeeThis());
           },
         ),
         bottomNavigationBar: ChartBottomAppBar(
-          onBackPressed: statBloc.backPressed,
-          onAddPressed: () => showMissingDatePicker(context, counter, statBloc.addMissingValue),
+          onBackPressed: chartBloc.backPressed,
+          onAddPressed: () => showMissingDatePicker(context, counter, chartBloc.addMissingValue),
         ),
       ),
     );
@@ -98,7 +99,7 @@ class ChartPage extends StatelessWidget {
         ),
       );
 
-  Widget renderStateLoaded(List<HistoryModel> values, CounterItem counter, StatBloc statBloc) =>
+  Widget renderStateLoaded(List<HistoryModel> values, CounterItem counter, ChartBloc chartBloc) =>
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: TabBarView(
@@ -114,7 +115,7 @@ class ChartPage extends StatelessWidget {
               itemBuilder: (context, index) => StatListTile(
                 entry: values[index],
                 counter: counter,
-                onValueChanged: (value) => statBloc.updateValue(values[index], value),
+                onValueChanged: (value) => chartBloc.updateValue(values[index], value),
                 onEditTap: (statEntry) => inputDialog(
                   context,
                   hint: statEntry.valueString,

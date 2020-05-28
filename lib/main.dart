@@ -71,8 +71,8 @@ class CountersApp extends StatelessWidget {
                     blocBuilder: () => CreateBloc(storage),
                     child: CreatePage(),
                   ),
-              ChartPage.route: (context) => BlocProvider<StatBloc>(
-                    blocBuilder: () => StatBloc(storage),
+              ChartPage.route: (context) => BlocProvider<ChartBloc>(
+                    blocBuilder: () => ChartBloc(storage),
                     child: ChartPage(),
                   ),
             },
