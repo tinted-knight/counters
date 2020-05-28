@@ -3,8 +3,6 @@ import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/model/CounterModel.dart';
-import 'package:counter/pages/stat/stat_bloc.dart';
-import 'package:counter/pages/stat/stat_state.dart';
 import 'package:counter/theme/neumorphicDecoration.dart';
 import 'package:counter/views/stat/bar_chart.dart';
 import 'package:counter/views/stat/chart_bottom_appBar.dart';
@@ -16,9 +14,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/HistoryModel.dart';
+import 'chart_bloc.dart';
+import 'chart_state.dart';
 
-class StatPage extends StatelessWidget {
-  static const route = "/stat";
+class ChartPage extends StatelessWidget {
+  static const route = "/chart";
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class StatPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: buildTabBar(chart: lz.chart, list: lz.list),
-        body: BlocStreamBuilder<StatState>(
+        body: BlocStreamBuilder<ChartState>(
           bloc: statBloc,
           oneShotListener: (state) async {
             if (state.hasCanceled) navBloc.pop();
@@ -49,18 +49,15 @@ class StatPage extends StatelessWidget {
             }
           },
           builder: (context, state) {
-            if (state.isLoading) {
-              return Center(child: Text("loading"));
-            }
-            if (state.isEmpty) {
-              return EmptyChart();
-            }
-            if (state.isUpdating) {
-              return Center(child: Text("updating"));
-            }
-            if (state.hasLoaded) {
-              return renderStateLoaded(state.stat, counter, statBloc);
-            }
+            if (state.hasCanceled) return Container();
+
+            if (state.isLoading) return Center(child: Text("loading"));
+
+            if (state.isEmpty) return EmptyChart();
+
+            if (state.isUpdating) return Center(child: Text("updating"));
+
+            if (state.hasLoaded) return renderStateLoaded(state.stat, counter, statBloc);
 
             return Center(child: Text("last hope"));
           },

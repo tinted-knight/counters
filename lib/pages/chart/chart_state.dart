@@ -9,8 +9,8 @@ class ExistingItem {
   final String value;
 }
 
-class StatState extends BlocState {
-  StatState({
+class ChartState extends BlocState {
+  ChartState({
     @required this.isLoading,
     this.isUpdating = false,
     this.hasLoaded = false,
@@ -30,25 +30,25 @@ class StatState extends BlocState {
   final ExistingItem missingValue;
   final List<HistoryModel> stat;
 
-  factory StatState.loading() => StatState(isLoading: true);
+  factory ChartState.loading() => ChartState(isLoading: true);
 
-  factory StatState.empty() => StatState(isLoading: false, isEmpty: true);
+  factory ChartState.empty() => ChartState(isLoading: false, isEmpty: true);
 
-  factory StatState.back() => StatState(isLoading: false, hasCanceled: true);
+  factory ChartState.back() => ChartState(isLoading: false, hasCanceled: true);
 
-  factory StatState.loaded(List<HistoryModel> items) => StatState(
+  factory ChartState.loaded(List<HistoryModel> items) => ChartState(
         isLoading: false,
         hasLoaded: true,
         stat: items,
       );
 
-  factory StatState.updating(List<HistoryModel> items) => StatState(
+  factory ChartState.updating(List<HistoryModel> items) => ChartState(
         isLoading: false,
         isUpdating: true,
         stat: items,
       );
 
-  factory StatState.itemExists(List<HistoryModel> items, ExistingItem value) => StatState(
+  factory ChartState.itemExists(List<HistoryModel> items, ExistingItem value) => ChartState(
         isLoading: false,
         hasLoaded: true,
         stat: items,

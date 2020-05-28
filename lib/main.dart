@@ -4,14 +4,14 @@ import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/i18n/app_localization.dart';
+import 'package:counter/pages/chart/chart_bloc.dart';
+import 'package:counter/pages/chart/chart_page.dart';
 import 'package:counter/pages/create/create_bloc.dart';
 import 'package:counter/pages/create/create_page.dart';
 import 'package:counter/pages/details/details_page.dart';
 import 'package:counter/pages/details/single_bloc.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/pages/splash/splash_page.dart';
-import 'package:counter/pages/stat/stat_bloc.dart';
-import 'package:counter/pages/stat/stat_page.dart';
 import 'package:counter/theme/dark_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -71,9 +71,9 @@ class CountersApp extends StatelessWidget {
                     blocBuilder: () => CreateBloc(storage),
                     child: CreatePage(),
                   ),
-              StatPage.route: (context) => BlocProvider<StatBloc>(
+              ChartPage.route: (context) => BlocProvider<StatBloc>(
                     blocBuilder: () => StatBloc(storage),
-                    child: StatPage(),
+                    child: ChartPage(),
                   ),
             },
           ),

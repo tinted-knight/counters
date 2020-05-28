@@ -2,43 +2,43 @@ import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/HistoryModel.dart';
 import 'package:counter/model/storage/interface.dart';
-import 'package:counter/pages/stat/stat_event.dart';
-import 'package:counter/pages/stat/stat_state.dart';
+import 'package:counter/pages/chart/chart_event.dart';
+import 'package:counter/pages/chart/chart_state.dart';
 
-class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
-  StatBloc(this.repo) : super(initialState: StatState.loading());
+class StatBloc extends BlocEventStateBase<ChartEvent, ChartState> {
+  StatBloc(this.repo) : super(initialState: ChartState.loading());
 
   final ILocalStorage repo;
 
   @override
-  Stream<StatState> eventHandler(StatEvent event, StatState currentState) async* {
+  Stream<ChartState> eventHandler(ChartEvent event, ChartState currentState) async* {
     switch (event.type) {
-      case StatEventType.loading:
-        yield StatState.loading();
+      case ChartEventType.loading:
+        yield ChartState.loading();
         break;
-      case StatEventType.loaded:
-        yield StatState.loaded(event.stat);
+      case ChartEventType.loaded:
+        yield ChartState.loaded(event.stat);
         break;
-      case StatEventType.empty:
-        yield StatState.empty();
+      case ChartEventType.empty:
+        yield ChartState.empty();
         break;
-      case StatEventType.back:
-        yield StatState.back();
+      case ChartEventType.back:
+        yield ChartState.back();
         break;
-      case StatEventType.updating:
-        yield StatState.updating(currentState.stat);
+      case ChartEventType.updating:
+        yield ChartState.updating(currentState.stat);
         break;
-      case StatEventType.updated:
+      case ChartEventType.updated:
         final updatedList = currentState.stat.map((e) {
           if (e.id == event.updatedItem.id) {
             return event.updatedItem;
           }
           return e;
         }).toList();
-        yield StatState.loaded(updatedList);
+        yield ChartState.loaded(updatedList);
         break;
-      case StatEventType.itemExists:
-        yield StatState.itemExists(currentState.stat, event.missingValue);
+      case ChartEventType.itemExists:
+        yield ChartState.itemExists(currentState.stat, event.missingValue);
         break;
     }
   }
@@ -46,20 +46,20 @@ class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
   void load(CounterItem counter) async {
     final stat = await repo.getHistoryFor(counter: counter);
     if (stat == null || stat.isEmpty) {
-      fire(StatEvent.empty());
+      fire(ChartEvent.empty());
       return;
     }
-    fire(StatEvent.loaded(stat));
+    fire(ChartEvent.loaded(stat));
   }
 
   void updateValue(HistoryModel item, String value) async {
     if (value == null) return;
     final updatedValue = intValueOf(value);
     if (updatedValue != item.value && updatedValue >= 0) {
-      fire(StatEvent.updating());
+      fire(ChartEvent.updating());
       final updatedItem = item.copyWith(value: intValueOf(value));
       await repo.updateExistingHistoryItem(updatedItem);
-      fire(StatEvent.updated(updatedItem));
+      fire(ChartEvent.updated(updatedItem));
     }
   }
 
@@ -78,7 +78,7 @@ class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
   void addMissingValue(CounterItem counter, String value, DateTime dateTime) async {
     final item = checkExistence(dateTime);
     if (item != null) {
-      fire(StatEvent.itemExists(ExistingItem(item, value)));
+      fire(ChartEvent.itemExists(ExistingItem(item, value)));
     } else {
       _addValue(counter, value, dateTime);
     }
@@ -95,6 +95,6 @@ class StatBloc extends BlocEventStateBase<StatEvent, StatState> {
   int intValueOf(String s) => int.tryParse(s) ?? -1;
 
   void backPressed() {
-    fire(StatEvent.back());
+    fire(ChartEvent.back());
   }
 }

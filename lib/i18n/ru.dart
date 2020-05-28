@@ -20,7 +20,7 @@ const Map<String, String> ru = {
   Fields.today: 'Today',
   Fields.ofGoal: 'of goal',
   Fields.confirmationItemAlreadyExists:
-  "The item already exists. Do you want to update it's value?",
+      "The item already exists. Do you want to update it's value?",
   Fields.emptyChart: "Looks like this counter's history is empty for now."
       " Try to increase counter's value for a several days.\n\nOr not.\n\nRelax.\n\nStay calm.",
   Fields.chart: "Chart",
