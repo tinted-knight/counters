@@ -30,4 +30,10 @@ const Map<String, String> en = {
   Fields.actionUp: "Increase value",
   Fields.actionDown: "Decrease value",
   Fields.actionReset: "Reset to zero",
+  Fields.actionSaving: "Saving...",
+  Fields.dailyGoal: "Daily goal",
+  Fields.actionSubmit: "Submit",
+  Fields.yes: "Yes",
+  Fields.no: "No",
+  Fields.confirmationSaveChanges: "Save changes?",
 };

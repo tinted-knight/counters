@@ -43,6 +43,8 @@ class ChartPage extends StatelessWidget {
                 context,
                 color: counter.colorValue,
                 message: lz.itemAlreadyExists,
+                yesText: lz.yes,
+                noText: lz.no,
               );
               if (confirmed) {
                 chartBloc.updateValue(state.missingValue.item, state.missingValue.value);

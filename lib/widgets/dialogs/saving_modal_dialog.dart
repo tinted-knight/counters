@@ -1,7 +1,10 @@
+import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/theme/dark_theme.dart';
 import 'package:flutter/material.dart';
 
 void showSavingDialog(BuildContext context, {Color accent}) {
+  final lz = AppLocalization.of(context);
+
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -17,7 +20,7 @@ void showSavingDialog(BuildContext context, {Color accent}) {
                 CircularProgressIndicator(),
                 Padding(
                   padding: EdgeInsets.only(top: 4.0),
-                  child: Text("saving..."),
+                  child: Text(lz.saving),
                 ),
               ],
             ),

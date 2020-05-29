@@ -1,8 +1,11 @@
+import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:flutter/material.dart';
 
 Future<String> inputDialog(BuildContext context, {String hint, CounterItem counter}) async {
   String newValue;
+  final lz = AppLocalization.of(context);
+
   return showDialog<String>(
     context: context,
     builder: (ctx) => AlertDialog(
@@ -11,7 +14,7 @@ Future<String> inputDialog(BuildContext context, {String hint, CounterItem count
         autofocus: true,
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
-          labelText: "Daily goal: ${counter.goal}",
+          labelText: "${lz.dailyGoal}: ${counter.goal}",
           hintText: hint,
         ),
         onChanged: (value) {
@@ -24,7 +27,7 @@ Future<String> inputDialog(BuildContext context, {String hint, CounterItem count
           onPressed: () => Navigator.of(context).pop(),
         ),
         RaisedButton(
-          child: Text("Submit"),
+          child: Text(lz.submit),
           color: counter.colorValue,
           textColor: Color(0xffffffff),
           onPressed: () => Navigator.of(context).pop(newValue),

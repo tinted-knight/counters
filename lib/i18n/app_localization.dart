@@ -73,6 +73,18 @@ class AppLocalization {
   String get down => _localizedValues[locale.languageCode][Fields.actionDown];
 
   String get reset => _localizedValues[locale.languageCode][Fields.actionReset];
+
+  String get saving => _localizedValues[locale.languageCode][Fields.actionSaving];
+
+  String get submit => _localizedValues[locale.languageCode][Fields.actionSubmit];
+
+  String get dailyGoal => _localizedValues[locale.languageCode][Fields.dailyGoal];
+
+  String get yes => _localizedValues[locale.languageCode][Fields.yes];
+
+  String get no => _localizedValues[locale.languageCode][Fields.no];
+
+  String get saveChanges => _localizedValues[locale.languageCode][Fields.confirmationSaveChanges];
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalization> {

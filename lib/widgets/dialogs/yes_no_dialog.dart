@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 Future<bool> yesNoDialog(
   BuildContext context, {
-  String message = "Do you want to save changes?",
-  String yesText = "Yes",
-  String noText = "No",
+  @required String message,
+  @required String yesText,
+  @required String noText,
   Color color,
 }) async {
   return await showDialog<bool>(

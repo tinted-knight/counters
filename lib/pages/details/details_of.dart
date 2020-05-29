@@ -157,8 +157,16 @@ class DetailsOf extends StatelessWidget {
     DetailsBloc detailsBloc,
     NavigatorBloc navBloc,
   }) async {
+    final lz = AppLocalization.of(context);
+
     if (state.wasModified) {
-      final haveConfirmation = await yesNoDialog(context, color: state.counter.colorValue);
+      final haveConfirmation = await yesNoDialog(
+        context,
+        color: state.counter.colorValue,
+        message: lz.saveChanges,
+        yesText: lz.yes,
+        noText: lz.no,
+      );
       if (haveConfirmation) {
         detailsBloc.update();
       } else {

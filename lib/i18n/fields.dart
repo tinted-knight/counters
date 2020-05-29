@@ -16,15 +16,21 @@ class Fields {
   static const actionUp = "up";
   static const actionDown = "down";
   static const actionReset = "reset";
+  static const actionSaving = "action_saving";
+  static const actionSubmit = "action_submit";
   static const stat = "stat";
   static const editTitle = "edit";
   static const pickColor = "pick_color";
   static const today = "today";
   static const ofGoal = "of_goal";
   static const confirmationItemAlreadyExists = "conf_already_exists";
+  static const confirmationSaveChanges = "conf_save_changes";
   static const emptyChart = "empty_chart";
   static const chart = "chart";
   static const list = "list";
   static const addMissingValue = "add_missing_value";
   static const clearHistory = "clear_history";
+  static const dailyGoal = "daily_goal";
+  static const yes = "yes";
+  static const no = "no";
 }
