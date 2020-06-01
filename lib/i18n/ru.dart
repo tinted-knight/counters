@@ -33,4 +33,5 @@ const Map<String, String> ru = {
   Fields.yes: "Да",
   Fields.no: "Нет",
   Fields.confirmationSaveChanges: "Сохранить изменения?",
+  Fields.days7: "Последние 7 дней",
 };

@@ -62,7 +62,7 @@ class ChartPage extends StatelessWidget {
 
             if (state.isEmpty) return EmptyChart();
 
-            if (state.hasLoaded) return renderStateLoaded(state.stat, counter, chartBloc);
+            if (state.hasLoaded) return renderStateLoaded(state.filtered, counter, chartBloc);
 
             return Center(child: YouShouldNotSeeThis());
           },
@@ -74,6 +74,7 @@ class ChartPage extends StatelessWidget {
             await chartBloc.clearHistory(counter);
             countersBloc.reload();
           },
+          onFilterPressed: chartBloc.showAll,
         ),
       ),
     );

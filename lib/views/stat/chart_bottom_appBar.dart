@@ -7,11 +7,13 @@ class ChartBottomAppBar extends StatelessWidget {
     this.onBackPressed,
     this.onAddPressed,
     this.onClearPressed,
+    this.onFilterPressed,
   }) : super(key: key);
 
   final Function onBackPressed;
   final Function onAddPressed;
   final Function onClearPressed;
+  final Function onFilterPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +29,19 @@ class ChartBottomAppBar extends StatelessWidget {
           ),
           Expanded(child: SizedBox()),
           IconButton(
-            icon: Icon(Icons.add, semanticLabel: lz.addMissigValue),
-            tooltip: lz.addMissigValue,
-            onPressed: onAddPressed,
-          ),
-          IconButton(
             icon: Icon(Icons.delete_sweep, semanticLabel: lz.clearHistory),
             tooltip: lz.clearHistory,
             onPressed: onClearPressed,
+          ),
+          IconButton(
+            icon: Icon(Icons.filter_7, semanticLabel: lz.days7),
+            tooltip: lz.days7,
+            onPressed: onFilterPressed,
+          ),
+          IconButton(
+            icon: Icon(Icons.add, semanticLabel: lz.addMissigValue),
+            tooltip: lz.addMissigValue,
+            onPressed: onAddPressed,
           ),
         ],
       ),

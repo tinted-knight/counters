@@ -29,12 +29,9 @@ class BarChart extends StatelessWidget {
       // todo debug
       animate: false,
       domainAxis: charts.OrdinalAxisSpec(
-        viewport: charts.OrdinalViewport(values[0].dateString, 7),
+        viewport: values.length > 7 ? charts.OrdinalViewport(values[0].dateString, 7) : null,
       ),
-      behaviors: [
-        charts.SlidingViewport(),
-        charts.PanAndZoomBehavior(),
-      ],
+      behaviors: values.length > 7 ? [charts.SlidingViewport(), charts.PanAndZoomBehavior()] : null,
     );
   }
 }

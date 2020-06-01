@@ -33,4 +33,5 @@ class Fields {
   static const dailyGoal = "daily_goal";
   static const yes = "yes";
   static const no = "no";
+  static const days7 = "days_7";
 }

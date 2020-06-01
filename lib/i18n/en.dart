@@ -36,4 +36,5 @@ const Map<String, String> en = {
   Fields.yes: "Yes",
   Fields.no: "No",
   Fields.confirmationSaveChanges: "Save changes?",
+  Fields.days7: "Last 7 days",
 };

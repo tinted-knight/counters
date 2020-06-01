@@ -41,6 +41,9 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
       case ChartEventType.itemExists:
         yield ChartState.itemExists(currentState.stat, event.missingValue);
         break;
+      case ChartEventType.filter:
+        yield ChartState.filter(currentState.stat, event.filter);
+        break;
     }
   }
 
@@ -66,6 +69,8 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
     }
     fire(ChartEvent.loaded(stat));
   }
+
+  void showAll() => fire(ChartEvent.filter(lastState.stat, "none"));
 
   void updateValue(HistoryModel item, String value) async {
     if (value == null) return;
