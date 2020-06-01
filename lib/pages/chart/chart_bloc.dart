@@ -99,10 +99,8 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
   }
 
   void _addValue(CounterItem counter, String value, DateTime dateTime) async {
-    final result = await repo.updateHistory(
-      counter.copyWith(value: intValueOf(value)),
-      dateTime.millisecondsSinceEpoch,
-    );
+    final result =
+        await repo.insertHistory(counter.id, intValueOf(value), dateTime.millisecondsSinceEpoch);
     if (result) load(counter, force: true);
   }
 

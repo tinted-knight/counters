@@ -1,5 +1,6 @@
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/HistoryModel.dart';
+import 'package:counter/model/datetime.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'DbProvider.dart';
@@ -11,9 +12,9 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
   }
 
   @override
-  Future<bool> add(CounterItem item) async {
+  Future<int> add(CounterItem item) async {
     final database = await connection();
-    return await database.insert(tableCounters, item.toMap()) >= 0;
+    return await database.insert(tableCounters, item.toMap());
   }
 
   @override
@@ -47,14 +48,35 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
   }
 
   @override
-  Future<bool> updateHistory(CounterItem item, int timestamp) async {
-    final value = {
-      colCounterId: item.id.toString(),
-      colDate: timestamp,
-      colValue: item.value.toString(),
+  Future<bool> insertHistory(int id, int value, int timestamp) async {
+//    final ts = DateTime.fromMillisecondsSinceEpoch(timestamp);
+//    final dt = DateTime(ts.year, ts.month, ts.day).millisecondsSinceEpoch;
+    final dt = datetime(from: timestamp);
+    final insertData = {
+      colCounterId: id,
+      colDate: dt,
+      colValue: value,
     };
     final database = await connection();
-    final result = await database.insert(tableHistory, value);
+    final result = await database.insert(tableHistory, insertData);
+    return result > 0;
+  }
+
+  @override
+  Future<bool> updateExisting(int id, int value) async {
+//    final ts = DateTime.fromMillisecondsSinceEpoch(timestamp);
+//    final dt = DateTime(ts.year, ts.month, ts.day).millisecondsSinceEpoch;
+    final database = await connection();
+    final result = await database.update(
+      tableHistory,
+      {
+        colCounterId: id,
+//        colDate: dt,
+        colValue: value,
+      },
+      where: "$colCounterId = ?",
+      whereArgs: [id],
+    );
     return result > 0;
   }
 
@@ -95,7 +117,9 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
   }
 
   @override
-  Future<int> updateTime(int time) async {
+  Future<int> updateTime() async {
+    // !todo BAD shoud just update instead of deleting and inserting new value
+    final time = DateTime.now().millisecondsSinceEpoch;
     final database = await connection();
     final prevTime = await _getRawTime();
     await database.delete(tableTime);

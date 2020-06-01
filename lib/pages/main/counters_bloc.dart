@@ -1,5 +1,6 @@
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:counter/model/CounterModel.dart';
+import 'package:counter/model/datetime.dart';
 import 'package:counter/model/storage/interface.dart';
 import 'package:flutter/material.dart';
 
@@ -63,11 +64,11 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
     final values = await repo.getAll();
     if (values != null && values.isNotEmpty) {
       if (await _needResetCounters()) {
-        final reseted = await _resetCounters(values);
-        fire(CountersEvent.loaded(reseted));
-      } else {
-        fire(CountersEvent.loaded(values));
+        await _resetCounters(values);
+//        await _updateTime();
+//        fire(CountersEvent.loaded(values));
       }
+      fire(CountersEvent.loaded(values));
     }
   }
 
@@ -83,30 +84,22 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
     return (todayDayOfYear - dbDayOfYear) >= 1;
   }
 
-  Future<List<CounterItem>> _resetCounters(List<CounterItem> counters) async {
-    final timeToSave = await _updateTime();
+  _resetCounters(List<CounterItem> counters) async {
+    await repo.updateTime();
+    final timeToSave = datetime();
     await _saveToHistory(counters, timeToSave);
-    final resetedCounters = counters.map((counter) => counter.flush).toList();
-    await _saveUpdated(resetedCounters);
-    return resetedCounters;
-  }
-
-  Future<int> _updateTime() async {
-    final now = DateTime.now().millisecondsSinceEpoch;
-    return await repo.updateTime(now);
   }
 
   Future<void> _saveToHistory(List<CounterItem> counters, int time) async {
-    counters.forEach((counter) async => await repo.updateHistory(counter, time));
-  }
-
-  Future<void> _saveUpdated(List<CounterItem> counters) async {
-    counters.forEach((counter) async => await repo.update(counter));
+    counters.forEach((counter) async => await repo.insertHistory(counter.id, 0, time));
   }
 
   Future<CounterItem> _stepUp(int index) async {
     final toUpdate = _counters.firstWhere((item) => item.id == index).stepUp();
-    if (await repo.update(toUpdate)) return toUpdate;
+    if (await repo.update(toUpdate)) {
+      repo.updateExisting(toUpdate.id, toUpdate.value);
+      return toUpdate;
+    }
     return null;
   }
 

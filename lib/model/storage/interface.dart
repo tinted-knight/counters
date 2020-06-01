@@ -1,7 +1,7 @@
 import 'package:counter/model/HistoryModel.dart';
 
 abstract class ILocalStorage<CounterItem> {
-  Future<bool> add(CounterItem item);
+  Future<int> add(CounterItem item);
 
   Future<List<CounterItem>> getAll();
 
@@ -9,7 +9,9 @@ abstract class ILocalStorage<CounterItem> {
 
   Future<bool> delete(CounterItem item);
 
-  Future<bool> updateHistory(CounterItem item, int timestamp);
+  Future<bool> insertHistory(int id, int value, int timestamp);
+
+  Future<bool> updateExisting(int id, int value);
 
   Future<bool> updateExistingHistoryItem(HistoryModel item);
 
@@ -17,5 +19,5 @@ abstract class ILocalStorage<CounterItem> {
 
   Future<DateTime> getTime();
 
-  Future<int> updateTime(int time);
+  Future<int> updateTime();
 }

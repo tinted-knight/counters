@@ -44,7 +44,6 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
   void resetValue() => valueCtrl.text = "0";
 
   Future<CounterItem> _update({int withColor}) async {
-    print('DetailsBloc._update');
     final last = lastState as DetailsStateLoaded;
     final updatedItem = fillFromControllers(last.counter).copyWith(colorIndex: withColor);
     if (!isValid(updatedItem)) {
@@ -55,6 +54,11 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
     // !achtung fake
     await Future.delayed(Duration(seconds: 1));
     if (await repo.update(updatedItem)) {
+      await repo.updateExisting(
+        updatedItem.id,
+        updatedItem.value,
+//        DateTime.now().millisecondsSinceEpoch,
+      );
       return updatedItem;
     }
     return null;

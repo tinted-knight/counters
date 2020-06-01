@@ -58,6 +58,7 @@ extension ColorValue on CounterItem {
 
 extension CopyWith on CounterItem {
   CounterItem copyWith({
+    int id,
     String title,
     int goal,
     int value,
@@ -66,7 +67,7 @@ extension CopyWith on CounterItem {
     int colorIndex,
   }) {
     return CounterItem(
-      id: this.id,
+      id: id ?? this.id,
       title: title ?? this.title,
       goal: goal ?? this.goal,
       value: value ?? this.value,
