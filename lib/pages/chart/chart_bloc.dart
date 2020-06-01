@@ -1,6 +1,7 @@
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/HistoryModel.dart';
+import 'package:counter/model/datetime.dart';
 import 'package:counter/model/storage/interface.dart';
 import 'package:counter/pages/chart/chart_event.dart';
 import 'package:counter/pages/chart/chart_state.dart';
@@ -105,6 +106,16 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
   }
 
   int intValueOf(String s) => int.tryParse(s) ?? -1;
+
+  clearHistory(CounterItem item) async {
+    fire(ChartEvent.updating());
+    await repo.clearHistoryFor(item.id);
+    await repo.insertHistory(item.id, 0, datetime());
+    await repo.update(item.copyWith(value: 0));
+    // !achtung fake delay
+    await Future.delayed(Duration(seconds: 1));
+    load(item, force: true);
+  }
 
   void backPressed() {
     fire(ChartEvent.back());

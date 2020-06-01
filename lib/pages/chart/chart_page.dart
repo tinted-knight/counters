@@ -3,6 +3,7 @@ import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/model/CounterModel.dart';
+import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/theme/neumorphicDecoration.dart';
 import 'package:counter/views/stat/bar_chart.dart';
 import 'package:counter/views/stat/chart_bottom_appBar.dart';
@@ -25,6 +26,7 @@ class ChartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final lz = AppLocalization.of(context);
     final navBloc = BlocProvider.of<NavigatorBloc>(context);
+    final countersBloc = BlocProvider.of<CountersBloc>(context);
     final CounterItem counter = ModalRoute.of(context).settings.arguments;
     final ChartBloc chartBloc = BlocProvider.of<ChartBloc>(context);
     chartBloc.load(counter);
@@ -55,7 +57,7 @@ class ChartPage extends StatelessWidget {
             if (state.hasCanceled) return Container();
 
             if (state.isLoading || state.isUpdating) {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator(backgroundColor: counter.colorValue));
             }
 
             if (state.isEmpty) return EmptyChart();
@@ -68,6 +70,10 @@ class ChartPage extends StatelessWidget {
         bottomNavigationBar: ChartBottomAppBar(
           onBackPressed: chartBloc.backPressed,
           onAddPressed: () => showMissingDatePicker(context, counter, chartBloc.addMissingValue),
+          onClearPressed: () async {
+            await chartBloc.clearHistory(counter);
+            countersBloc.reload();
+          },
         ),
       ),
     );

@@ -6,10 +6,12 @@ class ChartBottomAppBar extends StatelessWidget {
     Key key,
     this.onBackPressed,
     this.onAddPressed,
+    this.onClearPressed,
   }) : super(key: key);
 
   final Function onBackPressed;
   final Function onAddPressed;
+  final Function onClearPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class ChartBottomAppBar extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.delete_sweep, semanticLabel: lz.clearHistory),
             tooltip: lz.clearHistory,
-            onPressed: () {},
+            onPressed: onClearPressed,
           ),
         ],
       ),
