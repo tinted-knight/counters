@@ -13,6 +13,7 @@ class PropertyRow extends StatelessWidget {
     this.onlyDigits = false,
     this.hasError = false,
     @required this.controller,
+    this.autoFocus = false,
     Key key,
   }) : super(key: key);
 
@@ -21,6 +22,7 @@ class PropertyRow extends StatelessWidget {
           label,
           type: ValueType.str,
           controller: controller,
+          autoFocus: true,
         );
 
   const PropertyRow.step({String label, TextEditingController controller, bool hasError})
@@ -53,6 +55,7 @@ class PropertyRow extends StatelessWidget {
   final bool onlyDigits;
   final bool hasError;
   final TextEditingController controller;
+  final bool autoFocus;
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +71,7 @@ class PropertyRow extends StatelessWidget {
               controller: controller,
               onlyDigits: onlyDigits,
               textColor: hasError ? Colors.red : null,
+              autoFocus: autoFocus,
             ),
           ),
         ],
