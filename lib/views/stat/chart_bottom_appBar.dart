@@ -8,12 +8,14 @@ class ChartBottomAppBar extends StatelessWidget {
     this.onAddPressed,
     this.onClearPressed,
     this.onFilterPressed,
+    this.onMissingPressed
   }) : super(key: key);
 
   final Function onBackPressed;
   final Function onAddPressed;
   final Function onClearPressed;
   final Function onFilterPressed;
+  final Function onMissingPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,11 @@ class ChartBottomAppBar extends StatelessWidget {
             icon: Icon(Icons.filter_7, semanticLabel: lz.days7),
             tooltip: lz.days7,
             onPressed: onFilterPressed,
+          ),
+          IconButton(
+            icon: Icon(Icons.exposure_zero, semanticLabel: lz.days7),
+            tooltip: lz.days7,
+            onPressed: onMissingPressed,
           ),
           IconButton(
             icon: Icon(Icons.add, semanticLabel: lz.addMissigValue),

@@ -7,3 +7,5 @@ int datetime({int from}) {
 
   return DateTime(now.year, now.month, now.day).millisecondsSinceEpoch;
 }
+
+bool areEquals(int left, int right) => datetime(from: left) == datetime(from: right);

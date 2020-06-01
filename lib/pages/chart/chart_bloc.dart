@@ -30,13 +30,7 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
         yield ChartState.updating(currentState.stat);
         break;
       case ChartEventType.updated:
-        final updatedList = currentState.stat.map((e) {
-          if (e.id == event.updatedItem.id) {
-            return event.updatedItem;
-          }
-          return e;
-        }).toList();
-        yield ChartState.loaded(updatedList);
+        yield ChartState.updated(event.stat);
         break;
       case ChartEventType.itemExists:
         yield ChartState.itemExists(currentState.stat, event.missingValue);
@@ -48,10 +42,6 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
   }
 
   void load(CounterItem counter, {bool force = false}) async {
-//    if (!force && lastState != null && lastState.stat != null && lastState.stat.length > 0) {
-//      fire(ChartEvent.loaded(lastState.stat));
-//    }
-    // returning existing data if we are not forced to reload
     if (!force && lastState != null) {
       if (lastState.isEmpty) {
         fire(ChartEvent.empty());
@@ -70,16 +60,45 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
     fire(ChartEvent.loaded(stat));
   }
 
-  void showAll() => fire(ChartEvent.filter(lastState.stat, "none"));
+  void cycleFilter() {
+    // !achtung very bad
+    if (lastState.filter == "7") return fire(ChartEvent.filter(lastState.stat, "none"));
+    return fire(ChartEvent.filter(lastState.stat, "7"));
+  }
+
+  void fillMissingItems(CounterItem counter) async {
+    fire(ChartEvent.updating());
+    final data = lastState.stat;
+    var cursor = DateTime.fromMillisecondsSinceEpoch(data.last.date);
+    final today = DateTime.now();
+    // !achtung fake delay
+    final fake = Future.delayed(Duration(seconds: 1));
+    while ((today.difference(cursor).inDays > 1)) {
+      cursor = cursor.add(Duration(days: 1));
+      if (data.indexWhere((e) => areEquals(e.date, cursor.millisecondsSinceEpoch)) == -1) {
+        await repo.insertHistory(counter.id, 0, cursor.millisecondsSinceEpoch);
+      }
+    }
+    await fake;
+    fire(ChartEvent.updated(lastState.stat));
+    load(counter);
+  }
 
   void updateValue(HistoryModel item, String value) async {
     if (value == null) return;
     final updatedValue = intValueOf(value);
     if (updatedValue != item.value && updatedValue >= 0) {
       fire(ChartEvent.updating());
+      // !achtung fake delay
+      final fake = Future.delayed(Duration(seconds: 1));
       final updatedItem = item.copyWith(value: intValueOf(value));
       await repo.updateExistingHistoryItem(updatedItem);
-      fire(ChartEvent.updated(updatedItem));
+      final updatedList = lastState.stat.map((e) {
+        if (e.id == updatedItem.id) return updatedItem;
+        return e;
+      }).toList();
+      await fake;
+      fire(ChartEvent.updated(updatedList));
     }
   }
 

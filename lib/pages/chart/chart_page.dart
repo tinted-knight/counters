@@ -10,6 +10,7 @@ import 'package:counter/views/stat/chart_bottom_appBar.dart';
 import 'package:counter/views/stat/stat_list_tile.dart';
 import 'package:counter/widgets/debug_error_message.dart';
 import 'package:counter/widgets/dialogs/input_dialog.dart';
+import 'package:counter/widgets/dialogs/saving_modal_dialog.dart';
 import 'package:counter/widgets/dialogs/show_date_picker.dart';
 import 'package:counter/widgets/dialogs/yes_no_dialog.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,6 +41,10 @@ class ChartPage extends StatelessWidget {
           oneShotListener: (state) async {
             if (state.hasCanceled) navBloc.pop();
 
+            if (state.isUpdating) showSavingDialog(context);
+
+            if (state.hasUpdated) navBloc.pop();
+
             if (state.itemExists) {
               final confirmed = await yesNoDialog(
                 context,
@@ -56,13 +61,11 @@ class ChartPage extends StatelessWidget {
           builder: (context, state) {
             if (state.hasCanceled) return Container();
 
-            if (state.isLoading || state.isUpdating) {
-              return Center(child: CircularProgressIndicator(backgroundColor: counter.colorValue));
-            }
+            if (state.isLoading || state.isUpdating) return SizedBox();
 
             if (state.isEmpty) return EmptyChart();
 
-            if (state.hasLoaded) return renderStateLoaded(state.filtered, counter, chartBloc);
+            if (state.hasLoaded) return renderStateLoaded(state, counter, chartBloc);
 
             return Center(child: YouShouldNotSeeThis());
           },
@@ -74,7 +77,8 @@ class ChartPage extends StatelessWidget {
             await chartBloc.clearHistory(counter);
             countersBloc.reload();
           },
-          onFilterPressed: chartBloc.showAll,
+          onFilterPressed: chartBloc.cycleFilter,
+          onMissingPressed: () => chartBloc.fillMissingItems(counter),
         ),
       ),
     );
@@ -108,8 +112,7 @@ class ChartPage extends StatelessWidget {
         ),
       );
 
-  Widget renderStateLoaded(List<HistoryModel> values, CounterItem counter, ChartBloc chartBloc) =>
-      Padding(
+  Widget renderStateLoaded(ChartState state, CounterItem counter, ChartBloc chartBloc) => Padding(
         padding: const EdgeInsets.all(8.0),
         child: TabBarView(
           children: [
@@ -118,13 +121,13 @@ class ChartPage extends StatelessWidget {
 //            values: values,
 //            lineColor: counter.colorValue,
 //          ),
-            BarChart(values, barColor: counter.colorValue),
+            BarChart(state.filtered, barColor: counter.colorValue),
             ListView.builder(
-              itemCount: values.length,
+              itemCount: state.stat.length,
               itemBuilder: (context, index) => StatListTile(
-                entry: values[index],
+                entry: state.stat[index],
                 counter: counter,
-                onValueChanged: (value) => chartBloc.updateValue(values[index], value),
+                onValueChanged: (value) => chartBloc.updateValue(state.stat[index], value),
                 onEditTap: (statEntry) => inputDialog(
                   context,
                   hint: statEntry.valueString,

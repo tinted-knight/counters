@@ -3,11 +3,10 @@ import 'package:counter/model/HistoryModel.dart';
 import 'package:counter/pages/chart/chart_state.dart';
 
 class ChartEvent extends BlocEvent {
-  ChartEvent(this.type, {this.stat, this.updatedItem, this.missingValue, this.filter});
+  ChartEvent(this.type, {this.stat, this.missingValue, this.filter});
 
   final ChartEventType type;
   final List<HistoryModel> stat;
-  final HistoryModel updatedItem;
   final ExistingItem missingValue;
   final String filter;
 
@@ -19,9 +18,9 @@ class ChartEvent extends BlocEvent {
 
   factory ChartEvent.updating() => ChartEvent(ChartEventType.updating);
 
-  factory ChartEvent.updated(HistoryModel item) => ChartEvent(
+  factory ChartEvent.updated(List<HistoryModel> items) => ChartEvent(
         ChartEventType.updated,
-        updatedItem: item,
+        stat: items,
       );
 
   factory ChartEvent.loaded(List<HistoryModel> items) => ChartEvent(
