@@ -9,6 +9,8 @@ abstract class ILocalStorage<CounterItem> {
 
   Future<bool> delete(CounterItem item);
 
+  Future<bool> clearHistoryFor(int id);
+
   Future<bool> insertHistory(int id, int value, int timestamp);
 
   Future<bool> updateExisting(int id, int value);

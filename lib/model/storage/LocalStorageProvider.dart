@@ -48,6 +48,17 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
   }
 
   @override
+  Future<bool> clearHistoryFor(int id) async {
+    final database = await connection();
+    final deleted = await database.delete(
+      tableHistory,
+      where: "$colCounterId = ?",
+      whereArgs: [id],
+    );
+    return deleted > 0;
+  }
+
+  @override
   Future<bool> insertHistory(int id, int value, int timestamp) async {
 //    final ts = DateTime.fromMillisecondsSinceEpoch(timestamp);
 //    final dt = DateTime(ts.year, ts.month, ts.day).millisecondsSinceEpoch;

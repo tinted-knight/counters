@@ -23,9 +23,10 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
 
   void delete(CounterItem item) async {
     fire(DetailsEvent.deleting());
-    // todo fake
-    await Future.delayed(Duration(seconds: 1));
     if (await repo.delete(item)) {
+      await repo.clearHistoryFor(item.id);
+      // !achtung fake delay
+      await Future.delayed(Duration(seconds: 1));
       fire(DetailsEvent.doneEditing());
     }
   }
