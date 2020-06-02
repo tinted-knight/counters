@@ -1,4 +1,5 @@
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
+import 'package:counter/model/datetime.dart';
 import 'package:counter/model/storage/interface.dart';
 import 'package:counter/pages/create/create_controllers_mixin.dart';
 import 'package:counter/pages/create/create_event.dart';
@@ -17,7 +18,7 @@ class CreateBloc extends BlocEventStateBase<CreateEvent, CreateState> with Creat
     }
     fire(CreateEvent.saving(newCounter));
     final newCounterId = await repo.add(newCounter);
-    final history = repo.insertHistory(newCounterId, 0, DateTime.now().millisecondsSinceEpoch);
+    final history = repo.insertHistory(newCounterId, 0, datetime());
     // !achtung fake delay
     final fakeDelay = Future.delayed(Duration(seconds: 1));
     await Future.wait([history, fakeDelay]);
