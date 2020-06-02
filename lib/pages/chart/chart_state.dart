@@ -1,6 +1,5 @@
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:counter/model/HistoryModel.dart';
-import 'package:flutter/material.dart';
 
 class ExistingItem {
   ExistingItem(this.item, this.value);
@@ -9,80 +8,61 @@ class ExistingItem {
   final String value;
 }
 
-class ChartState extends BlocState {
-  ChartState({
-    @required this.isLoading,
-    this.isUpdating = false,
-    this.hasUpdated = false,
-    this.hasLoaded = false,
-    this.isEmpty = false,
-    this.hasCanceled = false,
-    this.itemExists = false,
-    this.missingValue,
-    this.stat,
-    this.filter = "7",
-  });
+enum Filter { none, week }
 
-  final bool isLoading;
-  final bool isUpdating;
-  final bool hasUpdated;
-  final bool hasLoaded;
-  final bool isEmpty;
-  final bool hasCanceled;
-  final bool itemExists;
-  final ExistingItem missingValue;
-  final List<HistoryModel> stat;
-  final String filter;
+class ChartState extends BlocState {
+  ChartState();
+
+  factory ChartState.loading() => ChartStateLoading();
+
+  factory ChartState.empty() => ChartStateEmpty();
+
+  factory ChartState.loaded(List<HistoryModel> items, Filter filter) =>
+      ChartStateLoaded(items, filter);
+
+  factory ChartState.updated(List<HistoryModel> items, Filter filter) =>
+      ChartStateUpdated(items, filter);
+
+  factory ChartState.updating(List<HistoryModel> items, Filter filter) =>
+      ChartStateUpdating(items, filter);
+
+  factory ChartState.itemExists(List<HistoryModel> items, Filter filter, ExistingItem value) =>
+      ChartStateItemExists(items, filter, value);
+}
+
+class ChartStateLoading extends ChartState {}
+
+class ChartStateEmpty extends ChartState {}
+
+class ChartStateLoaded extends ChartState {
+  final List<HistoryModel> values;
+  final Filter filter;
+
+  ChartStateLoaded(this.values, this.filter);
 
   List<HistoryModel> get filtered {
-    if (filter == "7") {
-      return stat.sublist(0, stat.length > 7 ? 7 : stat.length);
+    if (filter == Filter.week) {
+      return values.sublist(0, values.length > 7 ? 7 : values.length);
 //      return stat.where((element) => _isWeekDifference(element.date)).toList();
     }
-    return stat;
+    return values;
   }
-
 //  bool _isWeekDifference(int value) {
 //    return DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(value)).inDays <= 7;
 //  }
+}
 
-  factory ChartState.loading() => ChartState(isLoading: true);
+class ChartStateUpdated extends ChartStateLoaded {
+  ChartStateUpdated(List<HistoryModel> values, Filter filter) : super(values, filter);
+}
 
-  factory ChartState.empty() => ChartState(isLoading: false, isEmpty: true);
+class ChartStateUpdating extends ChartStateLoaded {
+  ChartStateUpdating(List<HistoryModel> values, Filter filter) : super(values, filter);
+}
 
-  factory ChartState.back() => ChartState(isLoading: false, hasCanceled: true);
+class ChartStateItemExists extends ChartStateLoaded {
+  final ExistingItem existingItem;
 
-  factory ChartState.filter(List<HistoryModel> items, String filter) => ChartState(
-        isLoading: false,
-        hasLoaded: true,
-        stat: items,
-        filter: filter,
-      );
-
-  factory ChartState.loaded(List<HistoryModel> items) => ChartState(
-        isLoading: false,
-        hasLoaded: true,
-        stat: items,
-      );
-
-  factory ChartState.updated(List<HistoryModel> items) => ChartState(
-        isLoading: false,
-        hasLoaded: true,
-        hasUpdated: true,
-        stat: items,
-      );
-
-  factory ChartState.updating(List<HistoryModel> items) => ChartState(
-        isLoading: false,
-        isUpdating: true,
-        stat: items,
-      );
-
-  factory ChartState.itemExists(List<HistoryModel> items, ExistingItem value) => ChartState(
-        isLoading: false,
-        hasLoaded: true,
-        stat: items,
-        missingValue: value,
-        itemExists: true,
-      );
+  ChartStateItemExists(List<HistoryModel> values, Filter filter, this.existingItem)
+      : super(values, filter);
 }

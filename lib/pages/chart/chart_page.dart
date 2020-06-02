@@ -39,11 +39,11 @@ class ChartPage extends StatelessWidget {
         body: BlocStreamBuilder<ChartState>(
           bloc: chartBloc,
           oneShotListener: (state) async {
-            if (state.isUpdating) showSavingDialog(context);
+            if (state is ChartStateUpdating) showSavingDialog(context);
 
-            if (state.hasUpdated) navBloc.pop();
+            if (state is ChartStateUpdated) navBloc.pop();
 
-            if (state.itemExists) {
+            if (state is ChartStateItemExists) {
               final confirmed = await yesNoDialog(
                 context,
                 color: counter.colorValue,
@@ -52,16 +52,19 @@ class ChartPage extends StatelessWidget {
                 noText: lz.no,
               );
               if (confirmed) {
-                chartBloc.updateValue(state.missingValue.item, state.missingValue.value);
+                chartBloc.updateValue(
+                  state.asItemExists.existingItem.item,
+                  state.asItemExists.existingItem.value,
+                );
               }
             }
           },
           builder: (context, state) {
-            if (state.isLoading || state.isUpdating) return SizedBox();
+            if (state is ChartStateLoading || state is ChartStateUpdating) return SizedBox();
 
-            if (state.isEmpty) return EmptyChart();
+            if (state is ChartStateEmpty) return EmptyChart(message: lz.emptyChart);
 
-            if (state.hasLoaded) return renderStateLoaded(state, counter, chartBloc);
+            if (state is ChartStateLoaded) return renderStateLoaded(state, counter, chartBloc);
 
             return Center(child: YouShouldNotSeeThis());
           },
@@ -117,13 +120,16 @@ class ChartPage extends StatelessWidget {
 //            values: values,
 //            lineColor: counter.colorValue,
 //          ),
-            BarChart(state.filtered, barColor: counter.colorValue),
+            BarChart(state.asLoaded.filtered, barColor: counter.colorValue),
             ListView.builder(
-              itemCount: state.stat.length,
+              itemCount: state.asLoaded.values.length,
               itemBuilder: (context, index) => StatListTile(
-                entry: state.stat[index],
+                entry: state.asLoaded.values[index],
                 counter: counter,
-                onValueChanged: (value) => chartBloc.updateValue(state.stat[index], value),
+                onValueChanged: (value) => chartBloc.updateValue(
+                  state.asLoaded.values[index],
+                  value,
+                ),
                 onEditTap: (statEntry) => inputDialog(
                   context,
                   hint: statEntry.valueString,
@@ -138,18 +144,19 @@ class ChartPage extends StatelessWidget {
 
 class EmptyChart extends StatelessWidget {
   const EmptyChart({
+    @required this.message,
     Key key,
   }) : super(key: key);
 
+  final String message;
+
   @override
   Widget build(BuildContext context) {
-    final lz = AppLocalization.of(context);
-
     return Center(
       child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Text(
-          lz.emptyChart,
+          message,
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16.0),
         ),

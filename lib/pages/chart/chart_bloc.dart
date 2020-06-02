@@ -18,57 +18,53 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
         yield ChartState.loading();
         break;
       case ChartEventType.loaded:
-        yield ChartState.loaded(event.stat);
+        yield ChartState.loaded(event.values, event.filter);
         break;
       case ChartEventType.empty:
         yield ChartState.empty();
         break;
-      case ChartEventType.back:
-        yield ChartState.back();
-        break;
       case ChartEventType.updating:
-        yield ChartState.updating(currentState.stat);
+        yield ChartState.updating(currentState.asLoaded.values, currentState.asLoaded.filter);
         break;
       case ChartEventType.updated:
-        yield ChartState.updated(event.stat);
+        yield ChartState.updated(event.values, event.filter);
         break;
       case ChartEventType.itemExists:
-        yield ChartState.itemExists(currentState.stat, event.missingValue);
-        break;
-      case ChartEventType.filter:
-        yield ChartState.filter(currentState.stat, event.filter);
+        yield ChartState.itemExists(
+          currentState.asLoaded.values,
+          currentState.asLoaded.filter,
+          event.missingValue,
+        );
         break;
     }
   }
 
   void load(CounterItem counter, {bool force = false}) async {
-    if (!force && lastState != null) {
-      if (lastState.isEmpty) {
-        fire(ChartEvent.empty());
-        return;
-      }
-      if (lastState.hasLoaded) {
-        fire(ChartEvent.loaded(lastState.stat));
-        return;
-      }
+    if (lastState is ChartStateEmpty) {
+      return fire(ChartEvent.empty());
     }
-    final stat = await repo.getHistoryFor(counter: counter);
-    if (stat == null || stat.isEmpty) {
+    if (!force && lastState != null && lastState is ChartStateLoaded) {
+      return fire(ChartEvent.loaded(lastState.asLoaded.values, filter: lastState.asLoaded.filter));
+    }
+    final values = await repo.getHistoryFor(counter: counter);
+    if (values == null || values.isEmpty) {
       fire(ChartEvent.empty());
       return;
     }
-    fire(ChartEvent.loaded(stat));
+    fire(ChartEvent.loaded(values));
   }
 
   void cycleFilter() {
-    // !achtung very bad
-    if (lastState.filter == "7") return fire(ChartEvent.filter(lastState.stat, "none"));
-    return fire(ChartEvent.filter(lastState.stat, "7"));
+    if (lastState is ChartStateEmpty) return;
+    if (lastState is ChartStateLoaded && lastState.asLoaded.filter == Filter.week) {
+      return fire(ChartEvent.loaded(lastState.asLoaded.values, filter: Filter.none));
+    }
+    return fire(ChartEvent.loaded(lastState.asLoaded.values, filter: Filter.week));
   }
 
   void fillMissingItems(CounterItem counter) async {
     fire(ChartEvent.updating());
-    final data = lastState.stat;
+    final data = lastState.asLoaded.values;
     var cursor = DateTime.fromMillisecondsSinceEpoch(data.last.date);
     final today = DateTime.now();
     // !achtung fake delay
@@ -80,7 +76,7 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
       }
     }
     await fake;
-    fire(ChartEvent.updated(lastState.stat));
+    fire(ChartEvent.updated(lastState.asLoaded.values, lastState.asLoaded.filter));
     load(counter);
   }
 
@@ -93,17 +89,17 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
       final fake = Future.delayed(Duration(seconds: 1));
       final updatedItem = item.copyWith(value: intValueOf(value));
       await repo.updateExistingHistoryItem(updatedItem);
-      final updatedList = lastState.stat.map((e) {
+      final updatedList = lastState.asLoaded.values.map((e) {
         if (e.id == updatedItem.id) return updatedItem;
         return e;
       }).toList();
       await fake;
-      fire(ChartEvent.updated(updatedList));
+      fire(ChartEvent.updated(updatedList, lastState.asLoaded.filter));
     }
   }
 
   HistoryModel checkExistence(DateTime dateTime) {
-    return lastState.stat.firstWhere(
+    return lastState.asLoaded.values.firstWhere(
       (el) {
         final elDate = DateTime.fromMillisecondsSinceEpoch(el.date);
         return (elDate.year == dateTime.year &&
@@ -140,8 +136,10 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
     await Future.delayed(Duration(seconds: 1));
     load(item, force: true);
   }
+}
 
-  void backPressed() {
-    fire(ChartEvent.back());
-  }
+extension AsLoaded on ChartState {
+  ChartStateLoaded get asLoaded => this as ChartStateLoaded;
+
+  ChartStateItemExists get asItemExists => this as ChartStateItemExists;
 }

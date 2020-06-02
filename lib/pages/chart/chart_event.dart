@@ -3,34 +3,28 @@ import 'package:counter/model/HistoryModel.dart';
 import 'package:counter/pages/chart/chart_state.dart';
 
 class ChartEvent extends BlocEvent {
-  ChartEvent(this.type, {this.stat, this.missingValue, this.filter});
+  ChartEvent(this.type, {this.values, this.missingValue, this.filter});
 
   final ChartEventType type;
-  final List<HistoryModel> stat;
+  final List<HistoryModel> values;
   final ExistingItem missingValue;
-  final String filter;
+  final Filter filter;
 
   factory ChartEvent.loading() => ChartEvent(ChartEventType.loading);
 
   factory ChartEvent.empty() => ChartEvent(ChartEventType.empty);
 
-  factory ChartEvent.back() => ChartEvent(ChartEventType.back);
-
   factory ChartEvent.updating() => ChartEvent(ChartEventType.updating);
 
-  factory ChartEvent.updated(List<HistoryModel> items) => ChartEvent(
+  factory ChartEvent.updated(List<HistoryModel> items, Filter filter) => ChartEvent(
         ChartEventType.updated,
-        stat: items,
+        values: items,
+        filter: filter,
       );
 
-  factory ChartEvent.loaded(List<HistoryModel> items) => ChartEvent(
+  factory ChartEvent.loaded(List<HistoryModel> items, {Filter filter = Filter.week}) => ChartEvent(
         ChartEventType.loaded,
-        stat: items,
-      );
-
-  factory ChartEvent.filter(List<HistoryModel> items, String filter) => ChartEvent(
-        ChartEventType.filter,
-        stat: items,
+        values: items,
         filter: filter,
       );
 
@@ -44,9 +38,7 @@ enum ChartEventType {
   loading,
   loaded,
   empty,
-  back,
   updating,
   updated,
   itemExists,
-  filter,
 }
