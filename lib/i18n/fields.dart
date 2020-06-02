@@ -1,6 +1,11 @@
 class Fields {
   static const debugError = "debug_error";
 
+  static const preset1Title = "preset_1_title";
+  static const preset2Title = "preset_2_title";
+  static const preset3Title = "preset_3_title";
+  static const preset4Title = "preset_4_title";
+
   static const appTitle = "app_title";
   static const motivational1 = "motivational1";
   static const motivational2 = "motivational2";

@@ -1,5 +1,4 @@
 import 'package:counter/model/HistoryModel.dart';
-import 'package:counter/model/datetime.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -29,7 +28,7 @@ class DbProvider {
       version: 1,
       onCreate: (db, version) async {
         await _createTables(db);
-        await _initCounters(db);
+//        await _initCounters(db);
         await _initHistory(db);
       },
     );
@@ -59,64 +58,65 @@ class DbProvider {
         ")");
   }
 
-  _initCounters(Database db) async {
-    await db.insert(tableCounters, {
-      "title": "Pet the puppy",
-      "value": "0",
-      "goal": "30",
-      "step": "3",
-      "unit": "times",
-      "color_index": "0",
-    });
-    await db.insert(tableCounters, {
-      "title": "Pet the kitty",
-      "value": "0",
-      "goal": "30",
-      "step": "3",
-      "unit": "times",
-      "color_index": "1",
-    });
-    await db.insert(tableCounters, {
-      "title": "Play with parrot",
-      "value": "0",
-      "goal": "3",
-      "step": "1",
-      "unit": "times",
-      "color_index": "2",
-    });
-    await db.insert(tableCounters, {
-      "title": "Add new counter",
-      "value": "0",
-      "goal": "3",
-      "step": "1",
-      "unit": "unit",
-      "color_index": "3",
-    });
-  }
+  // !deprecated
+//  _initCounters(Database db) async {
+//    await db.insert(tableCounters, {
+//      "title": "Pet the puppy",
+//      "value": "0",
+//      "goal": "30",
+//      "step": "3",
+//      "unit": "times",
+//      "color_index": "0",
+//    });
+//    await db.insert(tableCounters, {
+//      "title": "Pet the kitty",
+//      "value": "0",
+//      "goal": "30",
+//      "step": "3",
+//      "unit": "times",
+//      "color_index": "1",
+//    });
+//    await db.insert(tableCounters, {
+//      "title": "Play with parrot",
+//      "value": "0",
+//      "goal": "3",
+//      "step": "1",
+//      "unit": "times",
+//      "color_index": "2",
+//    });
+//    await db.insert(tableCounters, {
+//      "title": "Add new counter",
+//      "value": "0",
+//      "goal": "3",
+//      "step": "1",
+//      "unit": "unit",
+//      "color_index": "3",
+//    });
+//  }
 
   _initHistory(Database db) async {
     await db.insert(tableTime, {"time": DateTime.now().millisecondsSinceEpoch});
 
-    final date = datetime();
-    await db.insert(tableHistory, {
-      "counter_id": 1,
-      "value": 0,
-      "date": date,
-    });
-    await db.insert(tableHistory, {
-      "counter_id": 2,
-      "value": 0,
-      "date": date,
-    });
-    await db.insert(tableHistory, {
-      "counter_id": 3,
-      "value": 0,
-      "date": date,
-    });
-    await db.insert(tableHistory, {
-      "counter_id": 4,
-      "value": 0,
-      "date": date,
-    });
+//    final date = datetime();
+//    await db.insert(tableHistory, {
+//      "counter_id": 1,
+//      "value": 0,
+//      "date": date,
+//    });
+//    await db.insert(tableHistory, {
+//      "counter_id": 2,
+//      "value": 0,
+//      "date": date,
+//    });
+//    await db.insert(tableHistory, {
+//      "counter_id": 3,
+//      "value": 0,
+//      "date": date,
+//    });
+//    await db.insert(tableHistory, {
+//      "counter_id": 4,
+//      "value": 0,
+//      "date": date,
+//    });
   }
 }

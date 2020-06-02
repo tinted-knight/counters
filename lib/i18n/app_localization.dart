@@ -21,6 +21,16 @@ class AppLocalization {
 
   String get debugError => _localizedValues[locale.languageCode][Fields.debugError];
 
+  String get preset1Title => _localizedValues[locale.languageCode][Fields.preset1Title];
+
+  String get preset2Title => _localizedValues[locale.languageCode][Fields.preset2Title];
+
+  String get preset3Title => _localizedValues[locale.languageCode][Fields.preset3Title];
+
+  String get preset4Title => _localizedValues[locale.languageCode][Fields.preset4Title];
+
+  //=====================================
+
   String get appTitle => _localizedValues[locale.languageCode][Fields.appTitle];
 
   String get motivational1 => _localizedValues[locale.languageCode][Fields.motivational1];

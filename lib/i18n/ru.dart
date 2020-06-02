@@ -19,8 +19,7 @@ const Map<String, String> ru = {
   Fields.pickColor: 'Выбери цвет',
   Fields.today: 'Сегодня',
   Fields.ofGoal: 'от цели',
-  Fields.confirmationItemAlreadyExists:
-      "Такая запись уже есть. Обновить её значение?",
+  Fields.confirmationItemAlreadyExists: "Такая запись уже есть. Обновить её значение?",
   Fields.emptyChart: "Похоже, что история этого счётчика пока пуста."
       " Постарайся увеличивать его значение в течение нескольких дней.\n\nИли нет.\n\nРасслабься.\n\nВдох-выдох.",
   Fields.chart: "График",
@@ -36,4 +35,8 @@ const Map<String, String> ru = {
   Fields.days7: "Последние 7 дней",
   Fields.chooseDate: "Выбрать начальную дату",
   Fields.fillAllMissing: "Заполнить пустые даты",
+  Fields.preset1Title: "Погулять с щеночком",
+  Fields.preset2Title: "Погладить кисю",
+  Fields.preset3Title: "Покормить с попугаем",
+  Fields.preset4Title: "Новый счётчик",
 };

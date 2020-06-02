@@ -22,21 +22,21 @@ import 'pages/main/counters_page.dart';
 void main() => runApp(CountersApp());
 
 class CountersApp extends StatelessWidget {
-  final storage = SQLiteStorageProvider();
+  final repository = SQLiteStorageProvider();
 
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     final navBloc = NavigatorBloc(navigatorKey: _navigatorKey);
-    final appBloc = AppBloc();
+    final appBloc = AppBloc()..loadPrefs();
 
     return BlocProvider(
       blocBuilder: () => appBloc,
       child: BlocProvider(
         blocBuilder: () => navBloc,
         child: BlocProvider(
-          blocBuilder: () => CountersBloc(repo: storage),
+          blocBuilder: () => CountersBloc(repo: repository),
           child: MaterialApp(
             onGenerateTitle: (context) => AppLocalization.of(context).appTitle,
             localizationsDelegates: [
@@ -52,27 +52,26 @@ class CountersApp extends StatelessWidget {
             theme: themeLight,
             initialRoute: CountersPage.route,
             routes: {
-              CountersPage.route: (context) => BlocStreamBuilder<AppState>(
-                    bloc: appBloc,
-                    builder: (ctx, state) {
-                      if (state.isLoading) return SplashPage();
+              CountersPage.route: (context) {
+                return BlocStreamBuilder<AppState>(
+                  bloc: appBloc,
+                  builder: (ctx, state) {
+                    if (state is AppStateLoading) return SplashPage();
 
-                      return CountersPage(
-                        title: "Try to keep up the rythm always",
-                        isSwipeable: state.isSwipeable,
-                      );
-                    },
-                  ),
+                    return CountersPage();
+                  },
+                );
+              },
               DetailsPage.route: (context) => BlocProvider<DetailsBloc>(
-                    blocBuilder: () => DetailsBloc(repo: storage),
+                    blocBuilder: () => DetailsBloc(repo: repository),
                     child: DetailsPage(),
                   ),
               CreatePage.route: (context) => BlocProvider<CreateBloc>(
-                    blocBuilder: () => CreateBloc(storage),
+                    blocBuilder: () => CreateBloc(repository),
                     child: CreatePage(),
                   ),
               ChartPage.route: (context) => BlocProvider<ChartBloc>(
-                    blocBuilder: () => ChartBloc(storage),
+                    blocBuilder: () => ChartBloc(repository),
                     child: ChartPage(),
                   ),
             },

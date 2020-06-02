@@ -8,14 +8,12 @@ import 'counters_event.dart';
 import 'counters_state.dart';
 
 class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
-  CountersBloc({@required this.repo}) : super(initialState: CounterState.loading()) {
-    _loadCounters();
-  }
+  CountersBloc({@required this.repo}) : super(initialState: CounterState.loading());
 
   final ILocalStorage repo;
   List<CounterItem> _counters;
 
-  void reload() => _loadCounters();
+  void reload() => loadCounters();
 
   void singleUpdated(CounterItem item) {
     final index = _counters.indexWhere((element) => element.id == item.id);
@@ -29,9 +27,13 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
 
   @override
   Stream<CounterState> eventHandler(CountersEvent event, CounterState currentState) async* {
+    print('CountersBloc.eventHandler: ${event.type}');
     switch (event.type) {
-      case CountersEventType.start:
+      case CountersEventType.loading:
         yield CounterState.loading();
+        break;
+      case CountersEventType.empty:
+        yield CounterState.empty();
         break;
       case CountersEventType.loaded:
         _counters = event.counters;
@@ -56,19 +58,17 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
     if (updated != null) singleUpdated(updated);
   }
 
-  void _loadCounters() async {
-    fire(CountersEvent.start());
-    // todo fake
-//    await Future.delayed(Duration(seconds: 1));
+  void loadCounters() async {
+    fire(CountersEvent.loading());
 
     final values = await repo.getAll();
     if (values != null && values.isNotEmpty) {
       if (await _needResetCounters()) {
         await _resetCounters(values);
-//        await _updateTime();
-//        fire(CountersEvent.loaded(values));
       }
       fire(CountersEvent.loaded(values));
+    } else {
+      fire(CountersEvent.empty());
     }
   }
 

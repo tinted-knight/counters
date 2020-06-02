@@ -6,22 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppBloc extends BlocEventStateBase<AppEvent, AppState> {
   SharedPreferences sp;
 
-  AppBloc() : super(initialState: AppState.loading()) {
-    _loadPrefs();
-  }
+  AppBloc() : super(initialState: AppState.loading());
 
-  void switchSwipeable() async {
-    print('appBloc::switchSwipeable, ${lastState.isSwipeable}');
-    final value = !lastState.isSwipeable;
-    fire(AppEvent.loading());
-    await sp.setBool("is_swipeable", value);
-    fire(AppEvent.loaded(value));
-  }
-
-  void _loadPrefs() async {
-    sp = await SharedPreferences.getInstance();
-    final bool isSwipeable = sp.get("is_swipeable") ?? false;
-    fire(AppEvent.loaded(isSwipeable));
+  void loadPrefs() async {
+    fire(AppEvent.loaded());
   }
 
   @override
@@ -31,8 +19,7 @@ class AppBloc extends BlocEventStateBase<AppEvent, AppState> {
         yield AppState.loading();
         break;
       case AppEventType.loaded:
-        print('event::loaded, ${event.isSwipeable}');
-        yield AppState.loaded(event.isSwipeable);
+        yield AppState.loaded();
         break;
     }
   }

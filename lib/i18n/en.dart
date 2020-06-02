@@ -39,4 +39,8 @@ const Map<String, String> en = {
   Fields.days7: "Last 7 days",
   Fields.chooseDate: "Choose starting date",
   Fields.fillAllMissing: "Fill all missing dates",
+  Fields.preset1Title: "Pet the puppy",
+  Fields.preset2Title: "Pet the kitty",
+  Fields.preset3Title: "Play with parrot",
+  Fields.preset4Title: "Add new counter",
 };

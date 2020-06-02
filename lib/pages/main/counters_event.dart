@@ -8,7 +8,9 @@ class CountersEvent extends BlocEvent {
   final List<CounterItem> counters;
   final int index;
 
-  factory CountersEvent.start() => CountersEvent(CountersEventType.start);
+  factory CountersEvent.loading() => CountersEvent(CountersEventType.loading);
+
+  factory CountersEvent.empty() => CountersEvent(CountersEventType.empty);
 
   factory CountersEvent.loaded(List<CounterItem> items) => CountersEvent(
         CountersEventType.loaded,
@@ -26,4 +28,4 @@ class CountersEvent extends BlocEvent {
       );
 }
 
-enum CountersEventType { start, loaded, stepUp, stepDown }
+enum CountersEventType { loading, loaded, empty, stepUp, stepDown }
