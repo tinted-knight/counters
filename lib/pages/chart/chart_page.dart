@@ -39,8 +39,6 @@ class ChartPage extends StatelessWidget {
         body: BlocStreamBuilder<ChartState>(
           bloc: chartBloc,
           oneShotListener: (state) async {
-            if (state.hasCanceled) navBloc.pop();
-
             if (state.isUpdating) showSavingDialog(context);
 
             if (state.hasUpdated) navBloc.pop();
@@ -59,8 +57,6 @@ class ChartPage extends StatelessWidget {
             }
           },
           builder: (context, state) {
-            if (state.hasCanceled) return Container();
-
             if (state.isLoading || state.isUpdating) return SizedBox();
 
             if (state.isEmpty) return EmptyChart();
@@ -71,7 +67,7 @@ class ChartPage extends StatelessWidget {
           },
         ),
         bottomNavigationBar: ChartBottomAppBar(
-          onBackPressed: chartBloc.backPressed,
+          onBackPressed: navBloc.pop,
           onAddPressed: () => showMissingDatePicker(context, counter, chartBloc.addMissingValue),
           onClearPressed: () async {
             await chartBloc.clearHistory(counter);
