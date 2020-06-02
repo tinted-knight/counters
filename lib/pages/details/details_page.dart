@@ -65,7 +65,7 @@ class DetailsPage extends StatelessWidget {
                 onPressed: () => detailsBloc.backPressed(),
               ),
               IconButton(
-                icon: Icon(Icons.show_chart),
+                icon: Icon(Icons.insert_chart),
                 tooltip: lz.stat,
                 onPressed: () => navBloc.statOf(counter),
               ),
