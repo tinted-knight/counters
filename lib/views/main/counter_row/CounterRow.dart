@@ -1,15 +1,10 @@
 import 'package:counter/model/CounterModel.dart';
-import 'package:counter/theme/dark_theme.dart';
+import 'package:counter/theme/neumorphicDecoration.dart';
 import 'package:flutter/material.dart';
 
 import 'CounterIcon.dart';
 import 'CounterTitle.dart';
 import 'CounterValue.dart';
-
-const _kOffset = 3.0;
-const _kBlur = 3.0;
-const _kShadowLight = Color(0xAAFFFFFF);
-const _kShadowDark = Color(0xAAD1CDC7);
 
 class CounterRow extends StatelessWidget {
   const CounterRow(
@@ -23,7 +18,7 @@ class CounterRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      decoration: _neumorphicDecoration,
+      decoration: neuOuterDecoration,
       child: rowContent,
     );
   }
@@ -40,39 +35,5 @@ class CounterRow extends StatelessWidget {
           ),
           CounterValue(item),
         ],
-      );
-
-  BoxDecoration get _neumorphicDecoration => BoxDecoration(
-        color: ThemeLight.scaffoldBgColor,
-        boxShadow: [
-          // kind of neumorphism
-          // top shadow - light
-          BoxShadow(
-            color: _kShadowLight,
-            offset: Offset(-_kOffset, -_kOffset),
-            blurRadius: _kBlur,
-          ),
-          // botttom shadow - dark
-          BoxShadow(
-            color: _kShadowDark,
-            offset: Offset(_kOffset, _kOffset),
-            blurRadius: _kBlur,
-          ),
-        ],
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-      );
-
-  // !galileo
-  BoxDecoration get _neumorphicInnerDecoration => BoxDecoration(
-        color: Colors.black.withOpacity(0.075),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.white,
-            offset: Offset(_kOffset, _kOffset),
-            blurRadius: _kBlur,
-            spreadRadius: -_kBlur,
-          ),
-        ],
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
       );
 }

@@ -1,4 +1,3 @@
-import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:flutter/material.dart';
 
