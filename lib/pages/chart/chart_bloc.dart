@@ -51,15 +51,24 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
       fire(ChartEvent.empty());
       return;
     }
-    fire(ChartEvent.loaded(values));
+    fire(ChartEvent.loaded(values, filter: FilterWeek()));
   }
 
   void cycleFilter() {
     if (lastState is ChartStateEmpty) return;
-    if (lastState is ChartStateLoaded && lastState.asLoaded.filter == Filter.week) {
-      return fire(ChartEvent.loaded(lastState.asLoaded.values, filter: Filter.none));
+    if (lastState is ChartStateLoaded && lastState.asLoaded.filter is FilterWeek) {
+      return fire(ChartEvent.loaded(lastState.asLoaded.values, filter: FilterNone()));
     }
-    return fire(ChartEvent.loaded(lastState.asLoaded.values, filter: Filter.week));
+    return fire(ChartEvent.loaded(lastState.asLoaded.values, filter: FilterWeek()));
+  }
+
+  void setStartDate(DateTime datetime) {
+    if (datetime == null) return;
+
+    return fire(ChartEvent.loaded(
+      lastState.asLoaded.values,
+      filter: FilterSpecific(datetime.millisecondsSinceEpoch),
+    ));
   }
 
   void fillMissingItems(CounterItem counter) async {

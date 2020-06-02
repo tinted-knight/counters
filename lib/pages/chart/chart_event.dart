@@ -22,7 +22,8 @@ class ChartEvent extends BlocEvent {
         filter: filter,
       );
 
-  factory ChartEvent.loaded(List<HistoryModel> items, {Filter filter = Filter.week}) => ChartEvent(
+  factory ChartEvent.loaded(List<HistoryModel> items, {Filter filter}) =>
+      ChartEvent(
         ChartEventType.loaded,
         values: items,
         filter: filter,

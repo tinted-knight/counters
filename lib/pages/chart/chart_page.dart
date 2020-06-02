@@ -71,12 +71,21 @@ class ChartPage extends StatelessWidget {
         ),
         bottomNavigationBar: ChartBottomAppBar(
           onBackPressed: navBloc.pop,
-          onAddPressed: () => showMissingDatePicker(context, counter, chartBloc.addMissingValue),
+          onAddPressed: () => showChartDatePicker(context, counter, chartBloc.addMissingValue),
           onClearPressed: () async {
             await chartBloc.clearHistory(counter);
             countersBloc.reload();
           },
           onFilterPressed: chartBloc.cycleFilter,
+          onCalendarPressed: () async {
+            final datetime = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(1917),
+              lastDate: DateTime(2042),
+            );
+            chartBloc.setStartDate(datetime);
+          },
           onMissingPressed: () => chartBloc.fillMissingItems(counter),
         ),
       ),

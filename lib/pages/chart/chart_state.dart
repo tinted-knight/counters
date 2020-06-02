@@ -1,5 +1,6 @@
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:counter/model/HistoryModel.dart';
+import 'package:counter/model/datetime.dart' as dt;
 
 class ExistingItem {
   ExistingItem(this.item, this.value);
@@ -8,7 +9,25 @@ class ExistingItem {
   final String value;
 }
 
-enum Filter { none, week }
+class Filter {
+  const Filter();
+
+  FilterSpecific get asSpecific => this as FilterSpecific;
+}
+
+class FilterNone extends Filter {}
+
+class FilterWeek extends Filter {
+  const FilterWeek();
+}
+
+class FilterSpecific extends Filter {
+  final int datetime;
+
+  FilterSpecific(this.datetime);
+
+  DateTime get short => DateTime.fromMillisecondsSinceEpoch(dt.datetime(from: this.datetime));
+}
 
 class ChartState extends BlocState {
   ChartState();
@@ -41,15 +60,21 @@ class ChartStateLoaded extends ChartState {
   ChartStateLoaded(this.values, this.filter);
 
   List<HistoryModel> get filtered {
-    if (filter == Filter.week) {
+    if (filter is FilterWeek) {
       return values.sublist(0, values.length > 7 ? 7 : values.length);
-//      return stat.where((element) => _isWeekDifference(element.date)).toList();
+    }
+
+    if (filter is FilterSpecific) {
+      final index = values.indexWhere((element) {
+        return filter.asSpecific.short.difference(element.datetime).inDays >= 0;
+      });
+      print('index: $index, length: ${values.length}');
+      if (index != -1) {
+        return values.sublist(index, values.length - index > 7 ? index + 7 : values.length);
+      }
     }
     return values;
   }
-//  bool _isWeekDifference(int value) {
-//    return DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(value)).inDays <= 7;
-//  }
 }
 
 class ChartStateUpdated extends ChartStateLoaded {

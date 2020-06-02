@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'input_dialog.dart';
 
-showMissingDatePicker(
+showChartDatePicker(
   BuildContext context,
   CounterItem counter,
   Function(CounterItem, String, DateTime) onDatePicked,

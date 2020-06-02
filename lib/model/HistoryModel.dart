@@ -33,8 +33,10 @@ extension DateString on HistoryModel {
       );
 
   String get dateForChart => DateFormat("dd MMM").format(
-    DateTime.fromMillisecondsSinceEpoch(date),
-  );
+        DateTime.fromMillisecondsSinceEpoch(date),
+      );
+
+  DateTime get datetime => DateTime.fromMillisecondsSinceEpoch(date);
 
   String get valueString => value.toString();
 }
