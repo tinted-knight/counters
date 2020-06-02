@@ -37,4 +37,6 @@ const Map<String, String> en = {
   Fields.no: "No",
   Fields.confirmationSaveChanges: "Save changes?",
   Fields.days7: "Last 7 days",
+  Fields.chooseDate: "Choose starting date",
+  Fields.fillAllMissing: "Fill all missing dates",
 };

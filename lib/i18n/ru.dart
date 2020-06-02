@@ -34,4 +34,6 @@ const Map<String, String> ru = {
   Fields.no: "Нет",
   Fields.confirmationSaveChanges: "Сохранить изменения?",
   Fields.days7: "Последние 7 дней",
+  Fields.chooseDate: "Выбрать начальную дату",
+  Fields.fillAllMissing: "Заполнить пустые даты",
 };

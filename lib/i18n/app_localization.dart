@@ -87,6 +87,10 @@ class AppLocalization {
   String get saveChanges => _localizedValues[locale.languageCode][Fields.confirmationSaveChanges];
 
   String get days7 => _localizedValues[locale.languageCode][Fields.days7];
+
+  String get chooseDate => _localizedValues[locale.languageCode][Fields.chooseDate];
+
+  String get fillAllMissing => _localizedValues[locale.languageCode][Fields.fillAllMissing];
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalization> {

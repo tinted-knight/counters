@@ -43,13 +43,13 @@ class ChartBottomAppBar extends StatelessWidget {
             onPressed: onFilterPressed,
           ),
           IconButton(
-            icon: Icon(Icons.calendar_today, semanticLabel: lz.days7),
-            tooltip: lz.days7,
+            icon: Icon(Icons.calendar_today, semanticLabel: lz.chooseDate),
+            tooltip: lz.chooseDate,
             onPressed: onCalendarPressed,
           ),
           IconButton(
-            icon: Icon(Icons.exposure_zero, semanticLabel: lz.days7),
-            tooltip: lz.days7,
+            icon: Icon(Icons.playlist_add, semanticLabel: lz.fillAllMissing),
+            tooltip: lz.fillAllMissing,
             onPressed: onMissingPressed,
           ),
           IconButton(

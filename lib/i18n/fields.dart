@@ -34,4 +34,6 @@ class Fields {
   static const yes = "yes";
   static const no = "no";
   static const days7 = "days_7";
+  static const chooseDate = "choose_date";
+  static const fillAllMissing = "fill_all_missing";
 }
