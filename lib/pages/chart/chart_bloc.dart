@@ -13,6 +13,7 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
 
   @override
   Stream<ChartState> eventHandler(ChartEvent event, ChartState currentState) async* {
+    print('ChartBloc.eventHandler, ${event.type}');
     switch (event.type) {
       case ChartEventType.loading:
         yield ChartState.loading();
@@ -136,13 +137,14 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
 
   int intValueOf(String s) => int.tryParse(s) ?? -1;
 
-  clearHistory(CounterItem item) async {
+  void clearHistory(CounterItem item) async {
     fire(ChartEvent.updating());
     await repo.clearHistoryFor(item.id);
     await repo.insertHistory(item.id, 0, datetime());
     await repo.update(item.copyWith(value: 0));
     // !achtung fake delay
     await Future.delayed(Duration(seconds: 1));
+    fire(ChartEvent.updated(lastState.asLoaded.values, lastState.asLoaded.filter));
     load(item, force: true);
   }
 }
