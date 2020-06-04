@@ -7,8 +7,6 @@ class CreateEvent extends BlocEvent {
 
   CreateEvent(this.type, {this.counterWithErrors});
 
-  factory CreateEvent.idle() => CreateEvent(CreateEventType.idle);
-
   factory CreateEvent.saving(CounterItem item) => CreateEvent(CreateEventType.saving);
 
   factory CreateEvent.saved() => CreateEvent(CreateEventType.saved);
@@ -20,7 +18,6 @@ class CreateEvent extends BlocEvent {
 }
 
 enum CreateEventType {
-  idle,
   saving,
   saved,
   validationError,

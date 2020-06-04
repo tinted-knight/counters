@@ -28,9 +28,6 @@ class CreateBloc extends BlocEventStateBase<CreateEvent, CreateState> with Creat
   @override
   Stream<CreateState> eventHandler(CreateEvent event, CreateState currentState) async* {
     switch (event.type) {
-      case CreateEventType.idle:
-        yield CreateState.idle();
-        break;
       case CreateEventType.saving:
         yield CreateState.saving();
         break;

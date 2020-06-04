@@ -59,10 +59,10 @@ class CreatePage extends StatelessWidget {
         oneShotListener: (state) {
           if (state is CreateStateSaved) {
             countersBloc.reload();
-            navBloc.home();
+            return navBloc.home();
           }
           if (state is CreateStateSaving) {
-            showSavingDialog(context);
+            return showSavingDialog(context);
           }
         },
         builder: (ctx, state) {

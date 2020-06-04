@@ -7,7 +7,8 @@ import 'expanded_widgets.dart';
 enum ValueType { str, int, color }
 
 class PropertyRow extends StatelessWidget {
-  const PropertyRow(this.label, {
+  const PropertyRow(
+    this.label, {
     this.type,
     this.onlyDigits = false,
     this.hasError = false,
@@ -19,37 +20,37 @@ class PropertyRow extends StatelessWidget {
 
   const PropertyRow.title({String label, TextEditingController controller})
       : this(
-    label,
-    type: ValueType.str,
-    textCapitalization: TextCapitalization.words,
-    controller: controller,
-    autoFocus: true,
-  );
+          label,
+          type: ValueType.str,
+          textCapitalization: TextCapitalization.words,
+          controller: controller,
+          autoFocus: true,
+        );
 
   const PropertyRow.step({String label, TextEditingController controller, bool hasError})
       : this(
-    label,
-    type: ValueType.int,
-    controller: controller,
-    onlyDigits: true,
-    hasError: hasError,
-  );
+          label,
+          type: ValueType.int,
+          controller: controller,
+          onlyDigits: true,
+          hasError: hasError,
+        );
 
   const PropertyRow.goal({String label, TextEditingController controller, bool hasError})
       : this(
-    label,
-    type: ValueType.int,
-    controller: controller,
-    onlyDigits: true,
-    hasError: hasError,
-  );
+          label,
+          type: ValueType.int,
+          controller: controller,
+          onlyDigits: true,
+          hasError: hasError,
+        );
 
   const PropertyRow.unit({String label, TextEditingController controller})
       : this(
-    label,
-    type: ValueType.str,
-    controller: controller,
-  );
+          label,
+          type: ValueType.str,
+          controller: controller,
+        );
 
   final String label;
   final ValueType type;
@@ -67,7 +68,7 @@ class PropertyRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          ExpandedLeft(child: TextLabel(label)),
+          ExpandedLeft(child: TextLabel(label, hasError: hasError)),
           ExpandedRight(
             child: ColoredTextField(
               controller: controller,
