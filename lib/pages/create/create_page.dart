@@ -112,7 +112,7 @@ class CreatePage extends StatelessWidget {
                       ),
                       ColorPicker(
                         onColorPicked: (color) => createBloc.setColor(color),
-                        selected: ColorPalette.blue,
+                        selected: ColorPalette.defaultColor,
                       ),
                     ],
                   ),

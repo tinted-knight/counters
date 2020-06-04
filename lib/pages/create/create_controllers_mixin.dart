@@ -8,7 +8,7 @@ mixin CreateControllersMixin {
   final unitCtrl = TextEditingController();
   final titleCtrl = TextEditingController();
 
-  int color = ColorPalette.green;
+  int color = ColorPalette.defaultColor;
 
   void setColor(int newColor) {
     color = newColor;
