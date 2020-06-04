@@ -1,19 +1,17 @@
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
-import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/model/CounterModel.dart';
-import 'package:counter/theme/dark_theme.dart';
+import 'package:counter/theme/light_theme.dart';
 import 'package:counter/views/main/ColoredSwipeable.dart';
 import 'package:counter/views/main/counter_row/CounterRow.dart';
 import 'package:counter/views/main/counter_row/non_swipeable/counter_row_non_swipeable.dart';
-import 'package:counter/widgets/debug_error_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
+import 'counter_list.dart';
 import 'counters_bloc.dart';
-import 'counters_state.dart';
 
 class CountersPage extends StatefulWidget {
   const CountersPage({Key key}) : super(key: key);
@@ -67,7 +65,7 @@ class _CountersPageState extends State<CountersPage> {
     countersBloc.loadCounters();
 
     return Scaffold(
-      body: withSliverAppBar(navBloc, countersBloc),
+      body: withSliverAppBar(),
       floatingActionButton: _isVisible
           ? FloatingActionButton(
               onPressed: () => navBloc.create(),
@@ -80,7 +78,7 @@ class _CountersPageState extends State<CountersPage> {
     );
   }
 
-  NestedScrollView withSliverAppBar(NavigatorBloc navBloc, CountersBloc countersBloc) {
+  NestedScrollView withSliverAppBar() {
     final lz = AppLocalization.of(context);
 
     return NestedScrollView(
@@ -122,50 +120,7 @@ class _CountersPageState extends State<CountersPage> {
           ),
         ];
       },
-      body: counters(countersBloc, navBloc),
-    );
-  }
-
-  Column counters(CountersBloc countersBloc, NavigatorBloc navBloc) {
-    return Column(
-      children: <Widget>[
-        Expanded(
-          child: BlocStreamBuilder<CounterState>(
-            bloc: countersBloc,
-            builder: (context, state) {
-              if (state is CounterStateLoading) return Center(child: CircularProgressIndicator());
-
-              if (state is CounterStateFailed) return YouShouldNotSeeThis();
-
-              if (state is CounterStateEmpty)
-                return Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Center(
-                    child: Image.asset(
-                      "assets/images/parrots01.png",
-                      isAntiAlias: true,
-                      color: ThemeLight.scaffoldBgColor.withOpacity(0.25),
-                      colorBlendMode: BlendMode.lighten,
-                    ),
-                  ),
-                );
-
-              if (state is CounterStateLoaded) {
-                return ListView.builder(
-                  itemCount: state.counters.length,
-                  itemBuilder: (context, index) => CounterRowNonSwipeable(
-                    state.counters[index],
-                    onTap: () => navBloc.detailsOf(state.counters[index]),
-                    onIncrement: () => countersBloc.stepUp(index),
-                    onDecrement: () => countersBloc.stepDown(index),
-                  ),
-                );
-              }
-              return YouShouldNotSeeThis();
-            },
-          ),
-        ),
-      ],
+      body: CounterList(),
     );
   }
 

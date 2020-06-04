@@ -12,7 +12,7 @@ import 'package:counter/pages/details/details_page.dart';
 import 'package:counter/pages/details/single_bloc.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/pages/splash/splash_page.dart';
-import 'package:counter/theme/dark_theme.dart';
+import 'package:counter/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 

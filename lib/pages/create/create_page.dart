@@ -5,7 +5,7 @@ import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/model/ColorPalette.dart';
 import 'package:counter/pages/create/create_state.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
-import 'package:counter/theme/dark_theme.dart';
+import 'package:counter/theme/light_theme.dart';
 import 'package:counter/views/common/PropertyRow.dart';
 import 'package:counter/widgets/color_picker/ColorPicker.dart';
 import 'package:counter/widgets/debug_error_message.dart';

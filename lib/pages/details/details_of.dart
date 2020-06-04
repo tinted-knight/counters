@@ -3,7 +3,7 @@ import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
-import 'package:counter/theme/dark_theme.dart';
+import 'package:counter/theme/light_theme.dart';
 import 'package:counter/views/details/rows/GoalRow.dart';
 import 'package:counter/views/details/rows/StepRow.dart';
 import 'package:counter/views/details/rows/UnitRow.dart';
