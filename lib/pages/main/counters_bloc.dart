@@ -27,7 +27,6 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
 
   @override
   Stream<CounterState> eventHandler(CountersEvent event, CounterState currentState) async* {
-    print('CountersBloc.eventHandler: ${event.type}');
     switch (event.type) {
       case CountersEventType.loading:
         yield CounterState.loading();

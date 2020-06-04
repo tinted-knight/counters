@@ -137,7 +137,18 @@ class _CountersPageState extends State<CountersPage> {
 
               if (state is CounterStateFailed) return YouShouldNotSeeThis();
 
-              if (state is CounterStateEmpty) return Center(child: Text("empty"));
+              if (state is CounterStateEmpty)
+                return Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Center(
+                    child: Image.asset(
+                      "assets/images/parrots01.png",
+                      isAntiAlias: true,
+                      color: ThemeLight.scaffoldBgColor.withOpacity(0.25),
+                      colorBlendMode: BlendMode.lighten,
+                    ),
+                  ),
+                );
 
               if (state is CounterStateLoaded) {
                 return ListView.builder(

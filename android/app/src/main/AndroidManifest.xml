@@ -9,7 +9,7 @@
     
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="counter"
+        android:label="@string/counter"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

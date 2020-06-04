@@ -4,7 +4,7 @@ const Map<String, String> ru = {
   Fields.debugError: 'Вы не должны это видеть :)',
   Fields.appTitle: 'Счётчики',
   Fields.motivational1: 'Старайся поддеживать ритм',
-  Fields.motivational2: "Или нет. Не парься - расслабься",
+  Fields.motivational2: "Или нет. Работа - не волк.",
   Fields.createCounter: "Создать счётчик",
   Fields.counterTitle: 'Имя',
   Fields.counterGoal: 'Ежедневная цель',

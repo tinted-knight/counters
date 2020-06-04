@@ -3,6 +3,8 @@ import 'package:counter/bloc/app_state.dart';
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Will be used later for light / dark theme swithcing
+/// and other global app-level settings
 class AppBloc extends BlocEventStateBase<AppEvent, AppState> {
   SharedPreferences sp;
 
