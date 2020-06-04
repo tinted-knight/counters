@@ -7,11 +7,11 @@ import 'expanded_widgets.dart';
 enum ValueType { str, int, color }
 
 class PropertyRow extends StatelessWidget {
-  const PropertyRow(
-    this.label, {
+  const PropertyRow(this.label, {
     this.type,
     this.onlyDigits = false,
     this.hasError = false,
+    this.textCapitalization = TextCapitalization.none,
     @required this.controller,
     this.autoFocus = false,
     Key key,
@@ -19,40 +19,42 @@ class PropertyRow extends StatelessWidget {
 
   const PropertyRow.title({String label, TextEditingController controller})
       : this(
-          label,
-          type: ValueType.str,
-          controller: controller,
-          autoFocus: true,
-        );
+    label,
+    type: ValueType.str,
+    textCapitalization: TextCapitalization.words,
+    controller: controller,
+    autoFocus: true,
+  );
 
   const PropertyRow.step({String label, TextEditingController controller, bool hasError})
       : this(
-          label,
-          type: ValueType.int,
-          controller: controller,
-          onlyDigits: true,
-          hasError: hasError,
-        );
+    label,
+    type: ValueType.int,
+    controller: controller,
+    onlyDigits: true,
+    hasError: hasError,
+  );
 
   const PropertyRow.goal({String label, TextEditingController controller, bool hasError})
       : this(
-          label,
-          type: ValueType.int,
-          controller: controller,
-          onlyDigits: true,
-          hasError: hasError,
-        );
+    label,
+    type: ValueType.int,
+    controller: controller,
+    onlyDigits: true,
+    hasError: hasError,
+  );
 
   const PropertyRow.unit({String label, TextEditingController controller})
       : this(
-          label,
-          type: ValueType.str,
-          controller: controller,
-        );
+    label,
+    type: ValueType.str,
+    controller: controller,
+  );
 
   final String label;
   final ValueType type;
   final bool onlyDigits;
+  final TextCapitalization textCapitalization;
   final bool hasError;
   final TextEditingController controller;
   final bool autoFocus;
@@ -70,6 +72,7 @@ class PropertyRow extends StatelessWidget {
             child: ColoredTextField(
               controller: controller,
               onlyDigits: onlyDigits,
+              textCapitalization: textCapitalization,
               textColor: hasError ? Colors.red : null,
               autoFocus: autoFocus,
             ),

@@ -14,6 +14,7 @@ class ColoredTextField extends StatelessWidget {
     this.onlyDigits = false,
     @required this.controller,
     this.textAlign,
+    this.textCapitalization = TextCapitalization.none,
     this.autoFocus = false,
   }) : super(key: key);
 
@@ -21,6 +22,7 @@ class ColoredTextField extends StatelessWidget {
   final Color decorationColor;
   final Color textColor;
   final bool onlyDigits;
+  final TextCapitalization textCapitalization;
   final TextAlign textAlign;
   final bool autoFocus;
 
@@ -32,6 +34,7 @@ class ColoredTextField extends StatelessWidget {
       decoration: neuInnerDecoration,
       child: TextField(
         autofocus: autoFocus,
+        textCapitalization: textCapitalization,
         keyboardType: onlyDigits ? TextInputType.number : TextInputType.text,
         controller: controller,
         style: TextStyle(color: textColor ?? _textColorDefault),
