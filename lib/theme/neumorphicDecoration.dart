@@ -7,6 +7,9 @@ const _blur = 1.5;
 const _shadowLight = Color(0xffFFFFFF);
 const _shadowDark = Color(0xffD1CDC7);
 
+const _shadowLightRed = Color(0xffffCDC7);
+const _shadowDarkRed = Color(0xffff0000);
+
 const neuOuterDecoration = BoxDecoration(
   color: ThemeLight.scaffoldBgColor,
   boxShadow: [
@@ -20,6 +23,23 @@ const neuOuterDecoration = BoxDecoration(
     // botttom shadow - dark
     BoxShadow(
       color: _shadowDark,
+      offset: Offset(_offset, _offset),
+      blurRadius: _blur,
+    ),
+  ],
+  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+);
+
+const neuOuterDecorationError = BoxDecoration(
+  color: ThemeLight.scaffoldBgColor,
+  boxShadow: [
+    BoxShadow(
+      color: _shadowLightRed,
+      offset: Offset(-_offset, -_offset),
+      blurRadius: _blur,
+    ),
+    BoxShadow(
+      color: _shadowDarkRed,
       offset: Offset(_offset, _offset),
       blurRadius: _blur,
     ),

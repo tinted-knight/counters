@@ -74,7 +74,6 @@ class PropertyRow extends StatelessWidget {
               controller: controller,
               onlyDigits: onlyDigits,
               textCapitalization: textCapitalization,
-              textColor: hasError ? Colors.red : null,
               autoFocus: autoFocus,
             ),
           ),

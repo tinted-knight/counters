@@ -16,25 +16,7 @@ class TextLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: !hasError
-          ? neuOuterDecoration
-          : neuOuterDecoration.copyWith(
-              boxShadow: [
-                // kind of neumorphism
-                // top shadow - light
-                BoxShadow(
-                  color: _shadowLight,
-                  offset: Offset(-_offset, -_offset),
-                  blurRadius: _blur,
-                ),
-                // botttom shadow - dark
-                BoxShadow(
-                  color: _shadowDark,
-                  offset: Offset(_offset, _offset),
-                  blurRadius: _blur,
-                ),
-              ],
-            ),
+      decoration: !hasError ? neuOuterDecoration : neuOuterDecorationError,
       padding: EdgeInsets.all(16.0),
       child: Text(
         title,
@@ -43,8 +25,3 @@ class TextLabel extends StatelessWidget {
     );
   }
 }
-
-const _offset = 1.0;
-const _blur = 1.5;
-const _shadowLight = Color(0xffffCDC7);
-const _shadowDark = Color(0xffff0000);
