@@ -43,4 +43,5 @@ const Map<String, String> en = {
   Fields.preset2Title: "Pet the kitty",
   Fields.preset3Title: "Play with parrot",
   Fields.preset4Title: "Add new counter",
+  Fields.createFirstCounter: "Create your first counter",
 };

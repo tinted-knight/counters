@@ -58,5 +58,4 @@ _buildIconTheme(ThemeData baseTheme) {
 
 const appBarBgImages = [
   "top03.png",
-  "top04.png",
 ];

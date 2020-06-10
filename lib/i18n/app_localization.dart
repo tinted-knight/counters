@@ -101,6 +101,8 @@ class AppLocalization {
   String get chooseDate => _localizedValues[locale.languageCode][Fields.chooseDate];
 
   String get fillAllMissing => _localizedValues[locale.languageCode][Fields.fillAllMissing];
+
+  String get createFirstCounter => _localizedValues[locale.languageCode][Fields.createFirstCounter];
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalization> {

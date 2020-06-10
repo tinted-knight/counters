@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="counter">Counters</string>
+    <color name="ic_launcher_background">#5722A2</color>
 </resources>

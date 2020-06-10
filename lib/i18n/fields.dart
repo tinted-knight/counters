@@ -41,4 +41,5 @@ class Fields {
   static const days7 = "days_7";
   static const chooseDate = "choose_date";
   static const fillAllMissing = "fill_all_missing";
+  static const createFirstCounter = "create_first";
 }

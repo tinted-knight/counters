@@ -37,6 +37,7 @@ const Map<String, String> ru = {
   Fields.fillAllMissing: "Заполнить пустые даты",
   Fields.preset1Title: "Погулять с щеночком",
   Fields.preset2Title: "Погладить кисю",
-  Fields.preset3Title: "Покормить с попугаем",
+  Fields.preset3Title: "Покормить попугайчика",
   Fields.preset4Title: "Новый счётчик",
+  Fields.createFirstCounter: "Создайте первый счётчик",
 };

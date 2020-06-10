@@ -1,7 +1,7 @@
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
-import 'package:counter/theme/light_theme.dart';
+import 'package:counter/views/main/counter_list_empty.dart';
 import 'package:counter/views/main/counter_row/non_swipeable/counter_row_non_swipeable.dart';
 import 'package:counter/widgets/debug_error_message.dart';
 import 'package:flutter/material.dart';
@@ -25,18 +25,7 @@ class CounterList extends StatelessWidget {
 
               if (state is CounterStateFailed) return YouShouldNotSeeThis();
 
-              if (state is CounterStateEmpty)
-                return Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Center(
-                    child: Image.asset(
-                      "assets/images/parrots01.png",
-                      isAntiAlias: true,
-                      color: ThemeLight.scaffoldBgColor.withOpacity(0.25),
-                      colorBlendMode: BlendMode.lighten,
-                    ),
-                  ),
-                );
+              if (state is CounterStateEmpty) return CounterListEmpty(onTap: navBloc.create);
 
               if (state is CounterStateLoaded) {
                 return ListView.builder(
