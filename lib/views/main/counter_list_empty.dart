@@ -20,16 +20,18 @@ class CounterListEmpty extends StatelessWidget {
         children: [
           Expanded(
             child: Center(
-              child: Image.asset(
-                "assets/images/parrot02.png",
-                isAntiAlias: true,
-                color: ThemeLight.scaffoldBgColor.withOpacity(0.15),
-                colorBlendMode: BlendMode.lighten,
-                fit: BoxFit.fitWidth,
+              child: Padding(
+                padding: EdgeInsets.all(64.0),
+                child: Image.asset(
+                  "assets/images/sun_bw.png",
+                  isAntiAlias: true,
+                  color: ThemeLight.scaffoldBgColor.withOpacity(0.5),
+                  colorBlendMode: BlendMode.lighten,
+                  fit: BoxFit.fitWidth,
+                ),
               ),
             ),
           ),
-          Expanded(child: SizedBox()),
           InkWell(
             onTap: onTap,
             child: Container(
