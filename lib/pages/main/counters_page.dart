@@ -1,14 +1,9 @@
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/i18n/app_localization.dart';
-import 'package:counter/model/CounterModel.dart';
 import 'package:counter/theme/light_theme.dart';
-import 'package:counter/views/main/ColoredSwipeable.dart';
-import 'package:counter/views/main/counter_row/CounterRow.dart';
-import 'package:counter/views/main/counter_row/non_swipeable/counter_row_non_swipeable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 
 import 'counter_list.dart';
 import 'counters_bloc.dart';
@@ -22,14 +17,14 @@ class CountersPage extends StatefulWidget {
   _CountersPageState createState() => _CountersPageState();
 }
 
-class _CountersPageState extends State<CountersPage> {
-  bool _isVisible = true;
-
-  final _scrollController = ScrollController();
+class _CountersPageState extends State<CountersPage> with TickerProviderStateMixin {
+  AnimationController _hideFabAnimation;
 
   String _appBarImage;
 
   static const double _appBarHeightModifier = 5.0;
+
+  Function onScroll;
 
   @override
   void initState() {
@@ -37,25 +32,37 @@ class _CountersPageState extends State<CountersPage> {
 
     _appBarImage = appBarBgImages[0];
 
-    _scrollController.addListener(() {
-      switch (_scrollController.position.userScrollDirection) {
-        case ScrollDirection.idle:
-          // TODO: Handle this case.
-          break;
-        case ScrollDirection.forward:
-          if (!_isVisible)
-            setState(() {
-              _isVisible = true;
-            });
-          break;
-        case ScrollDirection.reverse:
-          if (_isVisible)
-            setState(() {
-              _isVisible = false;
-            });
-          break;
+    _hideFabAnimation = AnimationController(vsync: this, duration: Duration(milliseconds: 100));
+    _hideFabAnimation.forward();
+  }
+
+  @override
+  void dispose() {
+    _hideFabAnimation.dispose();
+    super.dispose();
+  }
+
+  bool _handleScrollNotification(ScrollNotification notification) {
+    if (notification.depth == 0) {
+      if (notification is UserScrollNotification) {
+        final userScroll = notification;
+        switch (userScroll.direction) {
+          case ScrollDirection.forward:
+            if (userScroll.metrics.maxScrollExtent != userScroll.metrics.minScrollExtent) {
+              _hideFabAnimation.forward();
+            }
+            break;
+          case ScrollDirection.reverse:
+            if (userScroll.metrics.maxScrollExtent != userScroll.metrics.minScrollExtent) {
+              _hideFabAnimation.reverse();
+            }
+            break;
+          case ScrollDirection.idle:
+            break;
+        }
       }
-    });
+    }
+    return false;
   }
 
   @override
@@ -64,17 +71,22 @@ class _CountersPageState extends State<CountersPage> {
     final navBloc = BlocProvider.of<NavigatorBloc>(context);
     countersBloc.loadCounters();
 
-    return Scaffold(
-      body: withSliverAppBar(),
-      floatingActionButton: _isVisible
-          ? FloatingActionButton(
-              onPressed: () => navBloc.create(),
-              child: Icon(
-                Icons.add,
-                color: ThemeLight.iconPrimary,
-              ),
-            )
-          : null,
+    return NotificationListener<ScrollNotification>(
+      onNotification: _handleScrollNotification,
+      child: Scaffold(
+        body: withSliverAppBar(),
+        floatingActionButton: ScaleTransition(
+          scale: _hideFabAnimation,
+          alignment: Alignment.center,
+          child: FloatingActionButton(
+            onPressed: () => navBloc.create(),
+            child: Icon(
+              Icons.add,
+              color: ThemeLight.iconPrimary,
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -82,7 +94,6 @@ class _CountersPageState extends State<CountersPage> {
     final lz = AppLocalization.of(context);
 
     return NestedScrollView(
-      controller: _scrollController,
       headerSliverBuilder: (context, innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
@@ -121,27 +132,6 @@ class _CountersPageState extends State<CountersPage> {
         ];
       },
       body: CounterList(),
-    );
-  }
-
-  // !deprecated
-  Widget _swipeable({CounterItem counter, Function onTap, Function onSwiped}) => ColoredSwipeable(
-        onTap: onTap,
-        onSwiped: onSwiped,
-        child: CounterRow(counter),
-      );
-
-  // !deprecated
-  Widget _nonSwipeable(BuildContext context,
-      {CounterItem counter, Function onTap, Function onIncrement, Function onDecrement}) {
-    return CounterRowNonSwipeable(
-      counter,
-      onTap: onTap,
-      onIncrement: () {
-        HapticFeedback.selectionClick();
-        onIncrement();
-      },
-      onDecrement: onDecrement,
     );
   }
 }
