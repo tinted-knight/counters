@@ -78,7 +78,7 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
     var cursor = DateTime.fromMillisecondsSinceEpoch(data.last.date);
     final today = DateTime.now();
     // !achtung fake delay
-    final fake = Future.delayed(Duration(seconds: 1));
+    final fake = Future.delayed(Duration(milliseconds: 500));
     while ((today.difference(cursor).inDays > 1)) {
       cursor = cursor.add(Duration(days: 1));
       if (data.indexWhere((e) => areEquals(e.date, cursor.millisecondsSinceEpoch)) == -1) {
@@ -96,7 +96,7 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
     if (updatedValue != item.value && updatedValue >= 0) {
       fire(ChartEvent.updating());
       // !achtung fake delay
-      final fake = Future.delayed(Duration(seconds: 1));
+      final fake = Future.delayed(Duration(milliseconds: 500));
       final updatedItem = item.copyWith(value: intValueOf(value));
       await repo.updateExistingHistoryItem(updatedItem);
       final updatedList = lastState.asLoaded.values.map((e) {
@@ -137,15 +137,15 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
 
   int intValueOf(String s) => int.tryParse(s) ?? -1;
 
-  void clearHistory(CounterItem item) async {
+  Future<void> clearHistory(CounterItem item) async {
     fire(ChartEvent.updating());
     await repo.clearHistoryFor(item.id);
     await repo.insertHistory(item.id, 0, datetime());
     await repo.update(item.copyWith(value: 0));
     // !achtung fake delay
-    await Future.delayed(Duration(seconds: 1));
-    fire(ChartEvent.updated(lastState.asLoaded.values, lastState.asLoaded.filter));
+    await Future.delayed(Duration(milliseconds: 500));
     load(item, force: true);
+    return fire(ChartEvent.updated(lastState.asLoaded.values, lastState.asLoaded.filter));
   }
 }
 

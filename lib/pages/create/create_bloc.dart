@@ -20,7 +20,7 @@ class CreateBloc extends BlocEventStateBase<CreateEvent, CreateState> with Creat
     final newCounterId = await repo.add(newCounter);
     final history = repo.insertHistory(newCounterId, 0, datetime());
     // !achtung fake delay
-    final fakeDelay = Future.delayed(Duration(seconds: 1));
+    final fakeDelay = Future.delayed(Duration(milliseconds: 500));
     await Future.wait([history, fakeDelay]);
     fire(CreateEvent.saved());
   }

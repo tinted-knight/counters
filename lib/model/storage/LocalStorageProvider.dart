@@ -74,19 +74,17 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
   }
 
   @override
-  Future<bool> updateExisting(int id, int value) async {
-//    final ts = DateTime.fromMillisecondsSinceEpoch(timestamp);
-//    final dt = DateTime(ts.year, ts.month, ts.day).millisecondsSinceEpoch;
+  Future<bool> updateTodayHistory(int id, int value) async {
     final database = await connection();
+    final dt = datetime();
     final result = await database.update(
       tableHistory,
       {
         colCounterId: id,
-//        colDate: dt,
         colValue: value,
       },
-      where: "$colCounterId = ?",
-      whereArgs: [id],
+      where: "$colCounterId = ? and $colDate = ?",
+      whereArgs: [id, dt],
     );
     return result > 0;
   }

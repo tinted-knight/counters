@@ -3,8 +3,8 @@ import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
 import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/model/CounterModel.dart';
-import 'package:counter/pages/details/single_bloc.dart';
-import 'package:counter/pages/details/single_state.dart';
+import 'package:counter/pages/details/details_bloc.dart';
+import 'package:counter/pages/details/details_state.dart';
 import 'package:counter/widgets/debug_error_message.dart';
 import 'package:flutter/material.dart';
 

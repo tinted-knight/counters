@@ -18,8 +18,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/CounterModel.dart';
-import 'single_bloc.dart';
-import 'single_state.dart';
+import 'details_bloc.dart';
+import 'details_state.dart';
 
 class DetailsOf extends StatelessWidget {
   @override

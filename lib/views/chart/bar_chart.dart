@@ -26,7 +26,7 @@ class BarChart extends StatelessWidget {
 
     return charts.BarChart(
       series,
-      // todo debug
+      // !note no animation for debug purpose
       animate: false,
       domainAxis: charts.OrdinalAxisSpec(
         viewport: values.length > 7 ? charts.OrdinalViewport(values[0].dateString, 7) : null,

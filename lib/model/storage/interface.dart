@@ -13,7 +13,7 @@ abstract class ILocalStorage<CounterItem> {
 
   Future<bool> insertHistory(int id, int value, int timestamp);
 
-  Future<bool> updateExisting(int id, int value);
+  Future<bool> updateTodayHistory(int id, int value);
 
   Future<bool> updateExistingHistoryItem(HistoryModel item);
 

@@ -5,9 +5,9 @@ import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/theme/neumorphicDecoration.dart';
-import 'package:counter/views/stat/bar_chart.dart';
-import 'package:counter/views/stat/chart_bottom_appBar.dart';
-import 'package:counter/views/stat/stat_list_tile.dart';
+import 'package:counter/views/chart/bar_chart.dart';
+import 'package:counter/views/chart/chart_bottom_appBar.dart';
+import 'package:counter/views/chart/stat_list_tile.dart';
 import 'package:counter/widgets/debug_error_message.dart';
 import 'package:counter/widgets/dialogs/input_dialog.dart';
 import 'package:counter/widgets/dialogs/saving_modal_dialog.dart';
@@ -86,7 +86,7 @@ class ChartPage extends StatelessWidget {
             );
             chartBloc.setStartDate(datetime);
           },
-          onMissingPressed: () => chartBloc.fillMissingItems(counter),
+//          onMissingPressed: () => chartBloc.fillMissingItems(counter),
         ),
       ),
     );
@@ -124,11 +124,6 @@ class ChartPage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: TabBarView(
           children: [
-            // !deprecated
-//          BezierStatChart(
-//            values: values,
-//            lineColor: counter.colorValue,
-//          ),
             BarChart(state.asLoaded.filtered, barColor: counter.colorValue),
             ListView.builder(
               itemCount: state.asLoaded.values.length,

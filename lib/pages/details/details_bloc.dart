@@ -1,8 +1,8 @@
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/storage/interface.dart';
-import 'package:counter/pages/details/single_event.dart';
-import 'package:counter/pages/details/single_state.dart';
+import 'package:counter/pages/details/details_event.dart';
+import 'package:counter/pages/details/details_state.dart';
 
 import 'details_controllers_mixin.dart';
 
@@ -26,7 +26,7 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
     if (await repo.delete(item)) {
       await repo.clearHistoryFor(item.id);
       // !achtung fake delay
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(Duration(milliseconds: 500));
       fire(DetailsEvent.doneEditing());
     }
   }
@@ -53,12 +53,11 @@ class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
     }
     fire(DetailsEvent.saving());
     // !achtung fake
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(milliseconds: 500));
     if (await repo.update(updatedItem)) {
-      await repo.updateExisting(
+      await repo.updateTodayHistory(
         updatedItem.id,
         updatedItem.value,
-//        DateTime.now().millisecondsSinceEpoch,
       );
       return updatedItem;
     }

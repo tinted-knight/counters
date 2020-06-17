@@ -9,7 +9,7 @@ class ChartBottomAppBar extends StatelessWidget {
     this.onClearPressed,
     this.onFilterPressed,
     this.onCalendarPressed,
-    this.onMissingPressed
+//    this.onMissingPressed
   }) : super(key: key);
 
   final Function onBackPressed;
@@ -17,7 +17,7 @@ class ChartBottomAppBar extends StatelessWidget {
   final Function onClearPressed;
   final Function onFilterPressed;
   final Function onCalendarPressed;
-  final Function onMissingPressed;
+//  final Function onMissingPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +47,11 @@ class ChartBottomAppBar extends StatelessWidget {
             tooltip: lz.chooseDate,
             onPressed: onCalendarPressed,
           ),
-          IconButton(
-            icon: Icon(Icons.playlist_add, semanticLabel: lz.fillAllMissing),
-            tooltip: lz.fillAllMissing,
-            onPressed: onMissingPressed,
-          ),
+//          IconButton(
+//            icon: Icon(Icons.playlist_add, semanticLabel: lz.fillAllMissing),
+//            tooltip: lz.fillAllMissing,
+//            onPressed: onMissingPressed,
+//          ),
           IconButton(
             icon: Icon(Icons.add, semanticLabel: lz.addMissigValue),
             tooltip: lz.addMissigValue,

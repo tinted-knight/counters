@@ -96,7 +96,7 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
   Future<CounterItem> _stepUp(int index) async {
     final toUpdate = _counters.firstWhere((item) => item.id == index).stepUp();
     if (await repo.update(toUpdate)) {
-      repo.updateExisting(toUpdate.id, toUpdate.value);
+//      repo.updateExistingHistory(toUpdate.id, toUpdate.value);
       return toUpdate;
     }
     return null;
