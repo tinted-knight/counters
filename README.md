@@ -1,4 +1,4 @@
-# Counter
+# Counters
 
 Yet not starter, but not very advanced [Flutter](https://flutter.dev/docs/get-started/install) project. Trying to implement BLoC architecture with the help of [Didier's Boelens](https://www.didierboelens.com/) aproach.
 
@@ -6,13 +6,19 @@ Honestly, not very excited about BLoC. Although it looks and feels pretty consis
 
 Not using `Isolates` in this app. No heavy computations, so it looks like don't need to. Still, a lot of `async/await`.
 
-## Getting Started
+### Getting Started
 
-No need for any tokens or other setup. Install `Flutter` and compile. Tested on `Android` device. No reason not to work on `iOS` - all used libraries are compatible.
+No need for any tokens or other setup. Install `Flutter` and compile. Tested on `Android` device. No reason not to work on `iOS` - all used libraries declare compatability 😬
 
-## Copyright notes
+### Design notes
 
-Use this `govno-code` as you wish at your own risk. Do not expect to see here `the right way` to do things. Still, if it can help someone to learn a couple of `not to-dos`, I will be satisfied ;)
+Neumorphism look interesting and fresh, still low contrast is not great. Attempts to add to it more contrast looks too bizzare and extravagantly (for me). So `total neumorphism` is not acceptable for me for now. But in this case I let emotions to dominate over reasons and added some neumorphic design to some elements. It's far from perfect, but look pretty consistent. So, let it be. 
+
+### Code style and architecture notes
+
+Use this `govno-code` as you wish at your own risk. Do not expect to see here `the right way` to do things. Still, if it can help someone to learn a couple of `not to-dos`, I will be satisfied 😉
+
+# Copyrights
 
 ### Used images
 
