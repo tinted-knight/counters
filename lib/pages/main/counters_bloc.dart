@@ -66,7 +66,7 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
     if (values != null && values.isNotEmpty) {
       if (await _needResetCounters()) {
         await _resetCounters(values);
-        final reseted = values.map((e) => e.copyWith(value: 0));
+        final reseted = values.map((e) => e.copyWith(value: 0)).toList();
         fire(CountersEvent.loaded(reseted));
       }
       fire(CountersEvent.loaded(values));
