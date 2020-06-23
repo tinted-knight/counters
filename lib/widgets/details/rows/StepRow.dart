@@ -1,5 +1,5 @@
 import 'package:counter/i18n/app_localization.dart';
-import 'package:counter/views/common/ColoredTextField.dart';
+import 'package:counter/widgets/common/ColoredTextField.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/TextLabel.dart';

@@ -1,3 +1,4 @@
+import 'package:counter/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 
 class IconButtonIndicator extends StatelessWidget {
@@ -5,7 +6,7 @@ class IconButtonIndicator extends StatelessWidget {
     Key key,
     this.inAction = false,
     this.onPressed,
-    this.color,
+    this.color = ThemeLight.iconPrimary,
     this.label = "Error"
   }) : super(key: key);
 

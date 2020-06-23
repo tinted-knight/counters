@@ -1,6 +1,6 @@
-import 'package:counter/views/common/ColoredTextField.dart';
 import 'package:flutter/material.dart';
 
+import 'ColoredTextField.dart';
 import 'TextLabel.dart';
 import 'expanded_widgets.dart';
 

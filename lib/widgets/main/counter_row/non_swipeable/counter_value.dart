@@ -1,17 +1,17 @@
 import 'package:counter/model/CounterModel.dart';
 import 'package:flutter/material.dart';
 
-class CounterValueIncrement extends StatefulWidget {
-  const CounterValueIncrement(this.item, {Key key, this.onTap}) : super(key: key);
+class CounterValue extends StatefulWidget {
+  const CounterValue(this.item, {Key key, this.onTap}) : super(key: key);
 
   final CounterItem item;
   final Function onTap;
 
   @override
-  _CounterValueIncrementState createState() => _CounterValueIncrementState();
+  _CounterValueState createState() => _CounterValueState();
 }
 
-class _CounterValueIncrementState extends State<CounterValueIncrement>
+class _CounterValueState extends State<CounterValue>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation<Color> greenAnimation;
