@@ -1,9 +1,9 @@
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
 import 'package:counter/bloc/didierboelens/bloc_provider.dart';
 import 'package:counter/bloc/didierboelens/bloc_stream_builder.dart';
-import 'package:counter/views/main/counter_list_empty.dart';
-import 'package:counter/views/main/counter_row/non_swipeable/counter_row_non_swipeable.dart';
 import 'package:counter/widgets/debug_error_message.dart';
+import 'package:counter/widgets/main/counter_list_empty.dart';
+import 'package:counter/widgets/main/counter_row/non_swipeable/counter_row_non_swipeable.dart';
 import 'package:flutter/material.dart';
 
 import 'counters_bloc.dart';

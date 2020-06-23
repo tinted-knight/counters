@@ -1,4 +1,3 @@
-import 'package:counter/widgets/color_picker/ColorPicker.dart';
 import 'package:flutter/material.dart';
 
 class ColorPalette {

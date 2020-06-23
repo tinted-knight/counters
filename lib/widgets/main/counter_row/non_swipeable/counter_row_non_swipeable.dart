@@ -1,10 +1,10 @@
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/theme/neumorphicDecoration.dart';
-import 'package:counter/views/main/counter_row/non_swipeable/counter_value_ns.dart';
 import 'package:flutter/material.dart';
 
 import '../CounterIcon.dart';
 import '../CounterTitle.dart';
+import 'counter_value.dart';
 
 class CounterRowNonSwipeable extends StatelessWidget {
   const CounterRowNonSwipeable(
@@ -37,7 +37,7 @@ class CounterRowNonSwipeable extends StatelessWidget {
               ),
             ),
             CounterIcon(item.isGoalReached),
-            CounterValueIncrement(item, onTap: onIncrement),
+            CounterValue(item, onTap: onIncrement),
           ],
         ),
       ),
