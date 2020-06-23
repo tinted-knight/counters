@@ -6,7 +6,6 @@ import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/theme/light_theme.dart';
 import 'package:counter/views/details/rows/GoalRow.dart';
 import 'package:counter/views/details/rows/StepRow.dart';
-import 'package:counter/views/details/rows/UnitRow.dart';
 import 'package:counter/views/details/rows/top_row/TopRow.dart';
 import 'package:counter/widgets/action_buttons.dart';
 import 'package:counter/widgets/debug_error_message.dart';
@@ -106,7 +105,7 @@ class DetailsOf extends StatelessWidget {
                   controller: detailsBloc.goalCtrl,
                   hasError: validationError ? state.counter.hasGoalError : false,
                 ),
-                UnitRow(controller: detailsBloc.unitCtrl),
+//                UnitRow(controller: detailsBloc.unitCtrl),
               ],
             ),
           ),

@@ -106,10 +106,10 @@ class CreatePage extends StatelessWidget {
                         controller: createBloc.goalCtrl,
                         hasError: counterWithErrors?.hasGoalError ?? false,
                       ),
-                      PropertyRow.unit(
-                        label: lz.unit,
-                        controller: createBloc.unitCtrl,
-                      ),
+//                      PropertyRow.unit(
+//                        label: lz.unit,
+//                        controller: createBloc.unitCtrl,
+//                      ),
                       ColorPicker(
                         onColorPicked: (color) => createBloc.setColor(color),
                         selected: ColorPalette.defaultColor,
