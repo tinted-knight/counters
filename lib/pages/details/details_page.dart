@@ -5,6 +5,7 @@ import 'package:counter/i18n/app_localization.dart';
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/pages/details/details_bloc.dart';
 import 'package:counter/pages/details/details_state.dart';
+import 'package:counter/theme/light_theme.dart';
 import 'package:counter/widgets/debug_error_message.dart';
 import 'package:flutter/material.dart';
 
@@ -56,6 +57,8 @@ class DetailsPage extends StatelessWidget {
           onPressed: () => detailsBloc.update(),
         ),
         bottomNavigationBar: BottomAppBar(
+          elevation: 0.0,
+          color: ThemeLight.scaffoldBgColor,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

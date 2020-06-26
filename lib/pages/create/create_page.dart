@@ -44,6 +44,8 @@ class CreatePage extends StatelessWidget {
         onPressed: () => createBloc.create(),
       ),
       bottomNavigationBar: BottomAppBar(
+        elevation: 0.0,
+        color: ThemeLight.scaffoldBgColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[

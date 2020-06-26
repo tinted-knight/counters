@@ -14,6 +14,7 @@ import 'package:counter/pages/main/counters_bloc.dart';
 import 'package:counter/pages/splash/splash_page.dart';
 import 'package:counter/theme/light_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'model/storage/LocalStorageProvider.dart';
@@ -30,6 +31,14 @@ class CountersApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final navBloc = NavigatorBloc(navigatorKey: _navigatorKey);
     final appBloc = AppBloc()..loadPrefs();
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Color(0x33000000),
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light,
+      systemNavigationBarColor: ThemeLight.scaffoldBgColor,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
 
     return BlocProvider(
       blocBuilder: () => appBloc,

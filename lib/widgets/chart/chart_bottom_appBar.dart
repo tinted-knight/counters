@@ -1,4 +1,5 @@
 import 'package:counter/i18n/app_localization.dart';
+import 'package:counter/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 
 class ChartBottomAppBar extends StatelessWidget {
@@ -24,6 +25,8 @@ class ChartBottomAppBar extends StatelessWidget {
     final lz = AppLocalization.of(context);
 
     return BottomAppBar(
+      elevation: 0.0,
+      color: ThemeLight.scaffoldBgColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
