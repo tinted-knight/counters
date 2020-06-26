@@ -5,6 +5,7 @@ const Map<String, String> en = {
   Fields.appTitle: 'Counters',
   Fields.motivational1: 'Try to keep up the rythm',
   Fields.motivational2: "Or not. Don't worry - be puppy",
+  Fields.motivational3: "Or not. Don't worry - be puppy",
   Fields.createCounter: "Create counter",
   Fields.counterTitle: 'Title',
   Fields.counterGoal: 'Goal',
