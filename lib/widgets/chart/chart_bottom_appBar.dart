@@ -22,7 +22,7 @@ class ChartBottomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lz = AppLocalization.of(context);
+    final locale = AppLocalization.of(context);
 
     return BottomAppBar(
       elevation: 0.0,
@@ -36,18 +36,18 @@ class ChartBottomAppBar extends StatelessWidget {
           ),
           Expanded(child: SizedBox()),
           IconButton(
-            icon: Icon(Icons.delete_sweep, semanticLabel: lz.clearHistory),
-            tooltip: lz.clearHistory,
+            icon: Icon(Icons.delete_sweep, semanticLabel: locale.clearHistory),
+            tooltip: locale.clearHistory,
             onPressed: onClearPressed,
           ),
           IconButton(
-            icon: Icon(Icons.filter_7, semanticLabel: lz.days7),
-            tooltip: lz.days7,
+            icon: Icon(Icons.filter_7, semanticLabel: locale.days7),
+            tooltip: locale.days7,
             onPressed: onFilterPressed,
           ),
           IconButton(
-            icon: Icon(Icons.calendar_today, semanticLabel: lz.chooseDate),
-            tooltip: lz.chooseDate,
+            icon: Icon(Icons.calendar_today, semanticLabel: locale.chooseDate),
+            tooltip: locale.chooseDate,
             onPressed: onCalendarPressed,
           ),
 //          IconButton(
@@ -56,8 +56,8 @@ class ChartBottomAppBar extends StatelessWidget {
 //            onPressed: onMissingPressed,
 //          ),
           IconButton(
-            icon: Icon(Icons.add, semanticLabel: lz.addMissigValue),
-            tooltip: lz.addMissigValue,
+            icon: Icon(Icons.add, semanticLabel: locale.addMissigValue),
+            tooltip: locale.addMissigValue,
             onPressed: onAddPressed,
           ),
         ],

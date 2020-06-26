@@ -19,7 +19,7 @@ class DetailsPage extends StatelessWidget {
     final CounterItem counter = ModalRoute.of(context).settings.arguments;
     final DetailsBloc detailsBloc = BlocProvider.of<DetailsBloc>(context);
     final NavigatorBloc navBloc = BlocProvider.of<NavigatorBloc>(context);
-    final lz = AppLocalization.of(context);
+    final locale = AppLocalization.of(context);
 
     detailsBloc.load(counter);
 
@@ -29,7 +29,7 @@ class DetailsPage extends StatelessWidget {
         if (state is DetailsStateLoading) return Center(child: CircularProgressIndicator());
 
         if (state is DetailsStateLoaded)
-          return stateLoaded(detailsBloc, state, counter, navBloc, lz);
+          return stateLoaded(detailsBloc, state, counter, navBloc, locale);
 
         return YouShouldNotSeeThis();
 

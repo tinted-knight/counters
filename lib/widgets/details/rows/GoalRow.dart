@@ -17,13 +17,13 @@ class GoalRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lz = AppLocalization.of(context);
+    final locale = AppLocalization.of(context);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        ExpandedLeft(child: TextLabel(lz.goal)),
+        ExpandedLeft(child: TextLabel(locale.goal)),
         ExpandedRight(
           child: ColoredTextField(
             controller: controller,

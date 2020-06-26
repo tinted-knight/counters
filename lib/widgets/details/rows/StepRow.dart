@@ -13,12 +13,12 @@ class StepRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lz = AppLocalization.of(context);
+    final locale = AppLocalization.of(context);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        ExpandedLeft(child: TextLabel(lz.step)),
+        ExpandedLeft(child: TextLabel(locale.step)),
         ExpandedRight(
           child: ColoredTextField(
             controller: controller,

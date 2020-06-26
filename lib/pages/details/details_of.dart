@@ -115,7 +115,7 @@ class DetailsOf extends StatelessWidget {
   }
 
   AppBar _appBar(BuildContext context, {DetailsStateLoaded state, DetailsBloc detailsBloc}) {
-    final lz = AppLocalization.of(context);
+    final locale = AppLocalization.of(context);
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: ThemeLight.scaffoldBgColor,
@@ -125,7 +125,7 @@ class DetailsOf extends StatelessWidget {
             icon: Icon(
           Icons.edit,
           color: ThemeLight.iconPrimary,
-          semanticLabel: lz.editTitle,
+          semanticLabel: locale.editTitle,
         )),
         controller: detailsBloc.titleCtrl,
         style: TextStyle(fontFamily: "RobotoCondensed", fontSize: 20.0),
@@ -139,12 +139,12 @@ class DetailsOf extends StatelessWidget {
             onColorPicked: (newColor) => detailsBloc.applyColor(newColor),
           ),
           color: state.counter.colorValue,
-          semanticLabel: lz.pickColor,
+          semanticLabel: locale.pickColor,
         ),
         DeleteActionButton(
           inAction: state is DetailsStateDeleting,
           onPressed: () => detailsBloc.delete(state.counter),
-          semanticLabel: lz.delete,
+          semanticLabel: locale.delete,
         ),
       ],
     );
@@ -156,15 +156,15 @@ class DetailsOf extends StatelessWidget {
     DetailsBloc detailsBloc,
     NavigatorBloc navBloc,
   }) async {
-    final lz = AppLocalization.of(context);
+    final locale = AppLocalization.of(context);
 
     if (state.wasModified) {
       final haveConfirmation = await yesNoDialog(
         context,
         color: state.counter.colorValue,
-        message: lz.saveChanges,
-        yesText: lz.yes,
-        noText: lz.no,
+        message: locale.saveChanges,
+        yesText: locale.yes,
+        noText: locale.no,
       );
       if (haveConfirmation) {
         detailsBloc.update();

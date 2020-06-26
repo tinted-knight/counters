@@ -91,7 +91,7 @@ class _CountersPageState extends State<CountersPage> with TickerProviderStateMix
   }
 
   NestedScrollView withSliverAppBar() {
-    final lz = AppLocalization.of(context);
+    final locale = AppLocalization.of(context);
 
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -114,12 +114,12 @@ class _CountersPageState extends State<CountersPage> with TickerProviderStateMix
                 textAlign: TextAlign.center,
                 text: TextSpan(children: [
                   TextSpan(
-                    text: lz.motivational1,
+                    text: locale.motivational1,
                     style: TextStyle(color: Color(0xff313131)),
                   ),
                   TextSpan(text: "\n"),
                   TextSpan(
-                    text: lz.motivational2,
+                    text: locale.motivational2,
                     style: TextStyle(
                       color: Color(0xff313131),
                       fontSize: 10.0,

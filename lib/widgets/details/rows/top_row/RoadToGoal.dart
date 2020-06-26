@@ -12,7 +12,7 @@ class RoadToGoal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lz = AppLocalization.of(context);
+    final locale = AppLocalization.of(context);
 
     return Container(
       padding: EdgeInsets.fromLTRB(8.0, 4.0, 16.0, 4.0),
@@ -20,7 +20,7 @@ class RoadToGoal extends StatelessWidget {
       decoration: neuOuterDecoration,
       child: Center(
         child: Text(
-          "$roadToGoal%\n ${lz.ofGoal}",
+          "$roadToGoal%\n ${locale.ofGoal}",
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 30.0, color: Color(0xff313131)),
         ),

@@ -15,12 +15,12 @@ class UnitRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lz = AppLocalization.of(context);
+    final locale = AppLocalization.of(context);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        ExpandedLeft(child: TextLabel(lz.unit)),
+        ExpandedLeft(child: TextLabel(locale.unit)),
         ExpandedRight(
           child: ColoredTextField(controller: controller),
         ),

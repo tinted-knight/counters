@@ -25,7 +25,7 @@ class ChartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lz = AppLocalization.of(context);
+    final locale = AppLocalization.of(context);
     final navBloc = BlocProvider.of<NavigatorBloc>(context);
     final countersBloc = BlocProvider.of<CountersBloc>(context);
     final CounterItem counter = ModalRoute.of(context).settings.arguments;
@@ -35,7 +35,7 @@ class ChartPage extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: buildTabBar(chart: lz.chart, list: lz.list),
+        appBar: buildTabBar(chart: locale.chart, list: locale.list),
         body: BlocStreamBuilder<ChartState>(
           bloc: chartBloc,
           oneShotListener: (state) async {
@@ -47,9 +47,9 @@ class ChartPage extends StatelessWidget {
               final confirmed = await yesNoDialog(
                 context,
                 color: counter.colorValue,
-                message: lz.itemAlreadyExists,
-                yesText: lz.yes,
-                noText: lz.no,
+                message: locale.itemAlreadyExists,
+                yesText: locale.yes,
+                noText: locale.no,
               );
               if (confirmed) {
                 chartBloc.updateValue(
@@ -62,7 +62,7 @@ class ChartPage extends StatelessWidget {
           builder: (context, state) {
             if (state is ChartStateLoading || state is ChartStateUpdating) return SizedBox();
 
-            if (state is ChartStateEmpty) return EmptyChart(message: lz.emptyChart);
+            if (state is ChartStateEmpty) return EmptyChart(message: locale.emptyChart);
 
             if (state is ChartStateLoaded) return renderStateLoaded(state, counter, chartBloc);
 

@@ -30,7 +30,7 @@ class TopRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final roadToGoal = ((value / goal) * 100).floor();
-    final lz = AppLocalization.of(context);
+    final locale = AppLocalization.of(context);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,7 +40,7 @@ class TopRow extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              ExpandedLeft(child: TextLabel(lz.today, centered: true)),
+              ExpandedLeft(child: TextLabel(locale.today, centered: true)),
               ExpandedLeft(
                 child: ColoredTextField(
                   controller: controller,

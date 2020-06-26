@@ -17,7 +17,7 @@ class UpDownArrows extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lz = AppLocalization.of(context);
+    final locale = AppLocalization.of(context);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -25,17 +25,17 @@ class UpDownArrows extends StatelessWidget {
         RippleCircleButton(
           iconData: Icons.keyboard_arrow_down,
           onTap: downButtonTap,
-          semanticLabel: lz.up,
+          semanticLabel: locale.up,
         ),
         RippleCircleButton(
           iconData: Icons.keyboard_arrow_up,
           onTap: upButtonTap,
-          semanticLabel: lz.down,
+          semanticLabel: locale.down,
         ),
         RippleCircleButton(
           iconData: Icons.autorenew,
           onTap: resetButtonTap,
-          semanticLabel: lz.reset,
+          semanticLabel: locale.reset,
         ),
       ],
     );

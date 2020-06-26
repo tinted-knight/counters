@@ -23,23 +23,23 @@ class CreatePage extends StatelessWidget {
     final createBloc = BlocProvider.of<CreateBloc>(context);
     final countersBloc = BlocProvider.of<CountersBloc>(context);
     final navBloc = BlocProvider.of<NavigatorBloc>(context);
-    final lz = AppLocalization.of(context);
+    final locale = AppLocalization.of(context);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ThemeLight.scaffoldBgColor,
         elevation: 0.0,
         automaticallyImplyLeading: false,
-        title: Text(lz.createCounter, style: TextStyle(color: Color(0xff313131))),
+        title: Text(locale.createCounter, style: TextStyle(color: Color(0xff313131))),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton.extended(
-        label: Text(lz.save, style: TextStyle(color: Color(0xff212121))),
-        tooltip: lz.save,
+        label: Text(locale.save, style: TextStyle(color: Color(0xff212121))),
+        tooltip: locale.save,
         icon: Icon(
           Icons.save,
           color: ThemeLight.iconPrimary,
-          semanticLabel: lz.save,
+          semanticLabel: locale.save,
         ),
         onPressed: () => createBloc.create(),
       ),
@@ -50,7 +50,7 @@ class CreatePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.arrow_back, semanticLabel: lz.back),
+              icon: Icon(Icons.arrow_back, semanticLabel: locale.back),
               onPressed: () => navBloc.pop(),
             ),
           ],
@@ -71,7 +71,7 @@ class CreatePage extends StatelessWidget {
           if (state is CreateStateIdle ||
               state is CreateStateValidationError ||
               state is CreateStateSaving) {
-            return renderState(state, createBloc, navBloc, lz);
+            return renderState(state, createBloc, navBloc, locale);
           }
 
           return YouShouldNotSeeThis();
