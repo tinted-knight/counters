@@ -8,8 +8,7 @@ import 'counters_event.dart';
 import 'counters_state.dart';
 
 class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
-  CountersBloc({@required this.repo})
-      : super(initialState: CounterState.loading());
+  CountersBloc({@required this.repo}) : super(initialState: CounterState.loading());
 
   final ILocalStorage repo;
   List<CounterItem> _counters;
@@ -27,8 +26,7 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
   void stepDown(int index) => fire(CountersEvent.stepDown(_counters[index].id));
 
   @override
-  Stream<CounterState> eventHandler(
-      CountersEvent event, CounterState currentState) async* {
+  Stream<CounterState> eventHandler(CountersEvent event, CounterState currentState) async* {
     switch (event.type) {
       case CountersEventType.loading:
         yield CounterState.loading();
@@ -62,7 +60,7 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
   void loadCounters() async {
     fire(CountersEvent.loading());
 
-    final values = await repo.getAll();
+    final List<CounterItem> values = await repo.getAll();
     if (values != null && values.isNotEmpty) {
       if (await _needResetCounters()) {
         await _resetCounters(values);
@@ -94,8 +92,7 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
   }
 
   Future<void> _saveToHistory(List<CounterItem> counters, int time) async {
-    counters.forEach(
-        (counter) async => await repo.insertHistory(counter.id, 0, time));
+    counters.forEach((counter) async => await repo.insertHistory(counter.id, 0, time));
   }
 
   Future<CounterItem> _stepUp(int index) async {
@@ -108,8 +105,7 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
   }
 
   Future<CounterItem> _stepDown(int index) async {
-    final toUpdate =
-        _counters.firstWhere((item) => item.id == index).stepDown();
+    final toUpdate = _counters.firstWhere((item) => item.id == index).stepDown();
     if (toUpdate != null) {
       if (await repo.update(toUpdate)) return toUpdate;
     }

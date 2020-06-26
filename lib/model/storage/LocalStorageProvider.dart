@@ -60,8 +60,6 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
 
   @override
   Future<bool> insertHistory(int id, int value, int timestamp) async {
-//    final ts = DateTime.fromMillisecondsSinceEpoch(timestamp);
-//    final dt = DateTime(ts.year, ts.month, ts.day).millisecondsSinceEpoch;
     final dt = datetime(from: timestamp);
     final insertData = {
       colCounterId: id,
@@ -127,12 +125,10 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
 
   @override
   Future<int> updateTime() async {
-    // !todo BAD shoud just update instead of deleting and inserting new value
-    final time = DateTime.now().millisecondsSinceEpoch;
+    final time = datetime();
     final database = await connection();
     final prevTime = await _getRawTime();
-    await database.delete(tableTime);
-    await database.insert(tableTime, {"time": time});
+    await database.update(tableTime, {"time": time}, where: "id=?", whereArgs: [1]);
     return prevTime;
   }
 }
