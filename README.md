@@ -1,4 +1,4 @@
-# Counters
+# About project
 
 No longer starter, but not very advanced [Flutter](https://flutter.dev/docs/get-started/install) project. Trying to implement `BLoC` architecture with the [Didier's Boelens](https://www.didierboelens.com/) aproach.
 
