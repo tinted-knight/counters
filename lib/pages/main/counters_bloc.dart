@@ -13,7 +13,7 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
   final ILocalStorage repo;
   List<CounterItem> _counters;
 
-  void reload() => loadCounters();
+  void reload() => loadCounters(force: true);
 
   void singleUpdated(CounterItem item) {
     final index = _counters.indexWhere((element) => element.id == item.id);
@@ -57,9 +57,12 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
     if (updated != null) singleUpdated(updated);
   }
 
-  void loadCounters() async {
+  void loadCounters({bool force = false}) async {
+    if (!force && _counters != null && _counters.isNotEmpty) {
+      fire(CountersEvent.loaded(_counters));
+      return;
+    }
     fire(CountersEvent.loading());
-
     final List<CounterItem> values = await repo.getAll();
     if (values != null && values.isNotEmpty) {
       if (await _needResetCounters()) {
@@ -88,7 +91,8 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
   _resetCounters(List<CounterItem> counters) async {
     await repo.updateTime();
     final timeToSave = datetime();
-    await _saveToHistory(counters, timeToSave);
+    _saveToHistory(counters, timeToSave);
+    await repo.resetAll();
   }
 
   Future<void> _saveToHistory(List<CounterItem> counters, int time) async {
