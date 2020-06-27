@@ -23,26 +23,36 @@ class CounterListEmpty extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(64.0),
                 child: Image.asset(
-                  "assets/images/sun_bw.png",
+                  "assets/images/flor.png",
                   isAntiAlias: true,
-                  color: ThemeLight.scaffoldBgColor.withOpacity(0.5),
+                  color: ThemeLight.scaffoldBgColor.withOpacity(0.75),
                   colorBlendMode: BlendMode.lighten,
                   fit: BoxFit.fitWidth,
                 ),
               ),
             ),
           ),
-          InkWell(
-            onTap: onTap,
-            child: Container(
-              child: Text(
-                locale.createFirstCounter,
-                style: TextStyle(color: Colors.white),
-              ),
-              padding: EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Colors.deepOrangeAccent,
+          Container(
+            decoration: BoxDecoration(
+              color: Color(0xff555555),
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: onTap,
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                splashColor: Color(0xff999999),
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  ),
+                  child: Text(
+                    locale.createFirstCounter,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ),
             ),
           ),

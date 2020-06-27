@@ -35,9 +35,11 @@ Use this code as you wish at your own risk. Do not expect to see here `the right
 
 - [Launcher icon](https://www.flaticon.com/free-icon/countdown_470112) by [Freepik](https://www.flaticon.com/authors/freepik) from [Flaticon](https://www.flaticon.com/)
 
-- [Dog](https://pixabay.com/illustrations/dog-sitting-pet-domestic-brown-5188108/) in TopAppBar by [Jorgeduardo](https://pixabay.com/users/Jorgeduardo-8516248/) from [Pixabay](https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=304402)
+- [Dog](https://pixabay.com/illustrations/dog-sitting-pet-domestic-brown-5188108/) in TopAppBar by [Jorgeduardo](https://pixabay.com/users/Jorgeduardo-8516248/) from [Pixabay](https://pixabay.com)
 
-- [Sun](https://pixabay.com/vectors/sun-rays-face-stylized-solar-eyes-304402/) image by [Clker-Free-Vector-Images](https://pixabay.com/users/Clker-Free-Vector-Images-3736/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=304402) from [Pixabay](https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=304402)
+- [Sun](https://pixabay.com/vectors/sun-rays-face-stylized-solar-eyes-304402/) image by [Clker-Free-Vector-Images](https://pixabay.com/users/Clker-Free-Vector-Images-3736) from [Pixabay](https://pixabay.com)
+
+- [Flowers](https://pixabay.com/illustrations/henna-designs-henna-floral-mandala-4869483) on splash screen by [Annalise Batista](https://pixabay.com/users/AnnaliseArt-7089643) from [Pixabay](https://pixabay.com)
 
 ## Third-party libraries
 
