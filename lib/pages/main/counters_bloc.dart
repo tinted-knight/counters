@@ -8,7 +8,9 @@ import 'counters_event.dart';
 import 'counters_state.dart';
 
 class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
-  CountersBloc({@required this.repo}) : super(initialState: CounterState.loading());
+  CountersBloc({@required this.repo}) : super(initialState: CounterState.loading()) {
+    loadCounters();
+  }
 
   final ILocalStorage repo;
   List<CounterItem> _counters;
@@ -59,8 +61,7 @@ class CountersBloc extends BlocEventStateBase<CountersEvent, CounterState> {
 
   void loadCounters({bool force = false}) async {
     if (!force && _counters != null && _counters.isNotEmpty) {
-      fire(CountersEvent.loaded(_counters));
-      return;
+      return fire(CountersEvent.loaded(_counters));
     }
     fire(CountersEvent.loading());
     final List<CounterItem> values = await repo.getAll();

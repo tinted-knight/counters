@@ -41,7 +41,6 @@ class _CountersPageState extends State<CountersPage> with TickerProviderStateMix
   void didChangeDependencies() {
     if (countersBloc == null) countersBloc = BlocProvider.of<CountersBloc>(context);
     if (navBloc == null) navBloc = BlocProvider.of<NavigatorBloc>(context);
-    countersBloc.loadCounters();
 
     super.didChangeDependencies();
   }
