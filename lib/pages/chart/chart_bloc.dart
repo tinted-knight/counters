@@ -13,7 +13,6 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
 
   @override
   Stream<ChartState> eventHandler(ChartEvent event, ChartState currentState) async* {
-    print('ChartBloc.eventHandler, ${event.type}');
     switch (event.type) {
       case ChartEventType.loading:
         yield ChartState.loading();
@@ -35,6 +34,13 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
           currentState.asLoaded.values,
           currentState.asLoaded.filter,
           event.missingValue,
+        );
+        break;
+      case ChartEventType.deleteConfirmation:
+        yield ChartState.clearing(
+          event.item,
+          currentState.asLoaded.values,
+          currentState.asLoaded.filter,
         );
         break;
     }
@@ -136,6 +142,8 @@ class ChartBloc extends BlocEventStateBase<ChartEvent, ChartState> {
   }
 
   int intValueOf(String s) => int.tryParse(s) ?? -1;
+
+  void clearWithConfirmation(CounterItem item) => fire(ChartEvent.deleteConfirmation(item));
 
   Future<void> clearHistory(CounterItem item) async {
     fire(ChartEvent.updating());

@@ -58,6 +58,20 @@ class ChartPage extends StatelessWidget {
                 );
               }
             }
+
+            if (state is ChartStateClearing) {
+              final confirmed = await yesNoDialog(
+                context,
+                color: counter.colorValue,
+                message: locale.confirmationCLearHistory,
+                yesText: locale.yes,
+                noText: locale.no,
+              );
+              if (confirmed) {
+                await chartBloc.clearHistory(state.item);
+                countersBloc.reload();
+              }
+            }
           },
           builder: (context, state) {
             if (state is ChartStateLoading || state is ChartStateUpdating) return SizedBox();
@@ -72,9 +86,10 @@ class ChartPage extends StatelessWidget {
         bottomNavigationBar: ChartBottomAppBar(
           onBackPressed: navBloc.pop,
           onAddPressed: () => showChartDatePicker(context, counter, chartBloc.addMissingValue),
-          onClearPressed: () async {
-            await chartBloc.clearHistory(counter);
-            countersBloc.reload();
+          onClearPressed: () {
+            chartBloc.clearWithConfirmation(counter);
+//            await chartBloc.clearHistory(counter);
+//            countersBloc.reload();
           },
           onFilterPressed: chartBloc.cycleFilter,
           onCalendarPressed: () async {

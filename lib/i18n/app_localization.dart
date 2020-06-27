@@ -105,6 +105,9 @@ class AppLocalization {
   String get fillAllMissing => _localizedValues[locale.languageCode][Fields.fillAllMissing];
 
   String get createFirstCounter => _localizedValues[locale.languageCode][Fields.createFirstCounter];
+
+  String get confirmationCLearHistory =>
+      _localizedValues[locale.languageCode][Fields.confirmationClearHistory];
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalization> {

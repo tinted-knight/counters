@@ -1,4 +1,5 @@
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
+import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/HistoryModel.dart';
 import 'package:counter/model/datetime.dart' as dt;
 
@@ -47,6 +48,9 @@ class ChartState extends BlocState {
 
   factory ChartState.itemExists(List<HistoryModel> items, Filter filter, ExistingItem value) =>
       ChartStateItemExists(items, filter, value);
+
+  factory ChartState.clearing(CounterItem item, List<HistoryModel> items, Filter filter) =>
+      ChartStateClearing(item, items, filter);
 }
 
 class ChartStateLoading extends ChartState {}
@@ -83,6 +87,12 @@ class ChartStateUpdated extends ChartStateLoaded {
 
 class ChartStateUpdating extends ChartStateLoaded {
   ChartStateUpdating(List<HistoryModel> values, Filter filter) : super(values, filter);
+}
+
+class ChartStateClearing extends ChartStateLoaded {
+  final CounterItem item;
+
+  ChartStateClearing(this.item, List<HistoryModel> values, Filter filter) : super(values, filter);
 }
 
 class ChartStateItemExists extends ChartStateLoaded {

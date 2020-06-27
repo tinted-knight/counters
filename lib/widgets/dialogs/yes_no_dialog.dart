@@ -5,7 +5,7 @@ Future<bool> yesNoDialog(
   @required String message,
   @required String yesText,
   @required String noText,
-  Color color,
+  @required Color color,
 }) async {
   return await showDialog<bool>(
     context: context,

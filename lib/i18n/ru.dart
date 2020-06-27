@@ -33,6 +33,7 @@ const Map<String, String> ru = {
   Fields.yes: "Да",
   Fields.no: "Нет",
   Fields.confirmationSaveChanges: "Сохранить изменения?",
+  Fields.confirmationClearHistory: "Очистить историю? Это необратимо",
   Fields.days7: "Последние 7 дней",
   Fields.chooseDate: "Выбрать начальную дату",
   Fields.fillAllMissing: "Заполнить пустые даты",

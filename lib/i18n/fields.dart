@@ -31,6 +31,7 @@ class Fields {
   static const ofGoal = "of_goal";
   static const confirmationItemAlreadyExists = "conf_already_exists";
   static const confirmationSaveChanges = "conf_save_changes";
+  static const confirmationClearHistory = "conf_clear_history";
   static const emptyChart = "empty_chart";
   static const chart = "chart";
   static const list = "list";

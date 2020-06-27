@@ -1,14 +1,16 @@
 import 'package:counter/bloc/didierboelens/bloc_event_state.dart';
+import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/HistoryModel.dart';
 import 'package:counter/pages/chart/chart_state.dart';
 
 class ChartEvent extends BlocEvent {
-  ChartEvent(this.type, {this.values, this.missingValue, this.filter});
+  ChartEvent(this.type, {this.values, this.missingValue, this.filter, this.item});
 
   final ChartEventType type;
   final List<HistoryModel> values;
   final ExistingItem missingValue;
   final Filter filter;
+  final CounterItem item;
 
   factory ChartEvent.loading() => ChartEvent(ChartEventType.loading);
 
@@ -33,6 +35,11 @@ class ChartEvent extends BlocEvent {
         ChartEventType.itemExists,
         missingValue: value,
       );
+
+  factory ChartEvent.deleteConfirmation(CounterItem toDelete) => ChartEvent(
+        ChartEventType.deleteConfirmation,
+        item: toDelete,
+      );
 }
 
 enum ChartEventType {
@@ -42,4 +49,5 @@ enum ChartEventType {
   updating,
   updated,
   itemExists,
+  deleteConfirmation,
 }
