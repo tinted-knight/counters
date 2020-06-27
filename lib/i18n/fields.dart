@@ -9,6 +9,7 @@ class Fields {
   static const appTitle = "app_title";
   static const motivational1 = "motivational1";
   static const motivational2 = "motivational2";
+  static const motivational3 = "motivational3";
   static const createCounter = "create_counter";
   static const counterTitle = "title";
   static const counterStep = "step";

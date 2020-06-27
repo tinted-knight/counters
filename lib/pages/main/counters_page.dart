@@ -24,7 +24,8 @@ class _CountersPageState extends State<CountersPage> with TickerProviderStateMix
 
   static const double _appBarHeightModifier = 5.0;
 
-  Function onScroll;
+  CountersBloc countersBloc;
+  NavigatorBloc navBloc;
 
   @override
   void initState() {
@@ -34,6 +35,15 @@ class _CountersPageState extends State<CountersPage> with TickerProviderStateMix
 
     _hideFabAnimation = AnimationController(vsync: this, duration: Duration(milliseconds: 100));
     _hideFabAnimation.forward();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (countersBloc == null) countersBloc = BlocProvider.of<CountersBloc>(context);
+    if (navBloc == null) navBloc = BlocProvider.of<NavigatorBloc>(context);
+    countersBloc.loadCounters();
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -67,10 +77,6 @@ class _CountersPageState extends State<CountersPage> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    final countersBloc = BlocProvider.of<CountersBloc>(context);
-    final navBloc = BlocProvider.of<NavigatorBloc>(context);
-    countersBloc.loadCounters();
-
     return NotificationListener<ScrollNotification>(
       onNotification: _handleScrollNotification,
       child: Scaffold(
@@ -101,6 +107,7 @@ class _CountersPageState extends State<CountersPage> with TickerProviderStateMix
             floating: false,
             pinned: true,
             snap: false,
+            brightness: Brightness.light,
             backgroundColor: ThemeLight.appbarColor,
             elevation: 2.0,
             flexibleSpace: FlexibleSpaceBar(

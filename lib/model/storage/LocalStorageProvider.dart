@@ -37,6 +37,16 @@ class SQLiteStorageProvider implements ILocalStorage<CounterItem> {
   }
 
   @override
+  Future<bool> resetAll() async {
+    final database = await connection();
+    final result = await database.update(
+      tableCounters,
+      {"value": 0},
+    );
+    return result > 0;
+  }
+
+  @override
   Future<bool> delete(CounterItem item) async {
     final database = await connection();
     final deleted = await database.delete(

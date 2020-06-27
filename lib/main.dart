@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:counter/bloc/app_bloc.dart';
 import 'package:counter/bloc/app_state.dart';
 import 'package:counter/bloc/didierboelens/bloc_navigator.dart';
@@ -32,13 +34,15 @@ class CountersApp extends StatelessWidget {
     final navBloc = NavigatorBloc(navigatorKey: _navigatorKey);
     final appBloc = AppBloc()..loadPrefs();
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Color(0x33000000),
-      statusBarIconBrightness: Brightness.light,
-      statusBarBrightness: Brightness.light,
-      systemNavigationBarColor: ThemeLight.scaffoldBgColor,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ));
+    if (Platform.isAndroid) {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarColor: ThemeLight.scaffoldBgColor,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ));
+    }
 
     return BlocProvider(
       blocBuilder: () => appBloc,

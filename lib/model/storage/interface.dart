@@ -7,6 +7,8 @@ abstract class ILocalStorage<CounterItem> {
 
   Future<bool> update(CounterItem item);
 
+  Future<bool> resetAll();
+
   Future<bool> delete(CounterItem item);
 
   Future<bool> clearHistoryFor(int id);
