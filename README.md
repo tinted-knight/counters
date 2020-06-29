@@ -63,3 +63,26 @@ Use this code as you wish at your own risk. Do not expect to see here `the right
 ## Notes not to forget
 
 - StackOverflow [answer](https://stackoverflow.com/a/59408336/8460732) about hide on scroll `FloatingActionButton`
+
+## Google play description
+
+Simple Flutter application to count anything. This is an open-source demonstration project. You can see its source code <a href="https://github.com/tinted-knight/counters">on Github<a/>.
+
+This app does not contain ads nor in-app purchases. Does not require any permissions.
+
+Just tap on counter's value on Main screen to increase it.
+
+Each counter has:
+- Daily goal
+- Increment step
+- Color
+- Title
+
+Every day app resets all counters to zero and saves last value to history
+
+In History screen, you can:
+- Observe counter's history as list and simple Chart
+- Edit entries
+- Add missing entries
+
+Have fun! Leave feedback if something had gone wrong.
