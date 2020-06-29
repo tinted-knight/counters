@@ -24,6 +24,7 @@ _buildThemeData(ThemeData baseTheme) => baseTheme.copyWith(
       iconTheme: _buildIconTheme(baseTheme),
       primaryIconTheme: _buildIconTheme(baseTheme),
       inputDecorationTheme: _buildInputDecorationTheme(baseTheme),
+      appBarTheme: baseTheme.appBarTheme.copyWith(brightness: Brightness.light),
 // !note back gesture on Cupertino transition does not work with WillPopSope widget
       pageTransitionsTheme: PageTransitionsTheme(builders: {
         TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),

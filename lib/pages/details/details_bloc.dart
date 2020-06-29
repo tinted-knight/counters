@@ -9,7 +9,6 @@ import 'details_controllers_mixin.dart';
 class DetailsBloc extends BlocEventStateBase<DetailsEvent, DetailsState>
     with DetailsControllersMixin {
   DetailsBloc({this.repo}) : super(initialState: DetailsState.loading());
-
   final ILocalStorage repo;
 
   void load(CounterItem item) {

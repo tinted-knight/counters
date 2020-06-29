@@ -36,11 +36,11 @@ class CountersApp extends StatelessWidget {
 
     if (Platform.isAndroid) {
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.light,
-        systemNavigationBarColor: ThemeLight.scaffoldBgColor,
-        systemNavigationBarIconBrightness: Brightness.dark,
+//        statusBarColor: ThemeLight.scaffoldBgColor,
+//        statusBarIconBrightness: Brightness.dark,
+//        statusBarBrightness: Brightness.dark,
+        systemNavigationBarColor: Color(0xFFAAAAAA),
+        systemNavigationBarIconBrightness: Brightness.light,
       ));
     }
 

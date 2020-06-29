@@ -106,7 +106,6 @@ class _CountersPageState extends State<CountersPage> with TickerProviderStateMix
             floating: false,
             pinned: true,
             snap: false,
-            brightness: Brightness.light,
             backgroundColor: ThemeLight.appbarColor,
             elevation: 2.0,
             flexibleSpace: FlexibleSpaceBar(

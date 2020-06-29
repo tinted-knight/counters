@@ -10,7 +10,7 @@ Not using `Isolates` in this app – there are no heavy computations. Still, a l
 
 [Telegram](https://t.me/pinq_punq)
 
-[LinkedIn](#)
+[LinkedIn]()
 
 ### Getting Started
 
@@ -24,10 +24,14 @@ Neumorphism look interesting and fresh, still low contrast is not great. Attempt
 
 Use this code as you wish at your own risk. Do not expect to see here `the right way` of doing things. Still, if it can help someone to learn a couple of `not todos`, I will be satisfied 😉
 
-### Todo notes
+### Todo notes, UX, some elements behavior
 
-- Chart. I tried several libraries and was not satisfied. One was laggy, the other was ugly. Used now is very simple to set up.
-- Animations. I tried oficial [animations](https://pub.dev/packages/animations) package, that implements material motion. It was lagging on my old (still not useles) Nexus 5. Sometimes looks like the app needs to drop some frames and warm up, first animations are laggy, then app work fine. Not satisfied. 
+- `BottomAppBar` UX is great because of `Back` button available at the bottom of the screen, though it looks weird with classic Android 3-button style navigation.
+- Two-line title on a main screen `TopAppBar` looks as nice when expanded as ugly when collapsed.
+- `Chart`. I tried several libraries and was not satisfied. One was laggy, the other was ugly. Used now is very simple to set up.
+- `Animations`. I tried oficial [animations](https://pub.dev/packages/animations) package, that implements material motion. It was lagging on my old (still not useles) Nexus 5.
+- Sometimes looks like the app needs to drop some frames and warm up, first animations are laggy, then app work fine. Not satisfied.
+- Dark theme.
 
 # Copyright notes
 
