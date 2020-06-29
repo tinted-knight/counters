@@ -72,7 +72,6 @@ class ChartStateLoaded extends ChartState {
       final index = values.indexWhere((element) {
         return filter.asSpecific.short.difference(element.datetime).inDays >= 0;
       });
-      print('index: $index, length: ${values.length}');
       if (index != -1) {
         return values.sublist(index, values.length - index > 7 ? index + 7 : values.length);
       }

@@ -1,5 +1,6 @@
 import 'package:counter/model/CounterModel.dart';
 import 'package:counter/model/HistoryModel.dart';
+import 'package:counter/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 
 class StatListTile extends StatelessWidget {
@@ -33,9 +34,11 @@ class StatListTile extends StatelessWidget {
                     Text(
                       entry.valueString,
                       style: TextStyle(
-                        color: entry.value > counter.goal
-                            ? Colors.green
-                            : entry.value == counter.goal ? Colors.blue : Colors.red,
+                        color: entry.value == 0
+                            ? ThemeLight.primary
+                            : entry.value > counter.goal
+                                ? Colors.green
+                                : entry.value == counter.goal ? Colors.blue : Colors.red,
                       ),
                     ),
                     Text(

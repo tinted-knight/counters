@@ -24,7 +24,7 @@ Neumorphism look interesting and fresh, still low contrast is not great. Attempt
 
 Use this code as you wish at your own risk. Do not expect to see here `the right way` of doing things. Still, if it can help someone to learn a couple of `not todos`, I will be satisfied 😉
 
-### Todo notes, UX, some elements behavior
+#### Todo notes, UX, some elements behavior
 
 - `BottomAppBar` UX is great because of `Back` button available at the bottom of the screen, though it looks weird with classic Android 3-button style navigation.
 - Two-line title on a main screen `TopAppBar` looks as nice when expanded as ugly when collapsed.
@@ -32,6 +32,7 @@ Use this code as you wish at your own risk. Do not expect to see here `the right
 - `Animations`. I tried oficial [animations](https://pub.dev/packages/animations) package, that implements material motion. It was lagging on my old (still not useles) Nexus 5.
 - Sometimes looks like the app needs to drop some frames and warm up, first animations are laggy, then app work fine. Not satisfied.
 - Dark theme.
+- Inconsistent of different BLoC's desing, because of experiments.
 
 # Copyright notes
 
@@ -41,9 +42,7 @@ Use this code as you wish at your own risk. Do not expect to see here `the right
 
 - [Dog](https://pixabay.com/illustrations/dog-sitting-pet-domestic-brown-5188108/) in TopAppBar by [Jorgeduardo](https://pixabay.com/users/Jorgeduardo-8516248/) from [Pixabay](https://pixabay.com)
 
-- [Sun](https://pixabay.com/vectors/sun-rays-face-stylized-solar-eyes-304402/) image by [Clker-Free-Vector-Images](https://pixabay.com/users/Clker-Free-Vector-Images-3736) from [Pixabay](https://pixabay.com)
-
-- [Flowers](https://pixabay.com/illustrations/henna-designs-henna-floral-mandala-4869483) on splash screen by [Annalise Batista](https://pixabay.com/users/AnnaliseArt-7089643) from [Pixabay](https://pixabay.com)
+- [Flower](https://pixabay.com/illustrations/henna-designs-henna-floral-mandala-4869483) on splash screen by [Annalise Batista](https://pixabay.com/users/AnnaliseArt-7089643) from [Pixabay](https://pixabay.com)
 
 ## Third-party libraries
 
