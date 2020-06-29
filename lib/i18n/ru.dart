@@ -5,7 +5,6 @@ const Map<String, String> ru = {
   Fields.appTitle: 'Счётчики',
   Fields.motivational1: 'Старайся поддеживать ритм',
   Fields.motivational2: "Или нет. Или да. Ой, всё.",
-  Fields.motivational3: "Или нет. Всего не успеть.",
   Fields.createCounter: "Создать счётчик",
   Fields.counterTitle: 'Имя',
   Fields.counterGoal: 'Ежедневная цель',

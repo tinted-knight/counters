@@ -37,8 +37,6 @@ class AppLocalization {
 
   String get motivational2 => _localizedValues[locale.languageCode][Fields.motivational2];
 
-  String get motivational3 => _localizedValues[locale.languageCode][Fields.motivational3];
-
   String get createCounter => _localizedValues[locale.languageCode][Fields.createCounter];
 
   String get title => _localizedValues[locale.languageCode][Fields.counterTitle];
