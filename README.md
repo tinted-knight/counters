@@ -20,6 +20,11 @@ No need for any tokens or tuning. Install `Flutter` and compile app. Tested on `
 
 Neumorphism look interesting and fresh, still low contrast is not great. Attempts to apply to it more contrast looks too bizzare and extravagantly (for me). So `total neumorphism` is not acceptable (for me (for now)). So in this app I tried to apply it to some elements. It's far from perfect, but looks ok. So, let it be. 
 
+### Screenshots
+Main Screen              | Create Screen           | Details Screen          | Chart Screen            |
+:-----------------------:|:-----------------------:|:-----------------------:|:------------------------:
+![](screenshots/en_0.png)|![](screenshots/en_1.png)|![](screenshots/en_2.png)|![](screenshots/en_3.png)|
+
 ### Code style and architecture notes
 
 Use this code as you wish at your own risk. Do not expect to see here `the right way` of doing things. Still, if it can help someone to learn a couple of `not todos`, I will be satisfied 😉
