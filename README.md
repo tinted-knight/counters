@@ -10,7 +10,7 @@ Not using `Isolates` in this app – there are no heavy computations. Still, a l
 
 [Telegram](https://t.me/pinq_punq)
 
-[LinkedIn]()
+[LinkedIn](www.linkedin.com/in/faserschreiber)
 
 ### Getting Started
 
